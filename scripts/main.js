@@ -10,15 +10,30 @@ canvas.height = 800;
 
 let cols, rows;
 let grid = [];
-const tileSide = 40;
+const tileSide = 20;
+
+let current;
+let tilesVisited = [];
 
 //MAIN
 
+
+
+
 createGrid();
 
-let start = Date.now();
+randomizeOrigin();
+
+generatePath();
 
 drawGrid();
 
-let end = Date.now();
-console.log(end - start);
+
+function animate(){
+
+}
+
+
+// let start = Date.now();
+// let end = Date.now();
+// console.log(end - start);
