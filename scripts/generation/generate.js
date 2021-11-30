@@ -6,9 +6,11 @@ function randomizeOrigin() {
 }
 
 function generatePath() {
+    let generating = false;
     grid[current].neighbour();
 
     if (grid[current].neighbours.length > 0) {
+        generating = true;
         let nextRandom = Math.floor(Math.random() * grid[current].neighbours.length);
 
         removeWalls(grid[current].index, grid[current].neighbours[nextRandom].index);
@@ -18,15 +20,16 @@ function generatePath() {
         current = grid[current].neighbours[nextRandom].index;
         grid[current].visited = true;
 
-        generatePath();
+     
 
 
     } else if (tilesVisited.length > 0) {
+        generating = true;
         current = tilesVisited.pop();
-        generatePath();
-    }
+       
+    } 
 
-    return undefined;
+    return generating;
 }
 
 function removeWalls(wallIndex, nextWallIndex) {

@@ -6,32 +6,49 @@ let ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 800;
 
-// VARIABLES
+//===== VARIABLES=======
 
+// GENERATION
 let cols, rows;
 let grid = [];
-const tileSide = 20;
+const tileSide = 40;
+const genDelay = 0;
 
 let current;
 let tilesVisited = [];
+
+
+// INIT
+
+function initGeneration() {
+    createGrid();
+    randomizeOrigin();
+}
 
 //MAIN
 
 
 
 
-createGrid();
 
-randomizeOrigin();
+function mazeGenAnimation() {
 
-generatePath();
+    if (generatePath()) {
+        setTimeout(function () {
+            window.requestAnimationFrame(mazeGenAnimation)
+        }, genDelay);
 
-drawGrid();
+    } else {
+        window.cancelAnimationFrame(0);
+    }
 
-
-function animate(){
+    drawGrid();
 
 }
+
+initGeneration();
+
+mazeGenAnimation();
 
 
 // let start = Date.now();

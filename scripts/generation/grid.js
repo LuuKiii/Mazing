@@ -84,6 +84,11 @@ class Tile {
         //     ctx.fillRect(this.positionX, this.positionY, tileSide, tileSide)
         // }
 
+        if (this.index === current){
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(this.positionX, this.positionY, tileSide, tileSide)
+        }
+
         ctx.stroke();
     }
 }
