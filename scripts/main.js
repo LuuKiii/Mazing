@@ -17,6 +17,9 @@ const genDelay = 0;
 let current;
 let tilesVisited = [];
 
+// INTERFACE
+let allowInput = true;
+
 
 // INIT
 
@@ -27,11 +30,8 @@ function initGeneration() {
 
 //MAIN
 
-
-
-
-
 function mazeGenAnimation() {
+
 
     if (generatePath()) {
         setTimeout(function () {
@@ -43,12 +43,11 @@ function mazeGenAnimation() {
     }
 
     drawGrid();
-
 }
 
 initGeneration();
 
-mazeGenAnimation();
+
 
 
 // let start = Date.now();

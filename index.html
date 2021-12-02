@@ -6,25 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/border.css">
     <title>Maze Generator</title>
+
 </head>
 
 <body>
     <div class="wrapper">
-        <h1>Maze Generator</h1>
 
-        <div class="main">
-            <canvas id="main-window"></canvas>
+        <h1>Maze Generator</h1>
+        <div class="main-border">
+            <div class="main-container">
+                <canvas id="main-window"></canvas>
+                <button id="generateBtn" onclick="mazeGenAnimation();">Generate Maze</button>
+            </div>
         </div>
     </div>
 
     <footer>
         <a>text</a>
     </footer>
-    
+
     <script src="scripts/generation/grid.js"></script>
     <script src="scripts/generation/generate.js"></script>
-    
+
     <script src="scripts/main.js"></script>
 </body>
 
