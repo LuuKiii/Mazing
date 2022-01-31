@@ -13,11 +13,13 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div id="wrapper">
 
         <h1>Maze Generator</h1>
-        <div class="main-border">
-            <div class="main-container">
+        <div id="main-border">
+            <a id="coords" style="position: absolute;"></a>
+            <a id="coords2" style="position: absolute; top:150px;"></a>
+            <div id="main-container">
                 <canvas id="main-window"></canvas>
                 <button id="generateBtn" onclick="mazeGenAnimation();">Generate Maze</button>
             </div>
@@ -30,6 +32,8 @@
 
     <script src="scripts/generation/grid.js"></script>
     <script src="scripts/generation/generate.js"></script>
+    
+    <script src="scripts/interface/pointer.js"></script>
 
     <script src="scripts/main.js"></script>
 </body>

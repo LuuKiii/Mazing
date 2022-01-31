@@ -9,16 +9,17 @@ canvas.height = 800;
 //===== VARIABLES=======
 
 // GENERATION
-let cols, rows;
+//Inital Values
+let cols, rows; 
 let grid = [];
-const tileSide = 40;
-const genDelay = 0;
-
-let current;
-let tilesVisited = [];
+const tileSide = 40; // side of one tile px
+const genDelay = 0; // maze generation delay
+//Deep first search values
+let current; // tile currently selected
+let tilesVisited = []; 
 
 // INTERFACE
-let allowInput = true;
+let allowInput = true; //nothing atm
 
 
 // INIT
@@ -26,6 +27,7 @@ let allowInput = true;
 function initGeneration() {
     createGrid();
     randomizeOrigin();
+    drawGrid();
 }
 
 //MAIN
@@ -46,8 +48,7 @@ function mazeGenAnimation() {
 }
 
 initGeneration();
-
-
+mouseEventHander();
 
 
 // let start = Date.now();

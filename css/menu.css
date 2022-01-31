@@ -1,4 +1,4 @@
-.main-container {
+#main-container {
     position: relative;
     text-align: center;
     width: 800px;
@@ -10,8 +10,8 @@
 }
 
 #main-window {
-    background: black;
-    padding: 1px;
+    background: #fff;
+    
 }
 
 button{

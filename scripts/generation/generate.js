@@ -20,13 +20,9 @@ function generatePath() {
         current = grid[current].neighbours[nextRandom].index;
         grid[current].visited = true;
 
-     
-
-
     } else if (tilesVisited.length > 0) {
         generating = true;
-        current = tilesVisited.pop();
-       
+        current = tilesVisited.pop();   
     } 
 
     return generating;
