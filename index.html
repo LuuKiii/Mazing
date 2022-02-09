@@ -2,13 +2,23 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Generator</title>
+
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/menu.css">
     <link rel="stylesheet" href="css/border.css">
-    <title>Maze Generator</title>
+
+    <script src="scripts/generation/grid.js"></script>
+    <script src="scripts/generation/generate.js"></script>
+
+    <script src="scripts/pathfinding/a-star.js"></script>
+
+
+    <script src="scripts/interface/pointer.js"></script>
+
+    <script src="scripts/main.js" defer></script>
 
 </head>
 
@@ -21,7 +31,8 @@
             <a id="coords2" style="position: absolute; top:150px;"></a>
             <div id="main-container">
                 <canvas id="main-window"></canvas>
-                <button id="generateBtn" onclick="mazeGenAnimation();">Generate Maze</button>
+                <button id="generateBtn" onclick="initMazeGenAnimation();">Generate Maze</button>
+                <button id="pathfindingBtn" onclick="initPathFinding();" disabled>Initiate Path finding</button>
             </div>
         </div>
     </div>
@@ -30,12 +41,6 @@
         <a>text</a>
     </footer> -->
 
-    <script src="scripts/generation/grid.js"></script>
-    <script src="scripts/generation/generate.js"></script>
-    
-    <script src="scripts/interface/pointer.js"></script>
-
-    <script src="scripts/main.js"></script>
 </body>
 
 </html>

@@ -32,7 +32,6 @@ function updateMouseDis(event) {
     let coords = getMousePos(event);
     let coor = coords.x + "  " + coords.y;
     tileHoveredOver();
-
     document.getElementById("coords").innerHTML = coor;
 
 }
@@ -45,5 +44,12 @@ function updateMouseDis(event) {
 function mouseEventHander() {
     canvas.addEventListener("mousemove", updateMouseDis, false);
     canvas.addEventListener("click", updateOnClickPos, false);
+}
 
+function eventDisabler(){
+    canvas.removeEventListener("mousemove", updateMouseDis, false);
+    canvas.removeEventListener("click", updateOnClickPos, false);
+
+    pathfindingBtn.disabled = true;
+    generateBtn.disabled = true;
 }

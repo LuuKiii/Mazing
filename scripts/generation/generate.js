@@ -1,23 +1,22 @@
 
 function randomizeOrigin() {
     current = Math.floor(Math.random() * rows * cols);
-    grid[current].visited = true;
     return current;
 }
 
 function generatePath() {
     let generating = false;
-    grid[current].neighbour();
+    grid[current].createUnvisitedNeighbourList();
 
-    if (grid[current].neighbours.length > 0) {
+    if (grid[current].unvisitedNeighbours.length > 0) {
         generating = true;
-        let nextRandom = Math.floor(Math.random() * grid[current].neighbours.length);
+        let nextRandom = Math.floor(Math.random() * grid[current].unvisitedNeighbours.length);
 
-        removeWalls(grid[current].index, grid[current].neighbours[nextRandom].index);
+        removeWalls(grid[current].index, grid[current].unvisitedNeighbours[nextRandom].index);
 
         tilesVisited.push(current);
 
-        current = grid[current].neighbours[nextRandom].index;
+        current = grid[current].unvisitedNeighbours[nextRandom].index;
         grid[current].visited = true;
 
     } else if (tilesVisited.length > 0) {
