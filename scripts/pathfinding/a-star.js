@@ -24,7 +24,6 @@ function findIndexOfHighestf() {
 }
 
 function sortOpenSetByfValue() {
-    //stack is sorted in wrong order, need to reverse it
     let n = openSet.length;
     let tempObj;
     do {

@@ -48,8 +48,8 @@ class Tile {
         this.drawBackgroundColor();
 
         
-        ctx.fillStyle = "#000000";
-        ctx.fillText(this.index, this.positionX, this.positionY + tileSide);
+        //ctx.fillStyle = "#000000";
+       // ctx.fillText(this.index, this.positionX, this.positionY + tileSide);
 
 
         ctx.stroke();

@@ -82,7 +82,7 @@ function pathfindingAnimation() {
     } else {
         setTimeout(function () {
             window.requestAnimationFrame(pathfindingAnimation)
-        }, 100);
+        }, 50);
     }
 
    // console.log("animating");
