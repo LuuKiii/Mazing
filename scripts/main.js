@@ -14,17 +14,18 @@ let generateBtn = document.getElementById("generateBtn");
 //Inital Values
 let cols, rows; //number of columns and rows for grid
 let grid = []; //array that stores all tiles
-const tileSide = 80; // side of one tile px
+const tileSide = 40; // side of one tile px
 const genDelay = 0; // maze generation delay
 
 //Deep first search values
 let current; // tile currently selected/ used in both generation and pathfinding
-let tilesVisited = []; 
+let tilesVisited = [];
 
 //A star pathfinding variables
+
 let openSet = [];
 let closedSet = [];
-let pathingTarget;
+let destinationTileIndex;
 
 // INTERFACE
 let allowInput = true; //nothing atm
@@ -39,17 +40,18 @@ function initGeneration() {
     mouseEventHander();
 }
 
-function initMazeGenAnimation(){
+function initMazeGenAnimation() {
     eventDisabler();
     // grid[current].currentBaseColor = "#2a3654"
     mazeGenAnimation();
 }
 
-function initPathFinding(){
-    eventDisabler();  
-    openSet.push(0); //pushing just the index of the starting tile. 
-    console.log(openSet.length)
-    pathingTarget = grid.length - 1; //Destination of pathfinding, for now its just bottom right corner
+function initPathFinding() {
+    eventDisabler();
+    //pushing the starting point to openSet, object pushed is rated in metrics important for A*
+    let TileRated = new TileRating(0, 0, 0, 0);
+    openSet.push(TileRated)
+    destinationTileIndex = grid.length-1; //Destination of pathfinding, for now its just bottom right corner
     pathfindingAnimation();
 }
 
@@ -64,7 +66,7 @@ function mazeGenAnimation() {
 
     } else {
         window.cancelAnimationFrame(0);
-        mouseEventHander();   
+        mouseEventHander();
         pathfindingBtn.disabled = false;
 
     }
@@ -72,18 +74,18 @@ function mazeGenAnimation() {
     grid[current].draw();
 }
 
-function pathfindingAnimation(){
+function pathfindingAnimation() {
 
-    if(!aStar()){
+    if (!aStar()) {
         window.cancelAnimationFrame(0);
         return
-    }else{
-        setTimeout(function(){
+    } else {
+        setTimeout(function () {
             window.requestAnimationFrame(pathfindingAnimation)
-        },0);
+        }, 100);
     }
-    
-    console.log("animating");
+
+   // console.log("animating");
 }
 
 initGeneration();

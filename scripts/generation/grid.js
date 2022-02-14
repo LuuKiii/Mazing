@@ -4,9 +4,8 @@ class Tile {
         this.positionY = positionY;
         this.index = index;
         this.walls = [true, true, true, true];
-        
-        this.neighbours = [];
-        this.neighboursList = new Set();
+  
+        this.neighboursList = [];
         this.unvisitedNeighbours = [];
         this.visited = false;
 
@@ -67,14 +66,23 @@ Tile.prototype.createNeighbourList = function(){
     //after establishing all potentail neighbours, function checks if a neighbour is out of bounds, and if
     //it is the case, this neighbours is saved as undefined. Undefined is recognized as a false statement, 
     //therefor to the neighbours list are added tiles that are defined
-    potentialNeighbours.forEach((potentialNeighbour) =>{
-        if(potentialNeighbour){
-            this.neighboursList.add(potentialNeighbour);       
+    // potentialNeighbours.forEach((potentialNeighbour) =>{
+    //     if(potentialNeighbour){
+    //         this.neighboursList.push(potentialNeighbour);       
+    //     }
+        
+    // })
+
+    for(i = 0; i < potentialNeighbours.length; i++){
+        if(potentialNeighbours[i] == undefined){
+            this.neighboursList.push(null); 
+        }else{
+            this.neighboursList.push(potentialNeighbours[i]);    
         }
         
-    })
+    }
 
-
+    console.log(this.neighboursList.length)
 }
 
 // Function required for maze generation. Checks if depth first search algorithim already visited given tile
@@ -82,6 +90,7 @@ Tile.prototype.createUnvisitedNeighbourList = function(){
     this.unvisitedNeighbours  = [];
 
     this.neighboursList.forEach((neighbour) =>{
+        if(neighbour == undefined) return
         if(neighbour.visited == false){
             this.unvisitedNeighbours.push(neighbour);
         }
