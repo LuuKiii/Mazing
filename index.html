@@ -6,9 +6,8 @@
     <meta charset="UTF-8">
     <title>Maze Generator</title>
 
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/menu.css">
-    <link rel="stylesheet" href="css/border.css">
+    <link rel="stylesheet" href="styles/css/style.css">
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
 
     <script src="scripts/generation/grid.js"></script>
     <script src="scripts/generation/generate.js"></script>
@@ -16,6 +15,7 @@
     <script src="scripts/pathfinding/a-star.js"></script>
 
 
+    <script src="scripts/interface/viewEditor.js" defer></script>
     <script src="scripts/interface/pointer.js"></script>
 
     <script src="scripts/main.js" defer></script>
@@ -24,22 +24,29 @@
 
 <body>
     <div id="wrapper">
-
         <h1>Maze Generator</h1>
         <div id="main-border">
             <a id="coords" style="position: absolute;"></a>
             <a id="coords2" style="position: absolute; top:150px;"></a>
+            <div id="menu-container">
+                <button id="cogBtn">
+                    <div id="settingsCog"></div>
+                </button>
+                <!-- <div id="funny"></div> -->
+                <div id="menu-collapsible">
+                    <input>
+                    <input>
+                </div>
+            </div>
             <div id="main-container">
                 <canvas id="main-window"></canvas>
+            </div>
+            <div id="button-container">
                 <button id="generateBtn" onclick="initMazeGenAnimation();">Generate Maze</button>
                 <button id="pathfindingBtn" onclick="initPathFinding();" disabled>Initiate Path finding</button>
             </div>
         </div>
     </div>
-
-    <!-- <footer>
-        <a>text</a>
-    </footer> -->
 
 </body>
 

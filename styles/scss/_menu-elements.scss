@@ -1,0 +1,43 @@
+#settingsCog {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: url('/assets/cog.svg');
+    background-size: contain;
+    cursor: pointer;
+
+    &:hover{
+        animation-name: cogHover;
+        animation-duration: 0.1s;
+        animation-fill-mode: forwards;
+    }
+}
+
+@keyframes cogHover {
+    to{
+        transform: scale(1.1, 1.1);
+    }
+}
+
+#cogBtn{
+    position: absolute;
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+#menu-collapsible{
+    border-left: 1px solid $secondary-color;
+    border-right: 1px solid $secondary-color;
+    padding: 50px;
+    height: 0;
+    visibility: hidden;
+    transition: all 1s ease-in-out;
+    &.unfolded{
+        border-left: 1px solid $primary-color;
+        border-right: 1px solid $primary-color;
+        border-radius: 10%;
+        height: 160px;
+    }
+    
+}

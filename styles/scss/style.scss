@@ -1,0 +1,54 @@
+@import 'config';
+@import 'general';
+@import 'buttons';
+@import 'menu-elements';
+
+
+
+#main-border{
+    border-top: 3px solid $primary-color;
+    border-bottom: 3px solid $primary-color;
+    border-radius: 1%;
+    background: $secondary-color;
+}
+
+%container{
+    margin: 0 auto;
+    width: $app-width;
+}
+
+#main-container {
+    @extend %container;
+    position: relative;
+    text-align: center;
+    background: $secondary-color;
+}
+#main-window{
+    border: 0.15em solid $primary-color;
+}
+
+#menu-container{
+    @extend %container;
+    position: relative;
+    min-height: $menu-height;
+    
+}
+
+#button-container{
+    @extend %container;
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+
+}
+
+#funny{
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    transition: width 2s;
+}
+
+#funny:hover{
+    width: 200px;
+}
