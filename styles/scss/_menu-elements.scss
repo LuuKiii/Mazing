@@ -27,17 +27,70 @@
 }
 
 #menu-collapsible{
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 100px 100px 100px;
+    grid-template-columns: 50%;
+    grid-gap: 1px;
+    
     border-left: 1px solid $secondary-color;
     border-right: 1px solid $secondary-color;
     padding: 50px;
+
     height: 0;
     visibility: hidden;
+    opacity: 0;
     transition: all 1s ease-in-out;
     &.unfolded{
         border-left: 1px solid $primary-color;
         border-right: 1px solid $primary-color;
-        border-radius: 10%;
-        height: 160px;
+        border-radius: 5%;
+        height: $menu-height-unfolded;
+        opacity: 1;
     }
-    
+
+    .grid-element{
+        border: 0px solid $third-color;
+    }
+
+    .input-container{
+      padding: 0.3rem 0 0 1rem  
+    }
+
+    input{
+
+        width: 2rem;
+    }
+}
+
+.grid-element{
+    h2{
+        margin: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        border-bottom: 1px solid $contrast-black;
+    }
+}
+
+#numberOfTiles-gridEl{
+    grid-column-start: 1;
+    grid-row-start: 1;
+}
+
+#buildType-gridEl{
+    grid-column-start: 1;
+    grid-row-start: 2;
+}
+
+#mapType-gridEl{
+    grid-column-start: 1;
+    grid-row-start: 3;
+}
+
+#tileSelectorType-gridEl{
+    grid-column-start: 2;
+}
+
+#drawTools-gridEl{
+    grid-column-start: 2;
 }

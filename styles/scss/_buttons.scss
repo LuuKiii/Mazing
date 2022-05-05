@@ -11,3 +11,13 @@
         box-shadow: 0.3em 0.3em 0.3em $primary-color;
     }
 }
+
+#menu-collapsible button {
+    margin: 2px;
+    min-width: 10rem;
+    height: 2rem;
+    color: $primary-color;
+    background-color: $third-color;
+}
+
+

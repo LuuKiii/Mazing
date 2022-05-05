@@ -32,10 +32,55 @@
                 <button id="cogBtn">
                     <div id="settingsCog"></div>
                 </button>
-                <!-- <div id="funny"></div> -->
                 <div id="menu-collapsible">
-                    <input>
-                    <input>
+                    <div id="numberOfTiles-gridEl" class="grid-element">
+                        <h2>Ogólne</h2>
+                        <div class="input-container">
+                            <label for="numberOfTiles">Ilość komórek w rzędzie/kolumnie</label>
+                            <input id="numberOfTiles" type="number">
+                        </div>
+                    </div>
+                    <div id="buildType-gridEl" class="grid-element">
+                        <h2>Sposób utworzenia labiryntu</h2>
+                        <div class="input-container">
+                            <label for="generate">Wygeneruj</label>
+                            <input type="radio" id="generate" name="genType" value="generate">
+
+                            <label for="draw">Rysuj</label>
+                            <input type="radio" id="draw" name="genType" value="draw">
+                        </div>
+                    </div>
+                    <div id="mapType-gridEl" class="grid-element">
+                        <h2>Typ mapy</h2>
+                        <div class="input-container">
+                            <label for="maze">Labirynt</label>
+                            <input type="radio" id="maze" name="mapType" value="maze">
+
+                            <label for="block">Bloczki</label>
+                            <input type="radio" id="block" name="mapType" value="block">
+                        </div>
+                    </div>
+                    <div id="tileSelectorType-gridEl" class="grid-element">
+                        <h2>Punkty</h2>
+                        <div class="input-container">
+                            <button class="button-tile-select">Punkt początkowy</button>
+                            <div style="display: inline">
+                                Nie wybrano
+                            </div>
+                            <br>
+                            <button class="button-tile-select" class="grid-element">Punkt końcowy</button>
+                            <div style="display: inline">
+                                Nie wybrano
+                            </div>
+                        </div>
+                    </div>
+                    <div id="drawTools-gridEl" class="grid-element">
+                        <h2>Rysowanie</h2>
+                        <div class="input-container">
+                        <button>Przeszkoda</button>
+                        <button>Ścieżka</button>
+                    </div>
+                    </div>
                 </div>
             </div>
             <div id="main-container">

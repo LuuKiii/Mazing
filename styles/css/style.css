@@ -44,6 +44,14 @@ footer {
   box-shadow: 0.3em 0.3em 0.3em #6580e0;
 }
 
+#menu-collapsible button {
+  margin: 2px;
+  min-width: 10rem;
+  height: 2rem;
+  color: #6580e0;
+  background-color: #23336b;
+}
+
 #settingsCog {
   position: absolute;
   width: 60px;
@@ -80,18 +88,64 @@ footer {
 }
 
 #menu-collapsible {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 100px 100px 100px;
+  grid-template-columns: 50%;
+  grid-gap: 1px;
   border-left: 1px solid #37498a;
   border-right: 1px solid #37498a;
   padding: 50px;
   height: 0;
   visibility: hidden;
+  opacity: 0;
   transition: all 1s ease-in-out;
 }
 #menu-collapsible.unfolded {
   border-left: 1px solid #6580e0;
   border-right: 1px solid #6580e0;
-  border-radius: 10%;
-  height: 160px;
+  border-radius: 5%;
+  height: 300px;
+  opacity: 1;
+}
+#menu-collapsible .grid-element {
+  border: 0px solid #23336b;
+}
+#menu-collapsible .input-container {
+  padding: 0.3rem 0 0 1rem;
+}
+#menu-collapsible input {
+  width: 2rem;
+}
+
+.grid-element h2 {
+  margin: 0;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-bottom: 1px solid #000000;
+}
+
+#numberOfTiles-gridEl {
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+
+#buildType-gridEl {
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+
+#mapType-gridEl {
+  grid-column-start: 1;
+  grid-row-start: 3;
+}
+
+#tileSelectorType-gridEl {
+  grid-column-start: 2;
+}
+
+#drawTools-gridEl {
+  grid-column-start: 2;
 }
 
 #main-border {
@@ -125,15 +179,4 @@ footer {
   display: flex;
   justify-content: center;
   padding: 0.5rem;
-}
-
-#funny {
-  width: 100px;
-  height: 100px;
-  background-color: red;
-  transition: width 2s;
-}
-
-#funny:hover {
-  width: 200px;
 }
