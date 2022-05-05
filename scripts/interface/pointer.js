@@ -1,5 +1,3 @@
-
-
 //====================MOUSE LOCATION ON CANVAS ====================
 //constantly gets mouse x,y coordinates when within canvas
 function getMousePos(event) {
@@ -10,7 +8,6 @@ function getMousePos(event) {
     };
 }
 
-
 //Stores mouse coordinations when mouse is clicked
 const onClickPos = {
     mouse: {
@@ -19,13 +16,12 @@ const onClickPos = {
     }
 }
 
-
 // ====================== EVENT UPDATES ====================
 function updateOnClickPos(event) {
     onClickPos.mouse.x = getMousePos(event).x;
     onClickPos.mouse.y = getMousePos(event).y;
-    tileClicked();
     document.getElementById("coords2").innerHTML = (onClickPos.mouse.x + " " + onClickPos.mouse.y);
+    modeSwitch();
 }
 
 function updateMouseDis(event) {
@@ -36,9 +32,6 @@ function updateMouseDis(event) {
 
 }
 
-
-
-
 //====================== EVENT HANDLING =====================
 //activates listeneres
 function mouseEventHander() {
@@ -46,10 +39,28 @@ function mouseEventHander() {
     canvas.addEventListener("click", updateOnClickPos, false);
 }
 
-function eventDisabler(){
+function eventDisabler() {
     canvas.removeEventListener("mousemove", updateMouseDis, false);
     canvas.removeEventListener("click", updateOnClickPos, false);
 
     pathfindingBtn.disabled = true;
     generateBtn.disabled = true;
+}
+
+//================ MOUSE MODES ===============
+function modeSwitch() {
+    switch (mouseMode) {
+        case 'startPoint':
+            console.log('start');
+            break;
+        case 'endPoint':
+            console.log('end');
+            break;
+        case 'drawWall':
+            console.log('draw');
+            break;
+        case 'drawPath':
+            console.log('erase');
+            break;
+    }
 }

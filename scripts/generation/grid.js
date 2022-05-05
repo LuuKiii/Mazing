@@ -82,7 +82,6 @@ Tile.prototype.createNeighbourList = function(){
         
     }
 
-    console.log(this.neighboursList.length)
 }
 
 // Function required for maze generation. Checks if depth first search algorithim already visited given tile
@@ -121,16 +120,12 @@ Tile.prototype.edgeCheck = function(NeighbourIndex, sides){
 // FUNCTIONS
 
 function createGrid() {
-    cols = Math.floor(canvas.width / tileSide);
-    rows = Math.floor(canvas.height / tileSide);
-
     for (let j = 0; j < rows; j++) {
         for (let i = 0; i < cols; i++) {
             let tile = new Tile(i * tileSide, j * tileSide, grid.length);
             grid.push(tile);
         }
     }
-    
 }
 
 function drawGrid() {

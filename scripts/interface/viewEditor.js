@@ -4,7 +4,23 @@ function toggleMenu(){
     isCollapsed = !isCollapsed;
 }
 
-var menu = document.getElementById("cogBtn");
+function switchToStartPoint(){
+    mouseMode = 'startPoint';
+}
+
+function switchToEndPoint(){
+    mouseMode = 'endPoint';
+}
+
+function switchToDrawWall(){
+    mouseMode = 'drawWall';
+}
+
+function switchToDrawPath(){
+    mouseMode = 'drawPath';
+}
+
+
 
 menu.addEventListener("click",()=>{
     let content = menu.nextElementSibling;

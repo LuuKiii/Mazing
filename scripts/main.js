@@ -1,37 +1,42 @@
-// CANVAS SETUP
-
-let canvas = document.getElementById("main-window");
-let ctx = canvas.getContext("2d");
-
-canvas.width = 800;
-canvas.height = 800;
-
-//===== VARIABLES=======
-//DOM OBJECTS
-let pathfindingBtn = document.getElementById("pathfindingBtn");
-let generateBtn = document.getElementById("generateBtn");
-// GENERATION
-//Inital Values
-let cols, rows; //number of columns and rows for grid
-let grid = []; //array that stores all tiles
-const tileSide = 40; // side of one tile px
-const genDelay = 0; // maze generation delay
-
-//Deep first search values
-let current; // tile currently selected/ used in both generation and pathfinding
-let tilesVisited = [];
-
-//A star pathfinding variables
-
-let openSet = [];
-let closedSet = [];
-let destinationTileIndex;
-
-// INTERFACE
-let allowInput = true; //nothing atm
-
-
 // INIT
+async function applySettings(){
+    loading = true;
+    await assignValues();
+    initGeneration();
+    loading = false;
+}
+
+function onDelayChange(){
+    mazeGenerateDelay = Number(delayInput.value) * 200;
+}
+
+async function assignValues(){
+    cols = Number(numberOfColumnsInput.value);
+    rows = cols;
+    grid = []
+    tileSide = canvas.width/cols;
+    mazeGenerateDelay = Number(delayInput.value) * 200;
+
+    runAllValidators()
+
+    if( errorMessages.length > 0){
+        await assignDefault()
+        errorMessages = []
+    }
+    console.log(errorMessages)
+}
+
+async function assignDefault(){
+    const response = await fetch ('./scripts/alibraries/default.json')
+    const result = await response.json()
+    
+    numberOfColumnsInput.value = result.cols;
+    cols = result.cols;
+    rows = cols;
+    grid = [];
+    tileSide = canvas.width/cols;
+    mazeGenerateDelay = result.mazeGenerateDelay;
+}
 
 function initGeneration() {
     createGrid();
@@ -62,7 +67,7 @@ function mazeGenAnimation() {
     if (generatePath()) {
         setTimeout(function () {
             window.requestAnimationFrame(mazeGenAnimation)
-        }, genDelay);
+        }, mazeGenerateDelay);
 
     } else {
         window.cancelAnimationFrame(0);
@@ -82,11 +87,9 @@ function pathfindingAnimation() {
     } else {
         setTimeout(function () {
             window.requestAnimationFrame(pathfindingAnimation)
-        }, 50);
+        }, mazeGenerateDelay);
     }
-
-   // console.log("animating");
 }
 
-initGeneration();
+applySettings()
 

@@ -58,8 +58,12 @@
     }
 
     input{
-
         width: 2rem;
+    }
+
+    [type=range]{
+        width: 5rem;
+        transform: translate(0, 0.2rem);
     }
 }
 
