@@ -10,19 +10,19 @@
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
 
 
-    <script src="scripts/global-variables.js" defer></script>
-    <script src="scripts/generation/grid.js"></script>
-    <script src="scripts/generation/generate.js"></script>
+    <script src="./scripts/global-variables.js" defer></script>
+    <script src="./scripts/generation/grid.js"></script>
+    <script src="./scripts/generation/generate.js"></script>
 
-    <script src="scripts/pathfinding/a-star.js"></script>
+    <script src="./scripts/pathfinding/a-star.js"></script>
 
 
-    <script src="scripts/interface/validators.js"></script>
-    <script src="scripts/interface/viewEditor.js" defer></script>
+    <script src="./scripts/interface/validators.js"></script>
+    <script src="./scripts/interface/viewEditor.js" defer></script>
     <script src="scripts/interface/pointer.js"></script>
 
-    <script src="scripts/utils.js" defer></script>
-    <script src="scripts/main.js" defer></script>
+    <script src="./scripts/utils.js" defer></script>
+    <script src="./scripts/main.js" defer></script>
 
 </head>
 
@@ -46,6 +46,9 @@
                             <label for="animationDelay">Spowolnienie generacji</label>
                             <input id="animationDelay" type="range" min="0" max="3" value="0"
                                 onchange="onDelayChange()">
+                            <br>
+                            <label for="tileHoles">Losowe usuwanie ścian</label>
+                            <input id="tileHoles" type="range" min="0" max="4" value="0">
                         </div>
                     </div>
                     <div id="buildType-gridEl" class="grid-element">
@@ -92,13 +95,14 @@
                         </div>
                     </div>
                     <button onclick="applySettings()">Zastosuj</button>
+                    <button onclick="resetPathfinding()">Usuń ścieżkę</button>
                 </div>
             </div>
             <div id="main-container">
                 <canvas id="main-window"></canvas>
             </div>
             <div id="button-container">
-                <button id="generateBtn" onclick="initMazeGenAnimation();">Generate Maze</button>
+                <button id="generateBtn" onclick="initMazeGeneration();">Generate Maze</button>
                 <button id="pathfindingBtn" onclick="initPathFinding();" disabled>Initiate Path finding</button>
             </div>
         </div>

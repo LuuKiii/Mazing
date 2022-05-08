@@ -140,7 +140,7 @@ function tileHoveredOver(isMouseOutofBounds) {
         tempX = Math.floor(getMousePos(event).x/tileSide);
         tempY = Math.floor(getMousePos(event).y/tileSide);
 
-        highLightedTileIndex = (tempX) + (tempY)*rows;
+        highLightedTileIndex = (tempX) + (tempY)*gridRows;
 
         if(isMouseOutofBounds) highLightedTileIndex = -1;
 

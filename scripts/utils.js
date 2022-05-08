@@ -8,5 +8,8 @@ function getRadioValue(radio){
 
 
 function resetPathfinding(){
-    
+    openSet = [];
+    closedSet = []
+
+    drawGrid();
 }

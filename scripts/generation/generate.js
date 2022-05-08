@@ -1,6 +1,6 @@
 
 function randomizeOrigin() {
-    current = Math.floor(Math.random() * rows * cols);
+    current = Math.floor(Math.random() * gridRows * gridCols);
     return current;
 }
 
@@ -16,6 +16,8 @@ function generatePath() {
 
         tilesVisited.push(current);
 
+        if(tileHoleChance > 0) removeRandomWall(grid[current].unvisitedNeighbours[nextRandom].index);
+
         current = grid[current].unvisitedNeighbours[nextRandom].index;
         grid[current].visited = true;
 
@@ -27,17 +29,38 @@ function generatePath() {
     return generating;
 }
 
+function removeRandomWall(nextTileWallIndex){
+    if(Math.random() * 100 > tileHoleChance) return;
+
+    let randomWallToRemove;
+
+    for(let i = 0; i < 5; i++){
+        randomWallToRemove = Math.floor(Math.random() * grid[current].neighboursList.length);
+
+        if( grid[current].neighboursList[randomWallToRemove] != null ){
+            if(grid[current].neighboursList[randomWallToRemove].index !== nextTileWallIndex){
+                break;
+            }
+        }
+        if(i === 4){
+            return;
+        }
+    }
+    console.log('remobing wall')
+    removeWalls(grid[current].index, grid[current].neighboursList[randomWallToRemove].index);
+}
+
 function removeWalls(wallIndex, nextWallIndex) {
 
     let whichWall = wallIndex - nextWallIndex;
 
-    if (whichWall - cols == 0) {
+    if (whichWall - gridCols == 0) {
         grid[wallIndex].walls[0] = false;
         grid[nextWallIndex].walls[2] = false;
     } else if (whichWall == -1) {
         grid[wallIndex].walls[1] = false;
         grid[nextWallIndex].walls[3] = false;
-    } else if (whichWall + cols == 0) {
+    } else if (whichWall + gridCols == 0) {
         grid[wallIndex].walls[2] = false;
         grid[nextWallIndex].walls[0] = false;
     } else if (whichWall == 1) {

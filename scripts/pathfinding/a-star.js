@@ -85,9 +85,6 @@ function isNeighbourSeparated(parent, wallNumber) {
     return false;
 }
 
-let currentPathHead;
-
-
 function aStar() {
 
     if (openSet.length == 0) return false;

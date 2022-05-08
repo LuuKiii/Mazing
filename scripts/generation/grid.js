@@ -51,9 +51,9 @@ class Tile {
 //Tile Class Methods
 Tile.prototype.createNeighbourList = function(){
     let potentialNeighbours = [];
-    potentialNeighbours.push(grid[this.edgeCheck(this.index - cols, 0)]);
+    potentialNeighbours.push(grid[this.edgeCheck(this.index - gridCols, 0)]);
     potentialNeighbours.push(grid[this.edgeCheck(this.index + 1, 1)]);
-    potentialNeighbours.push(grid[this.edgeCheck(this.index + cols, 0)]);
+    potentialNeighbours.push(grid[this.edgeCheck(this.index + gridCols, 0)]);
     potentialNeighbours.push(grid[this.edgeCheck(this.index - 1, 2)]);
 
     //after establishing all potentail neighbours, function checks if a neighbour is out of bounds, and if
@@ -99,11 +99,11 @@ Tile.prototype.edgeCheck = function(NeighbourIndex, sides){
 
         let NeighbourX = grid[NeighbourIndex].positionX / tileSide;
 
-        if (NeighbourX % rows === 0 && sides === 1) {
+        if (NeighbourX % gridRows === 0 && sides === 1) {
             return -1;
         }
 
-        if ((NeighbourX + 1) % rows === 0 && sides === 2) {
+        if ((NeighbourX + 1) % gridRows === 0 && sides === 2) {
             return -1;
         }
 
@@ -135,8 +135,8 @@ Tile.prototype.typeChange = function(type){
 // FUNCTIONS
 
 function createGrid() {
-    for (let j = 0; j < rows; j++) {
-        for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < gridRows; j++) {
+        for (let i = 0; i < gridCols; i++) {
             let tile = new Tile(i * tileSide, j * tileSide, grid.length);
             grid.push(tile);
         }
@@ -147,6 +147,8 @@ function drawGrid() {
     for (let i = 0; i < grid.length; i++) {
         grid[i].draw();
         grid[i].createNeighbourList();
+
+        grid[i].typeChange('basic');
 
         //  ctx.fillStyle = "#000000";
         //   ctx.fillText(grid[i].index, grid[i].positionX + 1, grid[i].positionY + tileSide - 2);

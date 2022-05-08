@@ -56,7 +56,7 @@ footer {
   position: absolute;
   width: 60px;
   height: 60px;
-  background: url("/assets/cog.svg");
+  background: url("../../assets/cog.svg");
   background-size: contain;
   cursor: pointer;
 }

@@ -2,7 +2,7 @@
 async function applySettings() {
     loading = true;
     await assignValues();
-    initGeneration();
+    init();
     loading = false;
 }
 
@@ -11,11 +11,12 @@ function onDelayChange() {
 }
 
 async function assignValues() {
-    cols = Number(numberOfColumnsInput.value);
-    rows = cols;
-    grid = []
-    tileSide = canvas.width / cols;
+    gridCols = Number(numberOfColumnsInput.value);
+    gridRows = gridCols;
+    grid = [];
+    tileSide = canvas.width / gridCols;
     mazeGenerateDelay = Number(delayInput.value) * 200;
+    tileHoleChance = Number(tileHoleChanceInput.value) * 20;
     mazeType = getRadioValue(mazeTypeBtn);
     createMethod = getRadioValue(createMethodBtn);
 
@@ -34,26 +35,26 @@ async function assignDefault() {
     const result = await response.json()
 
     numberOfColumnsInput.value = result.cols;
-    cols = result.cols;
-    rows = cols;
+    gridCols = result.cols;
+    gridRows = gridCols;
     grid = [];
-    tileSide = canvas.width / cols;
+    tileSide = canvas.width / gridCols;
     mazeGenerateDelay = result.mazeGenerateDelay;
     mazeType = result.mazeType;
     createMethod =  result.createMethod;
 }
 
-function initGeneration() {
+function init() {
     createGrid();
     randomizeOrigin();
     drawGrid();
     mouseEventHander();
     updatePointChecksView();
+    mouseModeChange('none');
 }
 
-function initMazeGenAnimation() {
+function initMazeGeneration() {
     eventDisabler();
-    // grid[current].currentBaseColor = "#2a3654"
     mazeGenAnimation();
 }
 

@@ -18,11 +18,12 @@ let createMethodBtn = document.getElementsByName("createMethod");
 //Inputs
 let numberOfColumnsInput = document.getElementById("numberOfTiles");
 let delayInput = document.getElementById("animationDelay");
+let tileHoleChanceInput = document.getElementById("tileHoles")
 
 // GENERATION
 //Inital Values
-let cols; //number of columns and rows for grid
-let rows;
+let gridCols; //number of columns and rows for grid
+let gridRows;
 let grid = [];//array that stores all tiles
 let tileSide; // side of one tile px
 let mazeGenerateDelay; // maze generation delay
@@ -32,11 +33,13 @@ let createMethod;
 //Deep first search values
 let current; // tile currently selected/ used in both generation and pathfinding
 let tilesVisited = [];
+let tileHoleChance;
 
 //A star pathfinding variables
 
 let openSet = [];
 let closedSet = [];
+let currentPathHead;
 
 //Both algos variables;
 let startTileIndex;
@@ -51,4 +54,4 @@ let mouseMode;
 // HIGHLIGHTING
 let highLightedTileIndex;
 let previousHighLightedTileIndex = 0;
-let highlightColor = 'rgba(50, 0, 0, 0.2)';
+let highlightColor;
