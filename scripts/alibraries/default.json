@@ -1,4 +1,6 @@
 {
     "cols": 15,
-    "mazeGenerateDelay": 0
+    "mazeGenerateDelay": 0,
+    "mazeType": "stroke",
+    "createMethod": "generate"
 }

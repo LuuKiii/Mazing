@@ -9,22 +9,18 @@ class Tile {
         this.unvisitedNeighbours = [];
         this.visited = false;
 
-        this.currentBaseColor = "#cff2ff";
+        this.currentBaseColor = "#abbdff";
+        this.type = 'basic';
     }
-
-
-
 
     drawWall(posX, posY, nextPosX, nextPosY) {
         ctx.moveTo(posX, posY);
         ctx.lineTo(nextPosX, nextPosY);
     }
-// sets color background. separated for hovering over tiles.
+    // sets color background. separated for hovering over tiles.
     drawBackgroundColor(){
         ctx.fillRect(this.positionX, this.positionY, tileSide, tileSide);
     }
-
-
 
     //ddraws walls that havent been ereased and paints tiles background
     draw() {
@@ -43,14 +39,11 @@ class Tile {
             this.drawWall(this.positionX, this.positionY + tileSide, this.positionX, this.positionY);
         }
 
-
         ctx.fillStyle = this.currentBaseColor;
         this.drawBackgroundColor();
-
         
         //ctx.fillStyle = "#000000";
        // ctx.fillText(this.index, this.positionX, this.positionY + tileSide);
-
 
         ctx.stroke();
     }
@@ -116,6 +109,28 @@ Tile.prototype.edgeCheck = function(NeighbourIndex, sides){
 
         return NeighbourIndex;   
 }
+// Function switching color of the tile depending on its type
+Tile.prototype.typeChange = function(type){
+    this.type = type;
+    switch (this.type){
+        case 'basic':
+            this.currentBaseColor = '#abbdff';
+            break;
+        case 'startPoint':
+            this.currentBaseColor = '#3b8c51';
+            break;
+        case 'endPoint':
+            this.currentBaseColor = '#de3c5a';
+            break;
+        case 'wall':
+            this.currentBaseColor = '#000';
+            break;
+        case 'path':
+            this.currentBaseColor = '#b3b3b3';
+            break;
+    }
+    this.draw();
+}
 
 // FUNCTIONS
 
@@ -134,51 +149,7 @@ function drawGrid() {
         grid[i].createNeighbourList();
 
         //  ctx.fillStyle = "#000000";
-        //  ctx.fillText(grid[i].index, grid[i].positionX, grid[i].positionY + tileSide);
+        //   ctx.fillText(grid[i].index, grid[i].positionX + 1, grid[i].positionY + tileSide - 2);
     }
 }
 
-//Selecting tile functions
-
-//needs to have a value since its being compared to at the beggining
-let tempX, tempY, highLightedTile, previouslyHighLighted = 0;
-
-function tileHoveredOver() {
-    
-    try{
-        tempX = Math.floor(getMousePos(event).x/tileSide);
-        tempY = Math.floor(getMousePos(event).y/tileSide);
-
-        highLightedTile = (tempX) + (tempY)*rows;
-
-        if(highLightedTile != previouslyHighLighted){
-            //restore basic color of the tile
-            grid[previouslyHighLighted].draw(); 
-            previouslyHighLighted = highLightedTile; 
-            ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-            grid[highLightedTile].drawBackgroundColor();
-        }
-        
-    }catch(error){
-        //reset the coords when outofbounds to 0
-        tempX = 0;
-        tempY = 0;
-        previouslyHighLighted = 0;
-    }
-
-}
-
-let previouslySelected = -1;
-
-function tileClicked() {
-
-    if(previouslySelected > -1){
-        grid[previouslySelected].currentBaseColor = "#cff2ff";
-        grid[previouslySelected].draw();
-    }
-    
-
-    previouslySelected = highLightedTile;
-    grid[highLightedTile].currentBaseColor = 'rgba(255, 0, 0, 0.75)';
-    current = highLightedTile;
-}

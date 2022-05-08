@@ -4,24 +4,6 @@ function toggleMenu(){
     isCollapsed = !isCollapsed;
 }
 
-function switchToStartPoint(){
-    mouseMode = 'startPoint';
-}
-
-function switchToEndPoint(){
-    mouseMode = 'endPoint';
-}
-
-function switchToDrawWall(){
-    mouseMode = 'drawWall';
-}
-
-function switchToDrawPath(){
-    mouseMode = 'drawPath';
-}
-
-
-
 menu.addEventListener("click",()=>{
     let content = menu.nextElementSibling;
     toggleMenu();
@@ -33,3 +15,17 @@ menu.addEventListener("click",()=>{
         content.classList.add('unfolded');
     }
 });
+
+function updatePointChecksView(){
+    if(!startTileIndex) {
+        document.getElementById('startPointCheck').innerHTML = 'Nie wybrano';
+    }else{
+        document.getElementById('startPointCheck').innerHTML = 'Wybrano';
+    }
+
+    if(!destinationTileIndex) {
+        document.getElementById('endPointCheck').innerHTML = 'Nie wybrano';
+    }else{
+        document.getElementById('endPointCheck').innerHTML = 'Wybrano';
+    }
+}

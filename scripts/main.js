@@ -1,41 +1,46 @@
 // INIT
-async function applySettings(){
+async function applySettings() {
     loading = true;
     await assignValues();
     initGeneration();
     loading = false;
 }
 
-function onDelayChange(){
+function onDelayChange() {
     mazeGenerateDelay = Number(delayInput.value) * 200;
 }
 
-async function assignValues(){
+async function assignValues() {
     cols = Number(numberOfColumnsInput.value);
     rows = cols;
     grid = []
-    tileSide = canvas.width/cols;
+    tileSide = canvas.width / cols;
     mazeGenerateDelay = Number(delayInput.value) * 200;
+    mazeType = getRadioValue(mazeTypeBtn);
+    createMethod = getRadioValue(createMethodBtn);
 
     runAllValidators()
 
-    if( errorMessages.length > 0){
-        await assignDefault()
-        errorMessages = []
+    if (errorMessages.length > 0) {
+        await assignDefault();
     }
-    console.log(errorMessages)
+
+    console.log('Error Messages : ' + (errorMessages.length > 0 ? errorMessages : 'none'));
+    errorMessages = [];
 }
 
-async function assignDefault(){
-    const response = await fetch ('./scripts/alibraries/default.json')
+async function assignDefault() {
+    const response = await fetch('./scripts/alibraries/default.json')
     const result = await response.json()
-    
+
     numberOfColumnsInput.value = result.cols;
     cols = result.cols;
     rows = cols;
     grid = [];
-    tileSide = canvas.width/cols;
+    tileSide = canvas.width / cols;
     mazeGenerateDelay = result.mazeGenerateDelay;
+    mazeType = result.mazeType;
+    createMethod =  result.createMethod;
 }
 
 function initGeneration() {
@@ -43,6 +48,7 @@ function initGeneration() {
     randomizeOrigin();
     drawGrid();
     mouseEventHander();
+    updatePointChecksView();
 }
 
 function initMazeGenAnimation() {
@@ -54,9 +60,9 @@ function initMazeGenAnimation() {
 function initPathFinding() {
     eventDisabler();
     //pushing the starting point to openSet, object pushed is rated in metrics important for A*
-    let TileRated = new TileRating(0, 0, 0, 0);
+    let TileRated = new TileRating(startTileIndex ?? 0, startTileIndex ?? 0, 0, 0);
     openSet.push(TileRated)
-    destinationTileIndex = grid.length-1; //Destination of pathfinding, for now its just bottom right corner
+    destinationTileIndex = destinationTileIndex ?? grid.length - 1; //Destination of pathfinding, for now its just bottom right corner
     pathfindingAnimation();
 }
 

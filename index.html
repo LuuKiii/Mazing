@@ -20,7 +20,8 @@
     <script src="scripts/interface/validators.js"></script>
     <script src="scripts/interface/viewEditor.js" defer></script>
     <script src="scripts/interface/pointer.js"></script>
-    
+
+    <script src="scripts/utils.js" defer></script>
     <script src="scripts/main.js" defer></script>
 
 </head>
@@ -43,48 +44,51 @@
                             <input id="numberOfTiles" type="number" value="15">
                             <br>
                             <label for="animationDelay">Spowolnienie generacji</label>
-                            <input id="animationDelay" type="range" min="0" max="3" value="0" onchange="onDelayChange()">
+                            <input id="animationDelay" type="range" min="0" max="3" value="0"
+                                onchange="onDelayChange()">
                         </div>
                     </div>
                     <div id="buildType-gridEl" class="grid-element">
                         <h2>Sposób utworzenia labiryntu</h2>
                         <div class="input-container">
                             <label for="generate">Wygeneruj</label>
-                            <input type="radio" id="generate" name="genType" value="generate" checked="checked">
+                            <input type="radio" id="generate" name="createMethod" value="generate" checked="checked">
 
                             <label for="draw">Rysuj</label>
-                            <input type="radio" id="draw" name="genType" value="draw">
+                            <input type="radio" id="draw" name="createMethod" value="draw">
                         </div>
                     </div>
                     <div id="mapType-gridEl" class="grid-element">
                         <h2>Typ mapy</h2>
                         <div class="input-container">
                             <label for="maze">Labirynt</label>
-                            <input type="radio" id="maze" name="mapType" value="maze" checked="checked">
+                            <input type="radio" id="maze" name="mazeType" value="stroke" checked="checked">
 
                             <label for="block">Bloczki</label>
-                            <input type="radio" id="block" name="mapType" value="block">
+                            <input type="radio" id="block" name="mazeType" value="fill">
                         </div>
                     </div>
                     <div id="tileSelectorType-gridEl" class="grid-element">
                         <h2>Punkty</h2>
                         <div class="input-container">
-                            <button class="button-tile-select" onclick="switchToStartPoint()">Punkt początkowy</button>
+                            <button class="button-tile-select" onclick="mouseModeChange('startPoint')">Punkt
+                                początkowy</button>
                             <div style="display: inline">
-                                Nie wybrano
+                                <a id="startPointCheck"></a>
                             </div>
                             <br>
-                            <button class="button-tile-select"  onclick="switchToEndPoint()">Punkt końcowy</button>
+                            <button class="button-tile-select" onclick="mouseModeChange('endPoint')">Punkt
+                                końcowy</button>
                             <div style="display: inline">
-                                Nie wybrano
+                                <a id="endPointCheck"></a>
                             </div>
                         </div>
                     </div>
                     <div id="drawTools-gridEl" class="grid-element">
                         <h2>Rysowanie</h2>
                         <div class="input-container">
-                            <button onclick="switchToDrawWall()">Przeszkoda</button>
-                            <button onclick="switchToDrawPath()">Ścieżka</button>
+                            <button onclick="mouseModeChange('drawWall')">Przeszkoda</button>
+                            <button onclick="mouseModeChange('drawPath')">Ścieżka</button>
                         </div>
                     </div>
                     <button onclick="applySettings()">Zastosuj</button>

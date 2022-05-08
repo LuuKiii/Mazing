@@ -9,7 +9,7 @@ function numberOfTilesValidator() {
         errorMessages.push('Liczba komórek w rzędzie musi być liczbą całkowitą');
     }
 }
-
+ 
 
 function runAllValidators(){
     numberOfTilesValidator();
