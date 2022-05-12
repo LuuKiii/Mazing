@@ -48,27 +48,27 @@
                                 onchange="onDelayChange()">
                             <br>
                             <label for="tileHoles">Losowe usuwanie ścian</label>
-                            <input id="tileHoles" type="range" min="0" max="4" value="0">
+                            <input id="tileHoles" type="range" min="0" max="5" value="0">
                         </div>
                     </div>
                     <div id="buildType-gridEl" class="grid-element">
                         <h2>Sposób utworzenia labiryntu</h2>
                         <div class="input-container">
                             <label for="generate">Wygeneruj</label>
-                            <input type="radio" id="generate" name="createMethod" value="generate" checked="checked">
+                            <input type="radio" id="generate" name="createMethod" value="generate" checked="checked" onchange="onRadioChange()">
 
                             <label for="draw">Rysuj</label>
-                            <input type="radio" id="draw" name="createMethod" value="draw">
+                            <input type="radio" id="draw" name="createMethod" value="draw" onchange="onRadioChange()">
                         </div>
                     </div>
                     <div id="mapType-gridEl" class="grid-element">
                         <h2>Typ mapy</h2>
                         <div class="input-container">
                             <label for="maze">Labirynt</label>
-                            <input type="radio" id="maze" name="mazeType" value="stroke" checked="checked">
+                            <input type="radio" id="maze" name="mazeType" value="stroke" checked="checked" onchange="onRadioChange()">
 
                             <label for="block">Bloczki</label>
-                            <input type="radio" id="block" name="mazeType" value="fill">
+                            <input type="radio" id="block" name="mazeType" value="fill" onchange="onRadioChange()">
                         </div>
                     </div>
                     <div id="tileSelectorType-gridEl" class="grid-element">

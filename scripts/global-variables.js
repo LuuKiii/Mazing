@@ -28,8 +28,6 @@ let buttonsObj = {
     }
 }
 
-let mazeTypeBtn = document.getElementsByName("mazeType");
-let createMethodBtn = document.getElementsByName("createMethod");
 //Inputs
 let numberOfColumnsInput = document.getElementById("numberOfTiles");
 let delayInput = document.getElementById("animationDelay");

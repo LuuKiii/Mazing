@@ -6,10 +6,6 @@ async function applySettings() {
     loading = false;
 }
 
-function onDelayChange() {
-    mazeGenerateDelay = Number(delayInput.value) * 200;
-}
-
 async function assignValues() {
     gridCols = Number(numberOfColumnsInput.value);
     gridRows = gridCols;
@@ -17,8 +13,8 @@ async function assignValues() {
     tileSide = canvas.width / gridCols;
     mazeGenerateDelay = Number(delayInput.value) * 200;
     tileHoleChance = Number(tileHoleChanceInput.value) * 20;
-    mazeType = getRadioValue(mazeTypeBtn);
-    createMethod = getRadioValue(createMethodBtn);
+    mazeType = getRadioValue(buttonsObj.radio.mazeTypeBtn);
+    createMethod = getRadioValue(buttonsObj.radio.createMethodBtn);
 
     runAllValidators()
 
@@ -47,9 +43,10 @@ async function assignDefault() {
 function init() {
     createGrid();
     drawNewGrid();
+    setVarsByMazeType();
     eventEnabler();
     updatePointChecksView();
-    buttonState('inital');
+    buttonState(mazeType === 'stroke' ? 'inital' : createMethod === 'generate' ? 'block-inital' : 'draw');
     mouseModeChange('none');
 }
 

@@ -56,23 +56,42 @@ function eventDisabler() {
 //================ MOUSE MODES ===============
 function mouseModeChange(mouseModeType){
     mouseMode = mouseModeType;
-
-    switch (mouseMode) {
-        case 'startPoint':
-            highlightColor = 'rgba(0, 150, 0, 0.2)';
-            break;
-        case 'endPoint':
-            highlightColor = 'rgba(150, 0, 0, 0.2)';
-            break;
-        case 'drawWall':
-            highlightColor = 'rgba(50, 0, 0, 0.2)';
-            break;
-        case 'drawPath':
-            highlightColor = 'rgba(50, 0, 0, 0.2)';
-            break;
-        case 'none':
-            highlightColor = 'rgba(50, 0, 0, 0.2)';
-            break;
+    if(mazeType === 'stroke'){
+        switch (mouseMode) {
+            case 'startPoint':
+                highlightColor = 'rgba(0, 150, 0, 0.2)';
+                break;
+            case 'endPoint':
+                highlightColor = 'rgba(150, 0, 0, 0.2)';
+                break;
+            case 'drawWall':
+                highlightColor = 'rgba(50, 0, 0, 0.2)';
+                break;
+            case 'drawPath':
+                highlightColor = 'rgba(50, 0, 0, 0.2)';
+                break;
+            case 'none':
+                highlightColor = 'rgba(50, 0, 0, 0.2)';
+                break;
+        }
+    } else {
+        switch (mouseMode) {
+            case 'startPoint':
+                highlightColor = 'rgba(0, 150, 0, 0.6)';
+                break;
+            case 'endPoint':
+                highlightColor = 'rgba(150, 0, 0, 0.6)';
+                break;
+            case 'drawWall':
+                highlightColor = 'rgba(50, 0, 0, 0.6)';
+                break;
+            case 'drawPath':
+                highlightColor = 'rgba(50, 0, 0, 0.6)';
+                break;
+            case 'none':
+                highlightColor = 'rgba(200, 200, 200, 0.6)';
+                break;
+        }
     }
 }
 

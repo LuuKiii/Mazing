@@ -124,7 +124,7 @@ Tile.prototype.typeChange = function(type){
             this.currentBaseColor = '#de3c5a';
             break;
         case 'wall':
-            this.currentBaseColor = '#000';
+            this.currentBaseColor = '#262626';
             break;
         case 'path':
             this.currentBaseColor = '#b3b3b3';

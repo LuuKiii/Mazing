@@ -6,6 +6,19 @@ function getRadioValue(radio){
     return null;
 }
 
+function setVarsByMazeType(){
+    switch(mazeType){
+        case 'stroke':
+            ctx.strokeStyle ='#000';
+            gridTypeChange('basic');
+            break;
+        case 'fill':
+            ctx.strokeStyle = '#b4b6b8'
+            gridTypeChange('wall');
+            break;
+    }
+}
+
 function nullPathVariables(){
     startTileIndex = null;
     destinationTileIndex = null;
