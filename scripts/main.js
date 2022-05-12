@@ -46,20 +46,23 @@ async function assignDefault() {
 
 function init() {
     createGrid();
-    randomizeOrigin();
-    drawGrid();
-    mouseEventHander();
+    drawNewGrid();
+    eventEnabler();
     updatePointChecksView();
+    buttonState('inital');
     mouseModeChange('none');
 }
 
 function initMazeGeneration() {
+    setCurrent();
     eventDisabler();
+    buttonState('off')
     mazeGenAnimation();
 }
 
 function initPathFinding() {
     eventDisabler();
+    buttonState('off');
     //pushing the starting point to openSet, object pushed is rated in metrics important for A*
     let TileRated = new TileRating(startTileIndex ?? 0, startTileIndex ?? 0, 0, 0);
     openSet.push(TileRated)
@@ -78,9 +81,8 @@ function mazeGenAnimation() {
 
     } else {
         window.cancelAnimationFrame(0);
-        mouseEventHander();
-        pathfindingBtn.disabled = false;
-
+        buttonState('beforePathfinding')
+        eventEnabler();
     }
 
     grid[current].draw();
@@ -90,6 +92,8 @@ function pathfindingAnimation() {
 
     if (!aStar()) {
         window.cancelAnimationFrame(0);
+        buttonState('end')
+        eventEnabler();
         return
     } else {
         setTimeout(function () {

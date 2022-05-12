@@ -50,6 +50,7 @@ class Tile {
 }
 //Tile Class Methods
 Tile.prototype.createNeighbourList = function(){
+    this.neighboursList = [];
     let potentialNeighbours = [];
     potentialNeighbours.push(grid[this.edgeCheck(this.index - gridCols, 0)]);
     potentialNeighbours.push(grid[this.edgeCheck(this.index + 1, 1)]);
@@ -143,15 +144,24 @@ function createGrid() {
     }
 }
 
+function drawNewGrid(){
+    for (let i = 0; i < grid.length; i++) {
+        grid[i].createNeighbourList();
+        grid[i].draw();
+    }
+}
+
 function drawGrid() {
     for (let i = 0; i < grid.length; i++) {
         grid[i].draw();
-        grid[i].createNeighbourList();
-
-        grid[i].typeChange('basic');
-
         //  ctx.fillStyle = "#000000";
         //   ctx.fillText(grid[i].index, grid[i].positionX + 1, grid[i].positionY + tileSide - 2);
+    }
+}
+
+function gridTypeChange(toType){
+    for (let i = 0; i < grid.length; i++) {
+        grid[i].typeChange(toType);
     }
 }
 

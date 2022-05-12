@@ -39,6 +39,9 @@ footer {
   color: #6580e0;
   background-color: #23336b;
 }
+#button-container > button[disabled] {
+  color: #37498a;
+}
 #button-container > button:hover:not([disabled]) {
   background-color: #293c7e;
   box-shadow: 0.3em 0.3em 0.3em #6580e0;
@@ -50,6 +53,13 @@ footer {
   height: 2rem;
   color: #6580e0;
   background-color: #23336b;
+}
+#menu-collapsible button[disabled] {
+  color: #37498a;
+}
+#menu-collapsible button:hover:not([disabled]) {
+  background-color: #293c7e;
+  box-shadow: 0.3em 0.3em 0.3em #6580e0;
 }
 
 #settingsCog {

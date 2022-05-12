@@ -1,7 +1,14 @@
-
 function randomizeOrigin() {
     current = Math.floor(Math.random() * gridRows * gridCols);
     return current;
+}
+
+function setCurrent(){
+    if(startTileIndex){
+        current = startTileIndex;
+    }else{
+        current = randomizeOrigin();
+    }
 }
 
 function generatePath() {
@@ -46,7 +53,6 @@ function removeRandomWall(nextTileWallIndex){
             return;
         }
     }
-    console.log('remobing wall')
     removeWalls(grid[current].index, grid[current].neighboursList[randomWallToRemove].index);
 }
 

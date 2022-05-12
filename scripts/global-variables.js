@@ -10,9 +10,24 @@ ctx.lineWidth = 5;
 //===== VARIABLES=======
 //DOM OBJECTS
 //Buttons
-let pathfindingBtn = document.getElementById("pathfindingBtn");
-let generateBtn = document.getElementById("generateBtn");
 let menu = document.getElementById("cogBtn");
+
+let buttonsObj = {
+    pathfindingBtn: document.getElementById("pathfindingBtn"),
+    generateBtn: document.getElementById("generateBtn"),
+    startPointBtn: document.getElementById("startPointBtn"),
+    endPointBtn: document.getElementById("endPointBtn"),
+    drawWallBtn: document.getElementById("drawWallBtn"),
+    drawPathBtn: document.getElementById("drawPathBtn"),
+    applyBtn: document.getElementById("applyBtn"),
+    resetPathfindingBtn: document.getElementById("resetPathfindingBtn"),
+    resetGlobalsBtn: document.getElementById("resetGlobalsBtn"),
+    radio: {
+        mazeTypeBtn: document.getElementsByName("mazeType"),
+        createMethodBtn: document.getElementsByName("createMethod"),
+    }
+}
+
 let mazeTypeBtn = document.getElementsByName("mazeType");
 let createMethodBtn = document.getElementsByName("createMethod");
 //Inputs

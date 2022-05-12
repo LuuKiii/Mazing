@@ -5,6 +5,10 @@
     min-height: 50px;
     color: $primary-color;
     background-color: $third-color;
+
+    &[disabled]{
+        color: $secondary-color;
+    }
     
     &:hover:not([disabled]){
         background-color: lighten($third-color, $amount: 5);
@@ -18,6 +22,15 @@
     height: 2rem;
     color: $primary-color;
     background-color: $third-color;
+
+    &[disabled]{
+        color: $secondary-color;
+    }
+
+    &:hover:not([disabled]){
+        background-color: lighten($third-color, $amount: 5);
+        box-shadow: 0.3em 0.3em 0.3em $primary-color;
+    }
 }
 
 

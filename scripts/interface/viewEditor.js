@@ -29,3 +29,46 @@ function updatePointChecksView(){
         document.getElementById('endPointCheck').innerHTML = 'Wybrano';
     }
 }
+
+function buttonState(state){
+    switch(state){
+        case 'inital':
+            buttonsToBeActive(['startPointBtn','applyBtn','generateBtn','resetGlobalsBtn','mazeTypeBtn','createMethodBtn']);
+            break;
+        case 'beforePathfinding':
+            buttonsToBeActive(['startPointBtn','endPointBtn','resetGlobalsBtn','pathfindingBtn']);
+            break;
+        case 'end':
+            buttonsToBeActive(['resetPathfindingBtn','resetGlobalsBtn']);
+            break;
+        case 'off':
+            buttonsToBeActive([]);
+            break;
+    }
+}
+
+function buttonsToBeActive(toStayActive){
+    for( const [key, value] of Object.entries(buttonsObj)){
+        if(key == 'radio') continue;
+        if(toStayActive.indexOf(key) !== -1){
+            value.disabled = false;
+            continue;
+        }
+
+        value.disabled = true;
+    }
+    
+    for( const [key, value] of Object.entries(buttonsObj.radio)){   
+        try {
+            value.forEach(instanceOfRadio => {
+                if(toStayActive.indexOf(key) !== -1){
+                    instanceOfRadio.disabled = false;
+                }else{
+                    instanceOfRadio.disabled = true;
+                }
+            })
+        } catch (error) {
+            console.warn('Assigned non radio type button to radio object')
+        }
+    }
+}

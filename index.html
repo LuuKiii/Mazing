@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>Maze Generator</title>
 
-    <link rel="stylesheet" href="styles/css/style.css">
+    <link rel="stylesheet" href="./styles/css/style.css">
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
 
 
@@ -19,7 +19,7 @@
 
     <script src="./scripts/interface/validators.js"></script>
     <script src="./scripts/interface/viewEditor.js" defer></script>
-    <script src="scripts/interface/pointer.js"></script>
+    <script src="./scripts/interface/pointer.js"></script>
 
     <script src="./scripts/utils.js" defer></script>
     <script src="./scripts/main.js" defer></script>
@@ -74,13 +74,13 @@
                     <div id="tileSelectorType-gridEl" class="grid-element">
                         <h2>Punkty</h2>
                         <div class="input-container">
-                            <button class="button-tile-select" onclick="mouseModeChange('startPoint')">Punkt
+                            <button id="startPointBtn" class="button-tile-select" onclick="mouseModeChange('startPoint')">Punkt
                                 początkowy</button>
                             <div style="display: inline">
                                 <a id="startPointCheck"></a>
                             </div>
                             <br>
-                            <button class="button-tile-select" onclick="mouseModeChange('endPoint')">Punkt
+                            <button id="endPointBtn" class="button-tile-select" onclick="mouseModeChange('endPoint')">Punkt
                                 końcowy</button>
                             <div style="display: inline">
                                 <a id="endPointCheck"></a>
@@ -90,12 +90,13 @@
                     <div id="drawTools-gridEl" class="grid-element">
                         <h2>Rysowanie</h2>
                         <div class="input-container">
-                            <button onclick="mouseModeChange('drawWall')">Przeszkoda</button>
-                            <button onclick="mouseModeChange('drawPath')">Ścieżka</button>
+                            <button id="drawWallBtn" onclick="mouseModeChange('drawWall')">Przeszkoda</button>
+                            <button id="drawPathBtn" onclick="mouseModeChange('drawPath')">Ścieżka</button>
                         </div>
                     </div>
-                    <button onclick="applySettings()">Zastosuj</button>
-                    <button onclick="resetPathfinding()">Usuń ścieżkę</button>
+                    <button id="applyBtn" onclick="applySettings()">Zastosuj</button>
+                    <button id="resetPathfindingBtn" onclick="resetPathfinding()">Usuń ścieżkę</button>
+                    <button id="resetGlobalsBtn" onclick="resetGlobals()">Nowy labirynt</button>
                 </div>
             </div>
             <div id="main-container">

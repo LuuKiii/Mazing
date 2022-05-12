@@ -46,8 +46,8 @@ function createRatingObject(successor, parentIndex) {
         Math.abs(successor.positionY - grid[destinationTileIndex].positionY)) / tileSide;
 
 
+        
     return new TileRating(successor.index, parentIndex, h, g)
-    //console.log(openSet)
 }
 
 function isSuccesorChecked(tempSuccessor) {

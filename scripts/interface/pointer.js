@@ -38,7 +38,7 @@ function updateOnLeave(event) {
 
 //====================== EVENT HANDLING =====================
 //activates listeneres
-function mouseEventHander() {
+function eventEnabler() {
     canvas.addEventListener("mousemove", updateMouseDis, false);
     canvas.addEventListener("click", updateOnClickPos, false);
     canvas.addEventListener("mouseleave", updateOnLeave, false);

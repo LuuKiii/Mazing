@@ -6,10 +6,26 @@ function getRadioValue(radio){
     return null;
 }
 
+function nullPathVariables(){
+    startTileIndex = null;
+    destinationTileIndex = null;
+    openSet = [];
+    closedSet = [];
+}
 
 function resetPathfinding(){
-    openSet = [];
-    closedSet = []
+    nullPathVariables();
 
-    drawGrid();
+    gridTypeChange('basic')
+    eventEnabler();
+    buttonState('beforePathfinding');
+}
+
+function resetGlobals() {
+    current = null;
+    tilesVisited = [];
+    currentPathHead = null;
+
+    nullPathVariables();
+    applySettings();
 }
