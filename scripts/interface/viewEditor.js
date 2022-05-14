@@ -22,14 +22,23 @@ function onDelayChange() {
 
 function onRadioChange() {
     if (buttonsObj.radio.mazeTypeBtn[1].checked) {
-        buttonRadiosToBeActive(['mazeTypeBtn', 'createMethodBtn']);
+        if(buttonsObj.radio.createMethodBtn[1].checked){
+            buttonRadiosToBeActive(['mazeTypeBtn', 'createMethodBtn','isFilledBtn']);
+        }else{
+            buttonRadiosToBeActive(['mazeTypeBtn', 'createMethodBtn']);
+        }
     } else {
         buttonsObj.radio.createMethodBtn[0].checked = true;
         buttonRadiosToBeActive(['mazeTypeBtn'])
     }
 }
 
-function updatePointChecksView() {
+function updatePointChecksView(toNull) {
+    if(toNull){
+        startTileIndex = null;
+        destinationTileIndex = null;
+    }
+
     if (!startTileIndex) {
         document.getElementById('startPointCheck').innerHTML = 'Nie wybrano';
     } else {
@@ -40,6 +49,29 @@ function updatePointChecksView() {
         document.getElementById('endPointCheck').innerHTML = 'Nie wybrano';
     } else {
         document.getElementById('endPointCheck').innerHTML = 'Wybrano';
+    }
+}
+
+function drawButtonsUpdate(action){
+    switch(action){
+        case 'activate': 
+            if(mouseMode === 'drawWall'){
+                buttonsObj.drawWallBtn.classList.add('activated');
+            }
+            if(mouseMode === 'drawPath'){
+                buttonsObj.drawPathBtn.classList.add('activated');
+            }
+            break;
+        case 'deactivate':
+            if(mouseMode === 'drawWall'){
+                disableDrawing();
+                buttonsObj.drawWallBtn.classList.remove('activated');
+            }
+            if( mouseMode === 'drawPath'){
+                disableDrawing();
+                buttonsObj.drawPathBtn.classList.remove('activated');
+            }
+            break;
     }
 }
 
@@ -55,7 +87,7 @@ function buttonState(state) {
             buttonsToBeActive(['startPointBtn', 'endPointBtn', 'resetGlobalsBtn', 'pathfindingBtn']);
             break;
         case 'draw':
-            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'drawWallBtn', 'drawPathBtn', 'applyBtn', 'pathfindingBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'createMethodBtn']);
+            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'drawWallBtn', 'drawPathBtn', 'applyBtn', 'pathfindingBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'createMethodBtn', 'isFilledBtn']);
             break;
         case 'end':
             buttonsToBeActive(['resetPathfindingBtn', 'resetGlobalsBtn']);

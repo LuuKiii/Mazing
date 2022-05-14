@@ -15,6 +15,7 @@ async function assignValues() {
     tileHoleChance = Number(tileHoleChanceInput.value) * 20;
     mazeType = getRadioValue(buttonsObj.radio.mazeTypeBtn);
     createMethod = getRadioValue(buttonsObj.radio.createMethodBtn);
+    drawFillType = getRadioValue(buttonsObj.radio.isFilledBtn);
 
     runAllValidators()
 
@@ -45,7 +46,7 @@ function init() {
     drawNewGrid();
     setVarsByMazeType();
     eventEnabler();
-    updatePointChecksView();
+    updatePointChecksView(true);
     buttonState(mazeType === 'stroke' ? 'inital' : createMethod === 'generate' ? 'block-inital' : 'draw');
     mouseModeChange('none');
 }

@@ -61,6 +61,10 @@ footer {
   background-color: #293c7e;
   box-shadow: 0.3em 0.3em 0.3em #6580e0;
 }
+#menu-collapsible button.activated {
+  background-color: #293c7e;
+  box-shadow: 0.3em 0.3em 0.3em #6580e0;
+}
 
 #settingsCog {
   position: absolute;

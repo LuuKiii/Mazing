@@ -60,6 +60,14 @@
                             <label for="draw">Rysuj</label>
                             <input type="radio" id="draw" name="createMethod" value="draw" onchange="onRadioChange()">
                         </div>
+                        <div class="input-container">
+                            <a>Wypełnienie:</a>
+                            <label for="empty">Puste</label>
+                            <input type="radio" id="empty" name="isFilled" value="empty" checked="checked" onchange="onRadioChange()">
+
+                            <label for="filled">Ściany</label>
+                            <input type="radio" id="filled" name="isFilled" value="filled" onchange="onRadioChange()">
+                        </div>
                     </div>
                     <div id="mapType-gridEl" class="grid-element">
                         <h2>Typ mapy</h2>
@@ -90,7 +98,7 @@
                     <div id="drawTools-gridEl" class="grid-element">
                         <h2>Rysowanie</h2>
                         <div class="input-container">
-                            <button id="drawWallBtn" onclick="mouseModeChange('drawWall')">Przeszkoda</button>
+                            <button id="drawWallBtn" onclick="mouseModeChange('drawWall')">Ściana</button>
                             <button id="drawPathBtn" onclick="mouseModeChange('drawPath')">Ścieżka</button>
                         </div>
                     </div>

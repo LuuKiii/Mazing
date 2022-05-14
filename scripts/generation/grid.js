@@ -112,7 +112,9 @@ Tile.prototype.edgeCheck = function(NeighbourIndex, sides){
 }
 // Function switching color of the tile depending on its type
 Tile.prototype.typeChange = function(type){
+    this.checkIfPoint(type);
     this.type = type;
+
     switch (this.type){
         case 'basic':
             this.currentBaseColor = '#abbdff';
@@ -127,13 +129,23 @@ Tile.prototype.typeChange = function(type){
             this.currentBaseColor = '#262626';
             break;
         case 'path':
-            this.currentBaseColor = '#b3b3b3';
+            this.currentBaseColor = '#d6d6d6';
             break;
     }
     this.draw();
 }
-
-// FUNCTIONS
+// Is it a point check
+Tile.prototype.checkIfPoint = function (toType){
+    if(this.type === 'startPoint' && toType !== 'startPoint'){
+        startTileIndex = null;
+        updatePointChecksView(false);
+    }
+    if(this.type === 'endPoint' && toType !== 'endPoint'){
+        destinationTileIndex = null;
+        updatePointChecksView(false);
+    }
+}
+// GRID DRAWING
 
 function createGrid() {
     for (let j = 0; j < gridRows; j++) {

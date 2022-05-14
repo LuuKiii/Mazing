@@ -5,7 +5,7 @@ let ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 800;
 
-ctx.lineWidth = 5;
+ctx.lineWidth;
 
 //===== VARIABLES=======
 //DOM OBJECTS
@@ -25,6 +25,7 @@ let buttonsObj = {
     radio: {
         mazeTypeBtn: document.getElementsByName("mazeType"),
         createMethodBtn: document.getElementsByName("createMethod"),
+        isFilledBtn: document.getElementsByName("isFilled"),
     }
 }
 
@@ -42,6 +43,7 @@ let tileSide; // side of one tile px
 let mazeGenerateDelay; // maze generation delay
 let mazeType; // Type of the maze -> tiles with walls[stroke] or block tiles[fill]
 let createMethod;
+let drawFillType;
 
 //Deep first search values
 let current; // tile currently selected/ used in both generation and pathfinding
@@ -63,6 +65,7 @@ let allowInput = true; //nothing atm
 let loading = false; //loading whatever flag
 let errorMessages = []; //array of error msgs
 let mouseMode;
+let isHeldDown = false;
 
 // HIGHLIGHTING
 let highLightedTileIndex;

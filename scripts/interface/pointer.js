@@ -32,10 +32,32 @@ function updateMouseDis(event) {
 
 }
 
-function updateOnLeave(event) {
+function updateOnLeave() {
     tileHoveredOver(true);
 }
 
+function updateisDown(){
+    isHeldDown = true;
+}
+
+function updateisUp() {
+    isHeldDown = false;
+}
+
+function updateDraw() {
+    if(!isHeldDown) return;
+
+    let toType = mouseMode === 'drawWall' ? 'wall' : 'path';
+
+    try {
+        if(grid[highLightedTileIndex].type !== toType){
+            grid[highLightedTileIndex].typeChange(toType);
+            
+        }
+    } catch (error) {
+        isHeldDown = false;   
+    }
+}
 //====================== EVENT HANDLING =====================
 //activates listeneres
 function eventEnabler() {
@@ -49,12 +71,30 @@ function eventDisabler() {
     canvas.removeEventListener("click", updateOnClickPos, false);
     canvas.removeEventListener("mouseleave", updateOnLeave, false);
 
-    pathfindingBtn.disabled = true;
-    generateBtn.disabled = true;
+    mouseModeChange('none');
 }
 
+//drawing
+function drawing(buttonToActivate) {
+        canvas.addEventListener("mousemove", updateDraw, false)
+        canvas.addEventListener("mousedown", updateisDown, false); 
+        canvas.addEventListener("mouseleave", updateisUp, false); 
+        canvas.addEventListener("mouseup", updateisUp, false);
+
+        drawButtonsUpdate('activate', buttonToActivate)
+}
+
+function disableDrawing() {
+    isHeldDown = false;
+    canvas.removeEventListener("mousemove", updateDraw, false)
+    canvas.removeEventListener("mousedown", updateisDown, false); 
+    canvas.removeEventListener("mouseleave", updateisUp, false); 
+    canvas.removeEventListener("mouseup", updateisUp, false);
+}
 //================ MOUSE MODES ===============
 function mouseModeChange(mouseModeType){
+    drawButtonsUpdate('deactivate');
+
     mouseMode = mouseModeType;
     if(mazeType === 'stroke'){
         switch (mouseMode) {
@@ -83,10 +123,12 @@ function mouseModeChange(mouseModeType){
                 highlightColor = 'rgba(150, 0, 0, 0.6)';
                 break;
             case 'drawWall':
-                highlightColor = 'rgba(50, 0, 0, 0.6)';
+                highlightColor = 'rgba(200, 200, 200, 0.6)';
+                drawing('drawWall');
                 break;
             case 'drawPath':
-                highlightColor = 'rgba(50, 0, 0, 0.6)';
+                highlightColor = 'rgba(200, 200, 200, 0.6)';
+                drawing('drawPath');
                 break;
             case 'none':
                 highlightColor = 'rgba(200, 200, 200, 0.6)';
@@ -97,24 +139,25 @@ function mouseModeChange(mouseModeType){
 
 //============= Mouse Operation
 function mouseClickOperation() {
+    if(!grid[highLightedTileIndex]) return;
     let tempTilePoints;
 
     switch (mouseMode) {
         case 'startPoint':
             tempTilePoints = createPoint('startPoint', startTileIndex, destinationTileIndex);
             setStartPoint(tempTilePoints);
-            updatePointChecksView();
+            updatePointChecksView(false);
             break;
         case 'endPoint':
             tempTilePoints = createPoint('endPoint', destinationTileIndex, startTileIndex);
             setEndPoint(tempTilePoints);
-            updatePointChecksView();
+            updatePointChecksView(false);
             break;
         case 'drawWall':
-            console.log('draw');
+            grid[highLightedTileIndex].typeChange('wall')
             break;
         case 'drawPath':
-            console.log('erase');
+            grid[highLightedTileIndex].typeChange('path')
             break;
     }
 }
