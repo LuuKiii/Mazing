@@ -58,13 +58,21 @@ function initMazeGeneration() {
     mazeGenAnimation();
 }
 
-function initPathFinding() {
+function initPathFindingOld() {
     eventDisabler();
     buttonState('off');
     //pushing the starting point to openSet, object pushed is rated in metrics important for A*
     let TileRated = new TileRating(startTileIndex ?? 0, startTileIndex ?? 0, 0, 0);
     openSet.push(TileRated)
     destinationTileIndex = destinationTileIndex ?? grid.length - 1; //Destination of pathfinding, for now its just bottom right corner
+    pathfindingAnimation();
+}
+
+function initPathFinding() {
+    eventDisabler();
+    buttonState('off');
+    //pushing the starting point to openSet, object pushed is rated in metrics important for A*
+    setPathfindingVariables();
     pathfindingAnimation();
 }
 
@@ -88,8 +96,9 @@ function mazeGenAnimation() {
 
 function pathfindingAnimation() {
 
-    if (!aStar()) {
+    if (aStarAlgorithm()) {
         window.cancelAnimationFrame(0);
+        drawFinalPath(currentPathHead);
         buttonState('end')
         eventEnabler();
         return

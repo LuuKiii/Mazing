@@ -134,6 +134,11 @@ Tile.prototype.typeChange = function(type){
     }
     this.draw();
 }
+
+Tile.prototype.overWriteColor = function(color){
+    this.currentBaseColor = color;
+    this.draw();
+}
 // Is it a point check
 Tile.prototype.checkIfPoint = function (toType){
     if(this.type === 'startPoint' && toType !== 'startPoint'){
