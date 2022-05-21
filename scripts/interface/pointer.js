@@ -220,21 +220,3 @@ function tileHoveredOver(isMouseOutofBounds) {
     }
 
 }
-
-
-
-
-// let previouslySelected = -1;
-
-// function tileClicked() {
-
-//     if(previouslySelected > -1){
-//         grid[previouslySelected].currentBaseColor = "#cff2ff";
-//         grid[previouslySelected].draw();
-//     }
-    
-
-//     previouslySelected = highLightedTileIndex;
-//     grid[highLightedTileIndex].currentBaseColor = 'rgba(255, 0, 0, 0.75)';
-//     current = highLightedTileIndex;
-// }

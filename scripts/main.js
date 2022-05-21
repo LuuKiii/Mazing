@@ -58,17 +58,6 @@ function initMazeGeneration() {
     mazeGenAnimation();
 }
 
-//TODO delete when everything works
-function initPathFindingOld() {
-    eventDisabler();
-    buttonState('off');
-    //pushing the starting point to openSet, object pushed is rated in metrics important for A*
-    startEndTileSelector();
-    let TileRated = new TileRating(startTileIndex, startTileIndex, 0, 0);
-    openSet.push(TileRated)
-    pathfindingAnimation();
-}
-
 function initPathFinding() {
     eventDisabler();
     buttonState('off');
