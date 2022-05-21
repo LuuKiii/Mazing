@@ -6,7 +6,7 @@ function getRadioValue(radio) {
     return null;
 }
 
-function setVarsByMazeType() {
+function setVarsByMazeType(leaveTypes = []) {
     switch (mazeType) {
         case 'stroke':
             ctx.strokeStyle = '#000';
@@ -16,11 +16,11 @@ function setVarsByMazeType() {
             switch (drawFillType) {
                 case 'empty':
                     ctx.strokeStyle = '#b4b6b8'
-                    gridTypeChange('path');
+                    gridTypeChange('path', leaveTypes);
                     break;
                 case 'filled':
                     ctx.strokeStyle = '#b4b6b8'
-                    gridTypeChange('wall');
+                    gridTypeChange('wall', leaveTypes, ['startPoint', 'endPoint']);
                     break;
             }
             break;
@@ -39,7 +39,7 @@ function nullPathVariables() {
 function resetPathfinding() {
     nullPathVariables();
     updatePointChecksView(true);
-    setVarsByMazeType();
+    setVarsByMazeType(createMethod === 'draw' ? drawFillType === 'empty' ? ['wall'] : ['path'] : []);
     eventEnabler();
     buttonState(createMethod === 'draw' ? 'draw' : 'beforePathfinding');
 }
@@ -51,4 +51,11 @@ function resetGlobals() {
 
     nullPathVariables();
     applySettings();
+}
+
+function startEndTileSelector() {
+    startTileIndex = startTileIndex ?? 0;
+    destinationTileIndex = destinationTileIndex ?? grid.length - 1;
+    grid[startTileIndex].typeChange('startPoint');
+    grid[destinationTileIndex].typeChange('endPoint');
 }

@@ -176,8 +176,19 @@ function drawGrid() {
     }
 }
 
-function gridTypeChange(toType){
+function gridTypeChange(toType, leaveTypes = [], forceToPath = []){
     for (let i = 0; i < grid.length; i++) {
+        if(forceToPath.includes(grid[i].type)){
+            grid[i].typeChange('path');
+            continue;
+        }
+        if(leaveTypes.includes(grid[i].type)){
+            if(grid[i].type === 'path'){
+                grid[i].typeChange('path')
+            }
+            continue;
+        }
+
         grid[i].typeChange(toType);
     }
 }

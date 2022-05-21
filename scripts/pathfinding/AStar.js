@@ -11,6 +11,7 @@ class TileRating {
 }
 
 TileRating.prototype.overWriteTypeChange = function (toType) {
+    if(this.index === startTileIndex || this.index === destinationTileIndex) return;
     let overWriteColor;
 
     switch (toType) {
@@ -195,9 +196,9 @@ function aStarAlgorithm() {
 
 function drawFinalPath(tileRatingObj) {
     tileRatingObj.overWriteTypeChange('endPath')
-    if(tileRatingObj.f === 0) return;
+    if(tileRatingObj.index === startTileIndex) return;
 
-    let parentObj = getObjFromClosedSet(tileRatingObj.parentIndex)
+    let parentObj = getObjFromClosedSet(tileRatingObj.parentIndex);
     drawFinalPath(parentObj);
 }
 
