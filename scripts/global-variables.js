@@ -26,6 +26,7 @@ let buttonsObj = {
         mazeTypeBtn: document.getElementsByName("mazeType"),
         createMethodBtn: document.getElementsByName("createMethod"),
         isFilledBtn: document.getElementsByName("isFilled"),
+        isAnimatedBtn: document.getElementsByName("isAnimated"),
     }
 }
 
@@ -61,7 +62,7 @@ let startTileIndex;
 let destinationTileIndex;
 
 // INTERFACE
-let allowInput = true; //nothing atm
+let isAnimated = true;
 let loading = false; //loading whatever flag
 let errorMessages = []; //array of error msgs
 let mouseMode;
@@ -71,3 +72,8 @@ let isHeldDown = false;
 let highLightedTileIndex;
 let previousHighLightedTileIndex = 0;
 let highlightColor;
+
+//MEASURES
+let timeSpent;
+let numberOfIterations;
+let pathLength;

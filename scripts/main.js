@@ -47,6 +47,7 @@ function init() {
     setVarsByMazeType();
     eventEnabler();
     updatePointChecksView(true);
+    updateLabelsByMazeType();
     buttonState(mazeType === 'stroke' ? 'inital' : createMethod === 'generate' ? 'block-inital' : 'draw');
     mouseModeChange('none');
 }
@@ -55,20 +56,44 @@ function initMazeGeneration() {
     setCurrent();
     eventDisabler();
     buttonState('off')
-    mazeGenAnimation();
+
+    if(mazeType === 'stroke'){
+        isAnimated ? mazeGenAnimation() : mazeGeneration();
+    } else {
+        insertRandomWalls();
+        afterMazeGeneration();
+    }
+}
+
+function afterMazeGeneration() {
+    buttonState('beforePathfinding')
+    eventEnabler();
 }
 
 function initPathFinding() {
+    numberOfIterations = 0;
+    pathLength = 0;
     eventDisabler();
     buttonState('off');
     //pushing the starting point to openSet, object pushed is rated in metrics important for A*
     startEndTileSelector();
     setPathfindingVariables();
-    pathfindingAnimation();
+    timeSpent = performance.now();
+    isAnimated === true ? pathfindingAnimation() : pathfinding();
+}
+
+function afterPathFinding() {
+    timeSpent = performance.now() - timeSpent;
+    console.log('Czas generowania ścieżki : ' + timeSpent + 'ms')
+    console.log('Liczba wykonanych iteracji w celu wyznaczenia ścieżki : ' + numberOfIterations)
+    errorMessages.length > 0 ? '' : drawFinalPath(currentPathHead);
+    console.log('Długość ściezki : ' + pathLength)
+    buttonState('end')
+    eventEnabler();
 }
 
 //MAIN
-
+// ANIMATED
 function mazeGenAnimation() {
 
     if (generatePath()) {
@@ -78,27 +103,45 @@ function mazeGenAnimation() {
 
     } else {
         window.cancelAnimationFrame(0);
-        buttonState('beforePathfinding')
-        eventEnabler();
+        afterMazeGeneration();
     }
 
     grid[current].draw();
 }
 
 function pathfindingAnimation() {
-
+    
     if (aStarAlgorithm()) {
         window.cancelAnimationFrame(0);
-        drawFinalPath(currentPathHead);
-        buttonState('end')
-        eventEnabler();
-        return
+        afterPathFinding();
+        return;
     } else {
         setTimeout(function () {
+            numberOfIterations++;
             window.requestAnimationFrame(pathfindingAnimation)
         }, mazeGenerateDelay);
     }
 }
+// NON ANIMATED
+function mazeGeneration() {
+    let isGenerating = true;
+    while(isGenerating) {
+        isGenerating = generatePath();
+    }
 
+    drawGrid();
+    afterMazeGeneration();
+}
+
+function pathfinding() {
+    let isPathfinding = true;
+    while(isPathfinding){
+        numberOfIterations++;
+        isPathfinding = !aStarAlgorithm()
+    }
+    afterPathFinding();
+}
+
+//BEGIN
 applySettings()
 

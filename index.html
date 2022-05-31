@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <title>Maze Generator</title>
+    <title>Pathfinding</title>
 
     <link rel="stylesheet" href="./styles/css/style.css">
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
@@ -28,7 +28,7 @@
 
 <body>
     <div id="wrapper">
-        <h1>Maze Generator</h1>
+        <h1>Szukanie ścieżek</h1>
         <div id="main-border">
             <a id="coords" style="position: absolute;"></a>
             <a id="coords2" style="position: absolute; top:150px;"></a>
@@ -43,17 +43,26 @@
                             <label for="numberOfTiles">Ilość komórek w rzędzie/kolumnie</label>
                             <input id="numberOfTiles" type="number" value="15">
                             <br>
-                            <label for="animationDelay">Spowolnienie generacji</label>
+                            <label for="animationDelay">Spowolnienie animacji</label>
                             <input id="animationDelay" type="range" min="0" max="3" value="0"
                                 onchange="onDelayChange()">
                             <br>
-                            <label for="tileHoles">Losowe usuwanie ścian</label>
+                            <label for="tileHoles" id="tileHolesLabel"></label>
                             <input id="tileHoles" type="range" min="0" max="5" value="0">
                         </div>
                     </div>
                     <div id="buildType-gridEl" class="grid-element">
                         <h2>Sposób utworzenia labiryntu</h2>
                         <div class="input-container">
+                            <a>Animacja:</a>
+                            <label for="animation">Tak</label>
+                            <input type="radio" id="animation" name="isAnimated" value="animated" checked="checked" onchange="animationUpdate()">
+
+                            <label for="draw">Nie</label>
+                            <input type="radio" id="animation" name="isAnimated" value="notAnimated" onchange="animationUpdate()">
+                        </div>
+                        <div class="input-container">
+                            <a>Tworzenie:</a>
                             <label for="generate">Wygeneruj</label>
                             <input type="radio" id="generate" name="createMethod" value="generate" checked="checked" onchange="onRadioChange()">
 
@@ -111,8 +120,8 @@
                 <canvas id="main-window"></canvas>
             </div>
             <div id="button-container">
-                <button id="generateBtn" onclick="initMazeGeneration();">Generate Maze</button>
-                <button id="pathfindingBtn" onclick="initPathFinding();" disabled>Initiate Path finding</button>
+                <button id="generateBtn" onclick="initMazeGeneration();">Wygeneruj</button>
+                <button id="pathfindingBtn" onclick="initPathFinding();" disabled>Znajdź ścieżkę</button>
             </div>
         </div>
     </div>

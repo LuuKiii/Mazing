@@ -23,14 +23,23 @@ function onDelayChange() {
 function onRadioChange() {
     if (buttonsObj.radio.mazeTypeBtn[1].checked) {
         if(buttonsObj.radio.createMethodBtn[1].checked){
-            buttonRadiosToBeActive(['mazeTypeBtn', 'createMethodBtn','isFilledBtn']);
+            buttonRadiosToBeActive(['mazeTypeBtn', 'createMethodBtn', 'isFilledBtn', 'isAnimatedBtn']);
         }else{
-            buttonRadiosToBeActive(['mazeTypeBtn', 'createMethodBtn']);
+            buttonRadiosToBeActive(['mazeTypeBtn', 'createMethodBtn', 'isAnimatedBtn']);
         }
     } else {
         buttonsObj.radio.createMethodBtn[0].checked = true;
-        buttonRadiosToBeActive(['mazeTypeBtn'])
+        buttonRadiosToBeActive(['mazeTypeBtn', 'isAnimatedBtn'])
     }
+}
+
+function animationUpdate(){
+    if (buttonsObj.radio.isAnimatedBtn[0].checked) {
+        isAnimated = true;
+    } else {
+        isAnimated = false;
+    }
+
 }
 
 function updatePointChecksView(toNull) {
@@ -49,6 +58,14 @@ function updatePointChecksView(toNull) {
         document.getElementById('endPointCheck').innerHTML = 'Nie wybrano';
     } else {
         document.getElementById('endPointCheck').innerHTML = 'Wybrano';
+    }
+}
+
+function updateLabelsByMazeType(){
+    if(mazeType === 'fill'){
+        document.getElementById('tileHolesLabel').innerHTML = 'Ilość ścian';
+    } else {
+        document.getElementById('tileHolesLabel').innerHTML = 'Losowe usuwanie ścian';
     }
 }
 
@@ -78,16 +95,16 @@ function drawButtonsUpdate(action){
 function buttonState(state) {
     switch (state) {
         case 'inital':
-            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn']);
+            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn']);
             break;
         case 'block-inital':
-            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'createMethodBtn']);
+            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn']);
             break;
         case 'beforePathfinding':
-            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'resetGlobalsBtn', 'pathfindingBtn']);
+            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'resetGlobalsBtn', 'pathfindingBtn', 'isAnimatedBtn']);
             break;
         case 'draw':
-            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'drawWallBtn', 'drawPathBtn', 'applyBtn', 'pathfindingBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'createMethodBtn', 'isFilledBtn']);
+            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'drawWallBtn', 'drawPathBtn', 'applyBtn', 'pathfindingBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'isFilledBtn']);
             break;
         case 'end':
             buttonsToBeActive(['resetPathfindingBtn', 'resetGlobalsBtn']);

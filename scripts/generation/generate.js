@@ -74,3 +74,13 @@ function removeWalls(wallIndex, nextWallIndex) {
         grid[nextWallIndex].walls[1] = false;
     }
 }
+
+function insertRandomWalls() {
+    grid.forEach(item => {
+        if( Math.random() * 100 < tileHoleChance/2) {
+            item.typeChange('wall');
+        } else {
+            item.typeChange('path');
+        }
+    });
+}

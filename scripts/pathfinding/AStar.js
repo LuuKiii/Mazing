@@ -136,10 +136,17 @@ function createRatingObject(neighbour, parentObj) {
 
     g = 1 + parentObj.g;
 
-    h = (Math.abs(neighbour.positionX - grid[destinationTileIndex].positionX) +
-        Math.abs(neighbour.positionY - grid[destinationTileIndex].positionY)) / tileSide;
+    h = manhattanDistance(neighbour.index, destinationTileIndex)
 
     return new TileRating(neighbour.index, parentObj.index, h, g)
+}
+
+function manhattanDistance (objAindex, objBindex){
+    return Math.abs(grid[objAindex].positionX/tileSide - grid[objBindex].positionX/tileSide) + Math.abs(grid[objAindex].positionY/tileSide - grid[objBindex].positionY/tileSide);
+}
+
+function diagonalDistance(objAindex, objBindex){
+    return Math.sqrt((grid[objAindex].positionX/tileSide - grid[objBindex].positionX/tileSide) ** 2 + (grid[objAindex].positionY/tileSide - grid[objBindex].positionY/tileSide) ** 2);
 }
 
 function isObstacle(neighbour, currentIndex, wallIndex) {
@@ -195,6 +202,7 @@ function aStarAlgorithm() {
 }
 
 function drawFinalPath(tileRatingObj) {
+    pathLength++;
     tileRatingObj.overWriteTypeChange('endPath')
     if(tileRatingObj.index === startTileIndex) return;
 
