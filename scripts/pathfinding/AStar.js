@@ -167,10 +167,7 @@ function isObstacle(neighbour, currentIndex, wallIndex) {
 // Astar
 
 function aStarAlgorithm() {
-    if (openSet.length === 0) {
-        errorMessages.push('Nie udało się znaleść ścieżki do wybranego celu')
-        return true;
-    }
+    if (openSet.length === 0) return true;
 
     sortOpenSetByfValue();
     currentPathHead = openSetOperator('pop');
@@ -210,3 +207,7 @@ function drawFinalPath(tileRatingObj) {
     drawFinalPath(parentObj);
 }
 
+function isFinalPath() {
+    if(currentPathHead.index === destinationTileIndex) return true;
+    return false;
+}

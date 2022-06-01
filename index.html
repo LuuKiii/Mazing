@@ -19,6 +19,7 @@
 
     <script src="./scripts/interface/validators.js"></script>
     <script src="./scripts/interface/viewEditor.js" defer></script>
+    <script src="./scripts/interface/resultViewEditor.js" defer></script>
     <script src="./scripts/interface/pointer.js"></script>
 
     <script src="./scripts/utils.js" defer></script>
@@ -27,12 +28,31 @@
 </head>
 
 <body>
+    <div id="error-container">
+    </div>
     <div id="wrapper">
         <h1>Szukanie ścieżek</h1>
         <div id="main-border">
             <a id="coords" style="position: absolute;"></a>
             <a id="coords2" style="position: absolute; top:150px;"></a>
             <div id="menu-container">
+                <div id="info-container" class="">
+                    <div id="info-result">
+                        <h2>Rezultat</h2>
+                        <div>
+                            <label for="result-time-spent">Czas generowania ścieżki : </label>
+                            <a id="result-time-spent"></a>
+                        </div>
+                        <div>
+                            <label for="result-iterations">Liczba wykonanych iteracji w celu wyznaczenia ścieżki : </label>
+                            <a id="result-iterations"></a>
+                        </div>
+                        <div>
+                            <label for="result-path-length">Długość ściezki : </label>
+                            <a id="result-path-length"></a>
+                        </div>
+                    </div>
+                </div>
                 <button id="cogBtn">
                     <div id="settingsCog"></div>
                 </button>
@@ -55,16 +75,19 @@
                         <h2>Sposób utworzenia labiryntu</h2>
                         <div class="input-container">
                             <a>Animacja:</a>
-                            <label for="animation">Tak</label>
-                            <input type="radio" id="animation" name="isAnimated" value="animated" checked="checked" onchange="animationUpdate()">
+                            <label for="animation">Włączona</label>
+                            <input type="radio" id="animation" name="isAnimated" value="animated" checked="checked"
+                                onchange="animationUpdate()">
 
-                            <label for="draw">Nie</label>
-                            <input type="radio" id="animation" name="isAnimated" value="notAnimated" onchange="animationUpdate()">
+                            <label for="draw">Wyłączona</label>
+                            <input type="radio" id="animation" name="isAnimated" value="notAnimated"
+                                onchange="animationUpdate()">
                         </div>
                         <div class="input-container">
                             <a>Tworzenie:</a>
                             <label for="generate">Wygeneruj</label>
-                            <input type="radio" id="generate" name="createMethod" value="generate" checked="checked" onchange="onRadioChange()">
+                            <input type="radio" id="generate" name="createMethod" value="generate" checked="checked"
+                                onchange="onRadioChange()">
 
                             <label for="draw">Rysuj</label>
                             <input type="radio" id="draw" name="createMethod" value="draw" onchange="onRadioChange()">
@@ -72,7 +95,8 @@
                         <div class="input-container">
                             <a>Wypełnienie:</a>
                             <label for="empty">Puste</label>
-                            <input type="radio" id="empty" name="isFilled" value="empty" checked="checked" onchange="onRadioChange()">
+                            <input type="radio" id="empty" name="isFilled" value="empty" checked="checked"
+                                onchange="onRadioChange()">
 
                             <label for="filled">Ściany</label>
                             <input type="radio" id="filled" name="isFilled" value="filled" onchange="onRadioChange()">
@@ -82,7 +106,8 @@
                         <h2>Typ mapy</h2>
                         <div class="input-container">
                             <label for="maze">Labirynt</label>
-                            <input type="radio" id="maze" name="mazeType" value="stroke" checked="checked" onchange="onRadioChange()">
+                            <input type="radio" id="maze" name="mazeType" value="stroke" checked="checked"
+                                onchange="onRadioChange()">
 
                             <label for="block">Bloki</label>
                             <input type="radio" id="block" name="mazeType" value="fill" onchange="onRadioChange()">
@@ -91,13 +116,15 @@
                     <div id="tileSelectorType-gridEl" class="grid-element">
                         <h2>Punkty</h2>
                         <div class="input-container">
-                            <button id="startPointBtn" class="button-tile-select" onclick="mouseModeChange('startPoint')">Punkt
+                            <button id="startPointBtn" class="button-tile-select"
+                                onclick="mouseModeChange('startPoint')">Punkt
                                 początkowy</button>
                             <div style="display: inline">
                                 <a id="startPointCheck"></a>
                             </div>
                             <br>
-                            <button id="endPointBtn" class="button-tile-select" onclick="mouseModeChange('endPoint')">Punkt
+                            <button id="endPointBtn" class="button-tile-select"
+                                onclick="mouseModeChange('endPoint')">Punkt
                                 końcowy</button>
                             <div style="display: inline">
                                 <a id="endPointCheck"></a>
@@ -111,9 +138,11 @@
                             <button id="drawPathBtn" onclick="mouseModeChange('drawPath')">Ścieżka</button>
                         </div>
                     </div>
-                    <button id="applyBtn" onclick="applySettings()">Zastosuj</button>
-                    <button id="resetPathfindingBtn" onclick="resetPathfinding()">Usuń ścieżkę</button>
-                    <button id="resetGlobalsBtn" onclick="resetGlobals()">Nowy labirynt</button>
+                    <div>
+                        <button id="applyBtn" onclick="applySettings()">Zastosuj</button>
+                        <button id="resetPathfindingBtn" onclick="resetPathfinding()">Usuń ścieżkę</button>
+                        <button id="resetGlobalsBtn" onclick="resetGlobals()">Nowy labirynt</button>
+                    </div>
                 </div>
             </div>
             <div id="main-container">

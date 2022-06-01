@@ -16,14 +16,13 @@ async function assignValues() {
     mazeType = getRadioValue(buttonsObj.radio.mazeTypeBtn);
     createMethod = getRadioValue(buttonsObj.radio.createMethodBtn);
     drawFillType = getRadioValue(buttonsObj.radio.isFilledBtn);
+    infoContainer.classList.remove("shown");
 
     runAllValidators()
 
     if (errorMessages.length > 0) {
         await assignDefault();
     }
-
-    console.log('Error Messages : ' + (errorMessages.length > 0 ? errorMessages : 'none'));
     errorMessages = [];
 }
 
@@ -86,8 +85,9 @@ function afterPathFinding() {
     timeSpent = performance.now() - timeSpent;
     console.log('Czas generowania ścieżki : ' + timeSpent + 'ms')
     console.log('Liczba wykonanych iteracji w celu wyznaczenia ścieżki : ' + numberOfIterations)
-    errorMessages.length > 0 ? '' : drawFinalPath(currentPathHead);
+    isFinalPath() ? drawFinalPath(currentPathHead) : '' ;
     console.log('Długość ściezki : ' + pathLength)
+    showResult();
     buttonState('end')
     eventEnabler();
 }

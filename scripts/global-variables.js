@@ -35,6 +35,10 @@ let numberOfColumnsInput = document.getElementById("numberOfTiles");
 let delayInput = document.getElementById("animationDelay");
 let tileHoleChanceInput = document.getElementById("tileHoles")
 
+//Other
+infoContainer = document.getElementById("info-container");
+errorContainer = document.getElementById("error-container");
+
 // GENERATION
 //Inital Values
 let gridCols; //number of columns and rows for grid
@@ -65,6 +69,7 @@ let destinationTileIndex;
 let isAnimated = true;
 let loading = false; //loading whatever flag
 let errorMessages = []; //array of error msgs
+let errorTimer;
 let mouseMode;
 let isHeldDown = false;
 
