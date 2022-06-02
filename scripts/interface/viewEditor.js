@@ -39,7 +39,10 @@ function animationUpdate(){
     } else {
         isAnimated = false;
     }
+}
 
+function onPathAlgoUpdate(){
+    pathAlgorithm = getRadioValue(buttonsObj.radio.pathAlgoBtn);
 }
 
 function updatePointChecksView(toNull) {
@@ -95,16 +98,16 @@ function drawButtonsUpdate(action){
 function buttonState(state) {
     switch (state) {
         case 'inital':
-            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn']);
+            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'pathAlgoBtn']);
             break;
         case 'block-inital':
-            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn']);
+            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'pathAlgoBtn']);
             break;
         case 'beforePathfinding':
-            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'resetGlobalsBtn', 'pathfindingBtn', 'isAnimatedBtn']);
+            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'resetGlobalsBtn', 'pathfindingBtn', 'isAnimatedBtn', 'pathAlgoBtn']);
             break;
         case 'draw':
-            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'drawWallBtn', 'drawPathBtn', 'applyBtn', 'pathfindingBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'isFilledBtn']);
+            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'drawWallBtn', 'drawPathBtn', 'applyBtn', 'pathfindingBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'isFilledBtn', 'pathAlgoBtn']);
             break;
         case 'end':
             buttonsToBeActive(['resetPathfindingBtn', 'resetGlobalsBtn']);

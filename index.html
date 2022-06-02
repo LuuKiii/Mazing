@@ -13,8 +13,10 @@
     <script src="./scripts/global-variables.js" defer></script>
     <script src="./scripts/generation/grid.js"></script>
     <script src="./scripts/generation/generate.js"></script>
-
+    
+    <script src="./scripts/pathfinding/pathUtils.js"></script>
     <script src="./scripts/pathfinding/AStar.js"></script>
+    <script src="./scripts/pathfinding/Dijkstra.js"></script>
 
 
     <script src="./scripts/interface/validators.js"></script>
@@ -23,6 +25,7 @@
     <script src="./scripts/interface/pointer.js"></script>
 
     <script src="./scripts/utils.js" defer></script>
+    <script src="./scripts/init.js" defer></script>
     <script src="./scripts/main.js" defer></script>
 
 </head>
@@ -44,7 +47,8 @@
                             <a id="result-time-spent"></a>
                         </div>
                         <div>
-                            <label for="result-iterations">Liczba wykonanych iteracji w celu wyznaczenia ścieżki : </label>
+                            <label for="result-iterations">Liczba wykonanych iteracji w celu wyznaczenia ścieżki :
+                            </label>
                             <a id="result-iterations"></a>
                         </div>
                         <div>
@@ -136,6 +140,21 @@
                         <div class="input-container">
                             <button id="drawWallBtn" onclick="mouseModeChange('drawWall')">Ściana</button>
                             <button id="drawPathBtn" onclick="mouseModeChange('drawPath')">Ścieżka</button>
+                        </div>
+                    </div>
+                    <div id="pathfindingAlgo-gridEl" class="grid-element">
+                        <h2>Algorytm szukania ścieżki</h2>
+                        <div class="input-container">
+                            <label for="astar">A*</label>
+                            <input type="radio" id="astar" name="pathAlgo" value="astar" checked="checked" onchange="onPathAlgoUpdate()">
+                        </div>
+                        <div class="input-container">
+                            <label for="dijkstra">Dijkstra</label>
+                            <input type="radio" id="dijkstra" name="pathAlgo" value="dijkstra"  onchange="onPathAlgoUpdate()">
+                        </div>
+                        <div class="input-container">
+                            <label for="astar">Placeholder</label>
+                            <input type="radio" id="z" name="pathAlgo" value="astar" onchange="onPathAlgoUpdate()">
                         </div>
                     </div>
                     <div>

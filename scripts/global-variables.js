@@ -27,6 +27,7 @@ let buttonsObj = {
         createMethodBtn: document.getElementsByName("createMethod"),
         isFilledBtn: document.getElementsByName("isFilled"),
         isAnimatedBtn: document.getElementsByName("isAnimated"),
+        pathAlgoBtn: document.getElementsByName("pathAlgo"),
     }
 }
 
@@ -49,6 +50,7 @@ let mazeGenerateDelay; // maze generation delay
 let mazeType; // Type of the maze -> tiles with walls[stroke] or block tiles[fill]
 let createMethod;
 let drawFillType;
+let pathAlgorithm;
 
 //Deep first search values
 let current; // tile currently selected/ used in both generation and pathfinding
@@ -56,12 +58,16 @@ let tilesVisited = [];
 let tileHoleChance;
 
 //A star pathfinding variables
-
 let openSet = [];
 let closedSet = [];
 let currentPathHead;
 
-//Both algos variables;
+//Dijkstra pathfinding variables
+let sptSet = []; // shortestpath tree set
+let distSet = []; // cost of path for all tiles
+let currentPathDHead;
+
+//Point Variables;
 let startTileIndex;
 let destinationTileIndex;
 

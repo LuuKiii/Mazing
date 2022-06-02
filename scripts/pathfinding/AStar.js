@@ -136,7 +136,7 @@ function createRatingObject(neighbour, parentObj) {
 
     g = 1 + parentObj.g;
 
-    h = manhattanDistance(neighbour.index, destinationTileIndex)
+    pathAlgorithm === 'astar' ? h = manhattanDistance(neighbour.index, destinationTileIndex) : h = 0;
 
     return new TileRating(neighbour.index, parentObj.index, h, g)
 }
@@ -147,21 +147,6 @@ function manhattanDistance (objAindex, objBindex){
 
 function diagonalDistance(objAindex, objBindex){
     return Math.sqrt((grid[objAindex].positionX/tileSide - grid[objBindex].positionX/tileSide) ** 2 + (grid[objAindex].positionY/tileSide - grid[objBindex].positionY/tileSide) ** 2);
-}
-
-function isObstacle(neighbour, currentIndex, wallIndex) {
-    switch (mazeType) {
-        case 'stroke':
-            if (grid[currentIndex].walls[wallIndex] === true) {
-                return true;
-            }
-            return false;
-        case 'fill':
-            if (neighbour.type === 'wall') {
-                return true;
-            }
-            return false;
-    }
 }
 
 // Astar
@@ -200,7 +185,8 @@ function aStarAlgorithm() {
 
 function drawFinalPath(tileRatingObj) {
     pathLength++;
-    tileRatingObj.overWriteTypeChange('endPath')
+
+    tileRatingObj.overWriteTypeChange('endPath');
     if(tileRatingObj.index === startTileIndex) return;
 
     let parentObj = getObjFromClosedSet(tileRatingObj.parentIndex);
