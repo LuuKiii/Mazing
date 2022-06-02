@@ -131,11 +131,14 @@ function getObjFromClosedSet(index) {
 
 //Other
 
-function createRatingObject(neighbour, parentObj) {
+function createRatingObject(neighbour, parentObj, iteration) {
     let g, h;
 
-    g = 1 + parentObj.g;
+    //iteration helps determine if neighbour is diagonally adjacent or directally adjacent
+    // iteration % 2 === 1 && is8Dimensions ? g = 1 + parentObj.g : g = 1.4 + parentObj.g;
+    is8Dimensions ? iteration % 2 === 0 ? g = 1 + parentObj.g : g = 1.4 + parentObj.g : g = 1 + parentObj.g;
 
+    //null heuristic if dijkstra
     pathAlgorithm === 'astar' ? h = manhattanDistance(neighbour.index, destinationTileIndex) : h = 0;
 
     return new TileRating(neighbour.index, parentObj.index, h, g)
@@ -169,7 +172,7 @@ function aStarAlgorithm() {
         if (isObstacle(neighbour, tileIndex, iteration)) continue;
         if (isInClosedSet(neighbour.index)) continue;
 
-        let newRatingObj = createRatingObject(neighbour, currentPathHead)
+        let newRatingObj = createRatingObject(neighbour, currentPathHead, iteration)
 
         if (isInOpenSet(newRatingObj.index)) {
             let foundIndex = findOpenSetIndex(newRatingObj.index);

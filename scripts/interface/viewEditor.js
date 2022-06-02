@@ -23,13 +23,14 @@ function onDelayChange() {
 function onRadioChange() {
     if (buttonsObj.radio.mazeTypeBtn[1].checked) {
         if(buttonsObj.radio.createMethodBtn[1].checked){
-            buttonRadiosToBeActive(['mazeTypeBtn', 'createMethodBtn', 'isFilledBtn', 'isAnimatedBtn']);
+            buttonRadiosToBeActive(['mazeTypeBtn', 'createMethodBtn', 'isFilledBtn', 'isAnimatedBtn', 'pathAlgoBtn', 'dimensionsBtn']);
         }else{
-            buttonRadiosToBeActive(['mazeTypeBtn', 'createMethodBtn', 'isAnimatedBtn']);
+            buttonRadiosToBeActive(['mazeTypeBtn', 'createMethodBtn', 'isAnimatedBtn', 'pathAlgoBtn', 'dimensionsBtn']);
         }
     } else {
         buttonsObj.radio.createMethodBtn[0].checked = true;
-        buttonRadiosToBeActive(['mazeTypeBtn', 'isAnimatedBtn'])
+        buttonsObj.radio.dimensionsBtn[0].checked = true;
+        buttonRadiosToBeActive(['mazeTypeBtn', 'isAnimatedBtn', 'pathAlgoBtn'])
     }
 }
 
@@ -43,6 +44,14 @@ function animationUpdate(){
 
 function onPathAlgoUpdate(){
     pathAlgorithm = getRadioValue(buttonsObj.radio.pathAlgoBtn);
+}
+
+function onDimensionsUpdate(){
+    if(buttonsObj.radio.dimensionsBtn[0].checked){
+        is8Dimensions = false;
+    } else {
+        is8Dimensions = true;
+    }
 }
 
 function updatePointChecksView(toNull) {
@@ -101,13 +110,13 @@ function buttonState(state) {
             buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'pathAlgoBtn']);
             break;
         case 'block-inital':
-            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'pathAlgoBtn']);
+            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'pathAlgoBtn', 'dimensionsBtn']);
             break;
         case 'beforePathfinding':
             buttonsToBeActive(['startPointBtn', 'endPointBtn', 'resetGlobalsBtn', 'pathfindingBtn', 'isAnimatedBtn', 'pathAlgoBtn']);
             break;
         case 'draw':
-            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'drawWallBtn', 'drawPathBtn', 'applyBtn', 'pathfindingBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'isFilledBtn', 'pathAlgoBtn']);
+            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'drawWallBtn', 'drawPathBtn', 'applyBtn', 'pathfindingBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'isFilledBtn', 'pathAlgoBtn', 'dimensionsBtn']);
             break;
         case 'end':
             buttonsToBeActive(['resetPathfindingBtn', 'resetGlobalsBtn']);

@@ -75,7 +75,31 @@ Tile.prototype.createNeighbourList = function(){
         }
         
     }
+}
+//8 direction neighbours
 
+Tile.prototype.createExtendedNeighbourList = function(){
+    this.neighboursList = [];
+    let potentialNeighbours = [];
+
+    potentialNeighbours.push(grid[this.edgeCheck(this.index - gridCols, 0)]); // TOP
+    potentialNeighbours.push(grid[this.edgeCheck(this.index - gridCols + 1, 1)]); // TOP-RIGHT
+    potentialNeighbours.push(grid[this.edgeCheck(this.index + 1, 1)]); // RIGHT
+    potentialNeighbours.push(grid[this.edgeCheck(this.index + gridCols + 1, 1)]); // BOTTOM-RIGHT
+    potentialNeighbours.push(grid[this.edgeCheck(this.index + gridCols, 0)]); // BOTTOM
+    potentialNeighbours.push(grid[this.edgeCheck(this.index + gridCols - 1, 2)]); // BOTTOM-LEFT
+    potentialNeighbours.push(grid[this.edgeCheck(this.index - 1, 2)]); // LEFT
+    potentialNeighbours.push(grid[this.edgeCheck(this.index - gridCols - 1, 2)]); //TOP-LEFT
+
+
+    for(i = 0; i < potentialNeighbours.length; i++){
+        if(potentialNeighbours[i] == undefined){
+            this.neighboursList.push(null); 
+        }else{
+            this.neighboursList.push(potentialNeighbours[i]);    
+        }
+        
+    }
 }
 
 // Function required for maze generation. Checks if depth first search algorithim already visited given tile
@@ -158,6 +182,18 @@ function createGrid() {
             let tile = new Tile(i * tileSide, j * tileSide, grid.length);
             grid.push(tile);
         }
+    }
+}
+
+function createExtendedNeighbourLists() {
+     for (let i = 0; i < grid.length; i++) {
+        grid[i].createExtendedNeighbourList();
+    }
+}
+
+function createNeighbourLists() {
+    for (let i = 0; i < grid.length; i++) {
+        grid[i].createNeighbourList();
     }
 }
 

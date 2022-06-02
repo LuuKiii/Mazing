@@ -28,6 +28,7 @@ let buttonsObj = {
         isFilledBtn: document.getElementsByName("isFilled"),
         isAnimatedBtn: document.getElementsByName("isAnimated"),
         pathAlgoBtn: document.getElementsByName("pathAlgo"),
+        dimensionsBtn: document.getElementsByName("dimensions"),
     }
 }
 
@@ -51,6 +52,7 @@ let mazeType; // Type of the maze -> tiles with walls[stroke] or block tiles[fil
 let createMethod;
 let drawFillType;
 let pathAlgorithm;
+let is8Dimensions = false;
 
 //Deep first search values
 let current; // tile currently selected/ used in both generation and pathfinding

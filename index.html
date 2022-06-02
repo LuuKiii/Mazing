@@ -157,6 +157,17 @@
                             <input type="radio" id="z" name="pathAlgo" value="astar" onchange="onPathAlgoUpdate()">
                         </div>
                     </div>
+                    <div  id="dimensions-gridEl" class="grid-element">
+                        <h2>Ilość kierunków</h2>
+                        <div class="input-container">
+                            <label for="fourD">4-kierunkowe</label>
+                            <input type="radio" id="fourD" name="dimensions" value="fourD" checked="checked" onchange="onDimensionsUpdate()">
+                        </div>
+                        <div class="input-container">
+                            <label for="eightD">8-kierunkowe</label>
+                            <input type="radio" id="eightD" name="dimensions" value="eightD" onchange="onDimensionsUpdate()">
+                        </div>
+                    </div>
                     <div>
                         <button id="applyBtn" onclick="applySettings()">Zastosuj</button>
                         <button id="resetPathfindingBtn" onclick="resetPathfinding()">Usuń ścieżkę</button>

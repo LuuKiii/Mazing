@@ -70,6 +70,7 @@ function afterMazeGeneration() {
 }
 
 function initPathFinding() {
+    is8Dimensions ?  createExtendedNeighbourLists() : createNeighbourLists();
     eventDisabler();
     buttonState('off');
     startEndTileSelector();

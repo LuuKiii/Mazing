@@ -1,3 +1,5 @@
+//Functions shared between multiple algos
+
 function isObstacle(neighbour, currentIndex, wallIndex) {
     switch (mazeType) {
         case 'stroke':
