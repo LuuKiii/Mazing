@@ -30,6 +30,7 @@ function onRadioChange() {
     } else {
         buttonsObj.radio.createMethodBtn[0].checked = true;
         buttonsObj.radio.dimensionsBtn[0].checked = true;
+        is8Dimensions = false;
         buttonRadiosToBeActive(['mazeTypeBtn', 'isAnimatedBtn', 'pathAlgoBtn'])
     }
 }

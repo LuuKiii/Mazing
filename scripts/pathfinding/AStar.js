@@ -135,8 +135,7 @@ function createRatingObject(neighbour, parentObj, iteration) {
     let g, h;
 
     //iteration helps determine if neighbour is diagonally adjacent or directally adjacent
-    // iteration % 2 === 1 && is8Dimensions ? g = 1 + parentObj.g : g = 1.4 + parentObj.g;
-    is8Dimensions ? iteration % 2 === 0 ? g = 1 + parentObj.g : g = 1.4 + parentObj.g : g = 1 + parentObj.g;
+    (is8Dimensions && iteration % 2 !== 0) ? g = 1.4 + parentObj.g : g = 1 + parentObj.g;
 
     //null heuristic if dijkstra
     pathAlgorithm === 'astar' ? h = manhattanDistance(neighbour.index, destinationTileIndex) : h = 0;
