@@ -69,6 +69,11 @@ let sptSet = []; // shortestpath tree set
 let distSet = []; // cost of path for all tiles
 let currentPathDHead;
 
+//JPS pathfinding variables
+let openSetJPS = [];
+let closedSetJPS = [];
+let currentPathHeadJPS;
+
 //Point Variables;
 let startTileIndex;
 let destinationTileIndex;

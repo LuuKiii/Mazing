@@ -70,7 +70,19 @@ function afterMazeGeneration() {
 }
 
 function initPathFinding() {
-    is8Dimensions ?  createExtendedNeighbourLists() : createNeighbourLists();
+    //TODO validator for inital pathfinding. code below is just a bandaid
+    if(pathAlgorithm === 'jps'){
+        if(mazeType !== 'fill'){
+            addErrorMsg('JPS nie działa na mapie typu labirynt')
+            return;
+        }
+        if(!is8Dimensions){
+            set8Dimensions();
+            addErrorMsg('JPS działa tylko na 8 kierunkach. Przełączono na 8 kierunków.')
+        }
+    }
+    
+    is8Dimensions ? createExtendedNeighbourLists() : createNeighbourLists();
     eventDisabler();
     buttonState('off');
     startEndTileSelector();
@@ -78,7 +90,6 @@ function initPathFinding() {
     numberOfIterations = 0;
     pathLength = 0;
     timeSpent = performance.now();
-
 
     switch (pathAlgorithm) {
         case 'astar':
@@ -88,6 +99,10 @@ function initPathFinding() {
         case 'dijkstra':
             setPathfindingVariables();
             isAnimated === true ? astarAnimation() : astar();
+            break;
+        case 'jps':
+            setJPSVariables();
+            isAnimated === true ? jpsAnimation() : jps();
             break;
         case 'dijkstra-old':
             createInitalSets();
@@ -104,6 +119,9 @@ function afterPathFinding() {
             break;
         case 'dijkstra':
             isFinalPath() ? drawFinalPath(currentPathHead) : '';
+            break;
+        case 'jps':
+            isFinalPathJPS() ? drawFinalPathJPS(currentPathHeadJPS) : '';
             break;
         case 'dijkstra-old':
             isFinalPathD() ? drawFinalPathD(currentPathDHead) : '';

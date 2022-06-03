@@ -27,23 +27,6 @@ function setVarsByMazeType(leaveTypes = []) {
     }
 }
 
-function nullPathVariables() {
-    startTileIndex = null;
-    destinationTileIndex = null;
-    openSet = [];
-    closedSet = [];
-
-    mouseModeChange('none');
-}
-
-function resetPathfinding() {
-    nullPathVariables();
-    updatePointChecksView(true);
-    setVarsByMazeType(createMethod === 'draw' ? drawFillType === 'empty' ? ['wall'] : ['path'] : []);
-    eventEnabler();
-    buttonState(createMethod === 'draw' ? 'draw' : 'beforePathfinding');
-}
-
 function resetGlobals() {
     current = null;
     tilesVisited = [];

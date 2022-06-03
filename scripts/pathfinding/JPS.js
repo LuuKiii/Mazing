@@ -1,4 +1,4 @@
-class TileRating {
+class TileRatingJPS {
     constructor(index, pindex, h, g = 1) {
         this.index = index; // must be equal to Tiles index in grid;
         this.parentIndex = pindex;
@@ -10,7 +10,7 @@ class TileRating {
     }
 }
 
-TileRating.prototype.overWriteTypeChange = function (toType) {
+TileRatingJPS.prototype.overWriteTypeChange = function (toType) {
     if(this.index === startTileIndex || this.index === destinationTileIndex) return;
     let overWriteColor;
 
@@ -32,21 +32,21 @@ TileRating.prototype.overWriteTypeChange = function (toType) {
     grid[this.index].overWriteColor(overWriteColor);
 }
 
-function setPathfindingVariables() {
-    let TileRated = new TileRating(startTileIndex ?? 0, startTileIndex ?? 0, 0, 0);
-    openSetOperator('push', TileRated);
+function setJPSVariables() {
+    let TileRated = new TileRatingJPS(startTileIndex ?? 0, startTileIndex ?? 0, 0, 0);
+    openSetOperatorJPS('push', TileRated);
     destinationTileIndex = destinationTileIndex ?? grid.length - 1;
 }
 
 //OpenSet functions
 
-function openSetOperator(action, object) {
+function openSetOperatorJPS(action, object) {
     switch (action) {
         case 'push':
             object.overWriteTypeChange('openList');
-            return openSet.push(object);
+            return openSetJPS.push(object);
         case 'pop':
-            let openSetEl = openSet.pop();
+            let openSetEl = openSetJPS.pop();
             openSetEl.overWriteTypeChange('none');
             return openSetEl;
     }
@@ -54,31 +54,31 @@ function openSetOperator(action, object) {
     return undefined;
 }
 
-function sortOpenSetByfValue() {
-    let n = openSet.length;
+function sortOpenSetByfValueJPS() {
+    let n = openSetJPS.length;
     let tempObj;
     do {
         for (i = 0; i < n - 1; i++) {
-            if (openSet[i].f < openSet[i + 1].f) {
-                tempObj = openSet[i + 1];
-                openSet[i + 1] = openSet[i];
-                openSet[i] = tempObj;
+            if (openSetJPS[i].f < openSetJPS[i + 1].f) {
+                tempObj = openSetJPS[i + 1];
+                openSetJPS[i + 1] = openSetJPS[i];
+                openSetJPS[i] = tempObj;
             }
         }
         n--;
     } while (n > 1)
 }
 
-function isInOpenSet(index) {
-    for (const openSetEl of openSet) {
+function isInOpenSetJPS(index) {
+    for (const openSetEl of openSetJPS) {
         if (openSetEl.index === index) return true;
     }
     return false
 }
 
-function findOpenSetIndex(index) {
-    for (let i = 0; i < openSet.length; i++) {
-        if (openSet[i].index === index)
+function findOpenSetIndexJPS(index) {
+    for (let i = 0; i < openSetJPS.length; i++) {
+        if (openSetJPS[i].index === index)
             return i;
     }
     return null;
@@ -86,33 +86,33 @@ function findOpenSetIndex(index) {
 
 //ClosedSet functions
 
-function closedSetOperator(action, object) {
+function closedSetOperatorJPS(action, object) {
     switch (action) {
         case 'push':
             object.overWriteTypeChange('closedList');
-            return closedSet.push(object);
+            return closedSetJPS.push(object);
         case 'pop':
             object.overWriteTypeChange('none');
-            return closedSet.pop();
+            return closedSetJPS.pop();
     }
 
     return undefined;
 }
 
-function isInClosedSet(index) {
-    for (const closedSetEl of closedSet) {
+function isInClosedSetJPS(index) {
+    for (const closedSetEl of closedSetJPS) {
         if (closedSetEl.index === index) return true;
     }
     return false
 }
 
-function findIndexOfHighestf() {
+function findIndexOfHighestfJPS() {
     let highestf = -1;
     let IndexOfHighestf = -1;
 
-    for (i = 0; i < openSet.length; i++) {
-        if (highestf < openSet[i].f) {
-            highestf = openSet[i].f;
+    for (i = 0; i < openSetJPS.length; i++) {
+        if (highestf < openSetJPS[i].f) {
+            highestf = openSetJPS[i].f;
             IndexOfHighestf = i;
         }
     }
@@ -120,64 +120,70 @@ function findIndexOfHighestf() {
     return IndexOfHighestf;
 }
 
-function getObjFromClosedSet(index) {
-    for (let i = 0; i < closedSet.length; i++){
-        if(closedSet[i].index === index){
-            return closedSet[i]
+function getObjFromClosedSetJPS(index) {
+    for (let i = 0; i < closedSetJPS.length; i++){
+        if(closedSetJPS[i].index === index){
+            return closedSetJPS[i]
         }
     }
     return null;
 }
 
-//Create Rating object and heuristics
+//Other
 
-function createRatingObject(neighbour, parentObj, iteration) {
+function createRatingObjectJPS(neighbour, parentObj, iteration) {
     let g, h;
 
     //iteration helps determine if neighbour is diagonally adjacent or directally adjacent
-    (is8Dimensions && iteration % 2 !== 0) ? g = 1.4 + parentObj.g : g = 1 + parentObj.g;
+    g = 1.4 + parentObj.g
 
     //null heuristic if dijkstra
-    pathAlgorithm === 'astar' ? h = manhattanDistance(neighbour.index, destinationTileIndex) : h = 0;
+    h = manhattanDistanceJPS(neighbour.index, destinationTileIndex);
 
     return new TileRating(neighbour.index, parentObj.index, h, g)
 }
 
-function manhattanDistance (objAindex, objBindex){
+function manhattanDistanceJPS (objAindex, objBindex){
     return Math.abs(grid[objAindex].positionX/tileSide - grid[objBindex].positionX/tileSide) + Math.abs(grid[objAindex].positionY/tileSide - grid[objBindex].positionY/tileSide);
 }
 
-function diagonalDistance(objAindex, objBindex){
+function diagonalDistanceJPS (objAindex, objBindex){
     return Math.sqrt((grid[objAindex].positionX/tileSide - grid[objBindex].positionX/tileSide) ** 2 + (grid[objAindex].positionY/tileSide - grid[objBindex].positionY/tileSide) ** 2);
 }
 
-//Drawing
+// Drawing
 
-function drawFinalPath(tileRatingObj) {
+function drawFinalPathJPS(tileRatingObj) {
     pathLength++;
 
     tileRatingObj.overWriteTypeChange('endPath');
     if(tileRatingObj.index === startTileIndex) return;
 
-    let parentObj = getObjFromClosedSet(tileRatingObj.parentIndex);
-    drawFinalPath(parentObj);
+    let parentObj = getObjFromClosedSetJPS(tileRatingObj.parentIndex);
+    drawFinalPathJPS(parentObj);
 }
 
-function isFinalPath() {
-    if(currentPathHead.index === destinationTileIndex) return true;
+function isFinalPathJPS() {
+    if(currentPathHeadJPS.index === destinationTileIndex) return true;
     return false;
 }
+// JPS
 
-// Astar
+//WORK IN PROGRESS//
 
-function aStarAlgorithm() {
-    if (openSet.length === 0) return true;
+function identifySuccessors(current, start, end) {
+    let successors = 0;
+    let neighbours = 0;
+}
+//WORK IN PROGRESS//
+function JPSAlgorithm() {
+    if (openSetJPS.length === 0) return true;
 
-    sortOpenSetByfValue();
-    currentPathHead = openSetOperator('pop');
-    closedSetOperator('push', currentPathHead);
+    sortOpenSetByfValueJPS();
+    currentPathHeadJPS = openSetOperatorJPS('pop');
+    closedSetOperatorJPS('push', currentPathHeadJPS);
 
-    let tileIndex = currentPathHead.index;
+    let tileIndex = currentPathHeadJPS.index;
 
     if (tileIndex === destinationTileIndex) return true;
 
@@ -186,18 +192,19 @@ function aStarAlgorithm() {
         iteration++;
         if (!neighbour) continue;
         if (isObstacle(neighbour, tileIndex, iteration)) continue;
-        if (isInClosedSet(neighbour.index)) continue;
+        if (isInClosedSetJPS(neighbour.index)) continue;
 
-        let newRatingObj = createRatingObject(neighbour, currentPathHead, iteration)
+        let newRatingObj = createRatingObjectJPS(neighbour, currentPathHeadJPS, iteration)
 
-        if (isInOpenSet(newRatingObj.index)) {
-            let foundIndex = findOpenSetIndex(newRatingObj.index);
-            if (openSet[foundIndex].g > newRatingObj.g)
-                openSet[foundIndex] = newRatingObj;
+        if (isInOpenSetJPS(newRatingObj.index)) {
+            let foundIndex = findOpenSetIndexJPS(newRatingObj.index);
+            if (openSetJPS[foundIndex].g > newRatingObj.g)
+                openSetJPS[foundIndex] = newRatingObj;
             continue;
         }
-        openSetOperator('push', newRatingObj);
+        openSetOperatorJPS('push', newRatingObj);
     }
 
     return false;
 }
+

@@ -95,7 +95,7 @@ footer {
 
 #error-container {
   display: none;
-  position: absolute;
+  position: fixed;
   top: 1rem;
   right: 1rem;
   border: 1px solid #6580e0;

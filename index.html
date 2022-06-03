@@ -17,6 +17,7 @@
     <script src="./scripts/pathfinding/pathUtils.js"></script>
     <script src="./scripts/pathfinding/AStar.js"></script>
     <script src="./scripts/pathfinding/Dijkstra.js"></script>
+    <script src="./scripts/pathfinding/JPS.js"></script>
 
 
     <script src="./scripts/interface/validators.js"></script>
@@ -153,8 +154,8 @@
                             <input type="radio" id="dijkstra" name="pathAlgo" value="dijkstra"  onchange="onPathAlgoUpdate()">
                         </div>
                         <div class="input-container">
-                            <label for="astar">Placeholder</label>
-                            <input type="radio" id="z" name="pathAlgo" value="astar" onchange="onPathAlgoUpdate()">
+                            <label for="jps">Jump Point Search</label>
+                            <input type="radio" id="jps" name="pathAlgo" value="jps" onchange="onPathAlgoUpdate()">
                         </div>
                     </div>
                     <div  id="dimensions-gridEl" class="grid-element">

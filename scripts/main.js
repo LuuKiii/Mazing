@@ -52,6 +52,33 @@ function astar() {
     afterPathFinding();
 }
 
+//JPS
+//ANIMATED
+
+function jpsAnimation() {
+    
+    if (JPSAlgorithm()) {
+        window.cancelAnimationFrame(0);
+        afterPathFinding();
+        return;
+    } else {
+        setTimeout(function () {
+            numberOfIterations++;
+            window.requestAnimationFrame(jpsAnimation)
+        }, mazeGenerateDelay);
+    }
+}
+
+// NON ANIMATED
+function jps() {
+    let isPathfinding = true;
+    while(isPathfinding){
+        numberOfIterations++;
+        isPathfinding = !JPSAlgorithm()
+    }
+    afterPathFinding();
+}
+
 //DIJKSTRA
 //ANIMATED
 

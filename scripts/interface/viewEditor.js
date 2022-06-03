@@ -55,6 +55,11 @@ function onDimensionsUpdate(){
     }
 }
 
+function set8Dimensions() {
+    buttonsObj.radio.dimensionsBtn[1].checked = true;
+    is8Dimensions = true;
+}
+
 function updatePointChecksView(toNull) {
     if(toNull){
         startTileIndex = null;

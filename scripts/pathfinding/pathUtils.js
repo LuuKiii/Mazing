@@ -14,3 +14,22 @@ function isObstacle(neighbour, currentIndex, wallIndex) {
             return false;
     }
 }
+
+function nullPathVariables() {
+    startTileIndex = null;
+    destinationTileIndex = null;
+    openSet = [];
+    closedSet = [];
+    openSetJPS = [];
+    closedSetJPS = [];
+
+    mouseModeChange('none');
+}
+
+function resetPathfinding() {
+    nullPathVariables();
+    updatePointChecksView(true);
+    setVarsByMazeType(createMethod === 'draw' ? drawFillType === 'empty' ? ['wall'] : ['path'] : []);
+    eventEnabler();
+    buttonState(createMethod === 'draw' ? 'draw' : 'beforePathfinding');
+}
