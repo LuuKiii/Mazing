@@ -1,5 +1,5 @@
 //Functions shared between multiple algos
-
+//Modular obstacle for both maze types, requires more info
 function isObstacle(neighbour, currentIndex, wallIndex) {
     switch (mazeType) {
         case 'stroke':
@@ -13,6 +13,12 @@ function isObstacle(neighbour, currentIndex, wallIndex) {
             }
             return false;
     }
+}
+
+//Obstacle only for fill types
+function isObstacleByIndex (currentIndex) {
+    if(grid[currentIndex].type === 'wall') return true;
+    return false;
 }
 
 function nullPathVariables() {
