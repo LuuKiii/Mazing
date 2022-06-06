@@ -76,9 +76,7 @@ function nullResult() {
 
 function removePreviousResult() {
     for (i = 0; i < resultTable.length; i++){
-        if(!resultTable[i]) continue;
         if(!document.getElementById("result-" + (i+1))) continue;
-
         document.getElementById("result-" + (i+1)).remove();
     }
 }
@@ -96,9 +94,11 @@ function countSearchableTiles() {
 function getAlgorithmName(name) {
     switch (name) {
         case 'astar':
-            return 'A*'
+            return 'A*';
         case 'dijkstra':
-            return 'Dijkstra'
+            return 'Dijkstra';
+        case 'jps':
+            return 'Jump Point Search';
     }
     return name;
 }
