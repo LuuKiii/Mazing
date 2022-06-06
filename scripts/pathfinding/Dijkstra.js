@@ -1,27 +1,22 @@
-//Dijkstra algoritm but made with diffrent, way more time consuming aproach.
-//Left for testing, actually used code is from astar with zeroing heuristic.
-class TileRatingD {
-    constructor(index, pindex, cost) {
+class TileRatingDijkstra {
+    constructor(index, pindex, g) {
         this.index = index; // must be equal to Tiles index in grid;
         this.parentIndex = pindex;
-        this.cost = cost;
+        this.g = g;
+        this.overWriteType = 'none';
+        this.overWriteColor = null;
     }
 }
 
-TileRatingD.prototype.updateValues = function (pindex, cost) {
-    this.parentIndex = pindex;
-    this.cost = cost;
-}
-
-TileRatingD.prototype.overWriteTypeChange = function (toType) {
-    if (this.index === startTileIndex || this.index === destinationTileIndex) return;
+TileRatingDijkstra.prototype.overWriteTypeChange = function (toType) {
+    if(this.index === startTileIndex || this.index === destinationTileIndex) return;
     let overWriteColor;
 
     switch (toType) {
-        case 'checked':
+        case 'openList':
             overWriteColor = '#62bf7b';
             break;
-        case 'stpSet':
+        case 'closedList':
             overWriteColor = '#db707b';
             break;
         case 'endPath':
@@ -31,116 +26,163 @@ TileRatingD.prototype.overWriteTypeChange = function (toType) {
             overWriteColor = null;
             break;
     }
-        grid[this.index].overWriteColor(overWriteColor);
+
+    grid[this.index].overWriteColor(overWriteColor);
 }
 
-function createInitalSets() {
-    distSet = [];
-    sptSet = [];
+function setPathfindingVariablesDijkstra() {
+    let TileRated = new TileRatingDijkstra(startTileIndex, startTileIndex, 0);
+    openSetOperatorDijkstra('push', TileRated);
+}
 
-    for (let i = 0; i < grid.length; i++) {
-        distSet[i] = new TileRatingD(i, -1, Number.MAX_VALUE);
+//OpenSet functions
+
+function openSetOperatorDijkstra(action, object) {
+    switch (action) {
+        case 'push':
+            object.overWriteTypeChange('openList');
+            return openSet.push(object);
+        case 'pop':
+            let openSetEl = openSet.pop();
+            openSetEl.overWriteTypeChange('none');
+            return openSetEl;
     }
 
-    distSet[startTileIndex].updateValues(startTileIndex, 0);
+    return undefined;
 }
 
-//Find and Sort
-function sortDistSetByCost() {
-    let n = distSet.length;
+function sortOpenSetByfValueDijkstra() {
+    let n = openSet.length;
     let tempObj;
     do {
         for (i = 0; i < n - 1; i++) {
-            if (distSet[i].cost > distSet[i + 1].cost) {
-                tempObj = distSet[i + 1];
-                distSet[i + 1] = distSet[i];
-                distSet[i] = tempObj;
+            if (openSet[i].g < openSet[i + 1].g) {
+                tempObj = openSet[i + 1];
+                openSet[i + 1] = openSet[i];
+                openSet[i] = tempObj;
             }
         }
         n--;
     } while (n > 1)
 }
 
-function isInSptSet(index) {
-    for (const sptEl of sptSet) {
-        if (sptEl.index === index) return true;
+function isInOpenSetDijkstra(index) {
+    for (const openSetEl of openSet) {
+        if (openSetEl.index === index) return true;
     }
-    return false;
+    return false
 }
 
-function findLowestNotVisitedCostInDistSet() {
-    for (i = 0; i < distSet.length; i++) {
-        if (distSet[i].cost === Number.MAX_VALUE) {
-            console.warn('Entered bad values!')
-            return null;
-        }
-        if (!isInSptSet(distSet[i].index))
+function findOpenSetIndexDijkstra(index) {
+    for (let i = 0; i < openSet.length; i++) {
+        if (openSet[i].index === index)
             return i;
     }
+    return null;
 }
 
-function findInDistSet(index) {
-    for (i = 0; i < distSet.length; i++) {
-        if (distSet[i].index === index) return i;
+//ClosedSet functions
+
+function closedSetOperatorDijkstra(action, object) {
+    switch (action) {
+        case 'push':
+            object.overWriteTypeChange('closedList');
+            return closedSet.push(object);
+        case 'pop':
+            object.overWriteTypeChange('none');
+            return closedSet.pop();
     }
+
+    return undefined;
 }
 
-function getParenObj(pindex) {
-    return distSet.find(el => el.index === pindex)
-}
-
-// SptSet
-
-function updateSpt(currentPathDHead) {
-    sptSet.push(currentPathDHead);
-    distSet[findInDistSet(currentPathDHead.index)].overWriteTypeChange('stpSet');
-}
-
-// Other
-
-function updateRatingObject(neighbour, tileIndex) {
-    cost = distSet[findInDistSet(tileIndex)].cost + 1;
-    if (cost < distSet[findInDistSet(neighbour.index)].cost) {
-        distSet[findInDistSet(neighbour.index)].updateValues(tileIndex, cost);
-        distSet[findInDistSet(neighbour.index)].overWriteTypeChange('checked');
+function isInClosedSetDijkstra(index) {
+    for (const closedSetEl of closedSet) {
+        if (closedSetEl.index === index) return true;
     }
+    return false
 }
 
-function isFinalPathD() {
-    if(currentPathDHead.index === destinationTileIndex) return true;
+function findIndexOfHighestfDijkstra() {
+    let highestf = -1;
+    let IndexOfHighestf = -1;
+
+    for (i = 0; i < openSet.length; i++) {
+        if (highestf < openSet[i].g) {
+            highestf = openSet[i].g;
+            IndexOfHighestf = i;
+        }
+    }
+
+    return IndexOfHighestf;
+}
+
+function getObjFromClosedSetDijkstra(index) {
+    for (let i = 0; i < closedSet.length; i++){
+        if(closedSet[i].index === index){
+            return closedSet[i]
+        }
+    }
+    return null;
+}
+
+//Create Rating object and heuristics
+
+function createRatingObjectDijkstra(neighbour, parentObj, iteration) {
+    let g;
+
+    //iteration helps determine if neighbour is diagonally adjacent or directally adjacent
+    (is8Dimensions && iteration % 2 !== 0) ? g = 1.4 + parentObj.g : g = 1 + parentObj.g;
+
+    return new TileRatingDijkstra(neighbour.index, parentObj.index, g)
+}
+
+//Drawing
+
+function drawFinalPathDijkstra(tileRatingObj) {
+    pathLength++;
+
+    tileRatingObj.overWriteTypeChange('endPath');
+    if(tileRatingObj.index === startTileIndex) return;
+
+    let parentObj = getObjFromClosedSetDijkstra(tileRatingObj.parentIndex);
+    drawFinalPathDijkstra(parentObj);
+}
+
+function isFinalPathDijkstra() {
+    if(currentPathHead.index === destinationTileIndex) return true;
     return false;
 }
 
-function drawFinalPathD(tileRatingObj) {
-    pathLength++;
-
-    tileRatingObj.overWriteTypeChange('endPath')
-    if(tileRatingObj.index === startTileIndex) return;
-
-    let parentObj = getParenObj(tileRatingObj.parentIndex);
-    drawFinalPathD(parentObj);
-}
-//Dijkstra
+// Dijkstra
 
 function dijkstraAlgorithm() {
-    if (distSet.length === sptSet.length) return true;
+    if (openSet.length === 0) return true;
 
-    sortDistSetByCost();
-    currentPathDHead = distSet[findLowestNotVisitedCostInDistSet()];
-    updateSpt(currentPathDHead);
+    sortOpenSetByfValueDijkstra();
+    currentPathHead = openSetOperatorDijkstra('pop');
+    closedSetOperatorDijkstra('push', currentPathHead);
 
+    let tileIndex = currentPathHead.index;
 
-    let tileIndex = currentPathDHead.index;
     if (tileIndex === destinationTileIndex) return true;
 
-    let iteration = -1
+    let iteration = -1;
     for (const neighbour of grid[tileIndex].neighboursList) {
         iteration++;
         if (!neighbour) continue;
         if (isObstacle(neighbour, tileIndex, iteration)) continue;
+        if (isInClosedSetDijkstra(neighbour.index)) continue;
 
+        let newRatingObj = createRatingObjectDijkstra(neighbour, currentPathHead, iteration)
 
-        updateRatingObject(neighbour, tileIndex);
+        if (isInOpenSetDijkstra(newRatingObj.index)) {
+            let foundIndex = findOpenSetIndexDijkstra(newRatingObj.index);
+            if (openSet[foundIndex].g > newRatingObj.g)
+                openSet[foundIndex] = newRatingObj;
+            continue;
+        }
+        openSetOperatorDijkstra('push', newRatingObj);
     }
 
     return false;

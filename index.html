@@ -17,6 +17,7 @@
     <script src="./scripts/pathfinding/pathUtils.js"></script>
     <script src="./scripts/pathfinding/AStar.js"></script>
     <script src="./scripts/pathfinding/Dijkstra.js"></script>
+    <script src="./scripts/pathfinding/GreedySearch.js"></script>
     <script src="./scripts/pathfinding/JPS.js"></script>
 
 
@@ -78,11 +79,11 @@
                         <div class="input-container">
                             <a>Tworzenie:</a>
                             <label for="generate">Wygeneruj</label>
-                            <input type="radio" id="generate" name="createMethod" value="generate" checked="checked"
+                            <input type="radio" id="generate" name="createMethod" value="generate" 
                                 onchange="onRadioChange()">
 
                             <label for="draw">Rysuj</label>
-                            <input type="radio" id="draw" name="createMethod" value="draw" onchange="onRadioChange()">
+                            <input type="radio" id="draw" name="createMethod" value="draw"  checked="checked" onchange="onRadioChange()">
                         </div>
                         <div class="input-container">
                             <a>Wypełnienie:</a>
@@ -98,11 +99,11 @@
                         <h2>Typ mapy</h2>
                         <div class="input-container">
                             <label for="maze">Labirynt</label>
-                            <input type="radio" id="maze" name="mazeType" value="stroke" checked="checked"
+                            <input type="radio" id="maze" name="mazeType" value="stroke" 
                                 onchange="onRadioChange()">
 
                             <label for="block">Bloki</label>
-                            <input type="radio" id="block" name="mazeType" value="fill" onchange="onRadioChange()">
+                            <input type="radio" id="block" name="mazeType" value="fill" checked="checked" onchange="onRadioChange()">
                         </div>
                     </div>
                     <div id="tileSelectorType-gridEl" class="grid-element">
@@ -141,8 +142,8 @@
                             <input type="radio" id="dijkstra" name="pathAlgo" value="dijkstra"  onchange="onPathAlgoUpdate()">
                         </div>
                         <div class="input-container">
-                            <label for="jps">Jump Point Search</label>
-                            <input type="radio" id="jps" name="pathAlgo" value="jps" onchange="onPathAlgoUpdate()">
+                            <label for="greedy">Greedy BFS</label>
+                            <input type="radio" id="greedy" name="pathAlgo" value="greedy" onchange="onPathAlgoUpdate()">
                         </div>
                     </div>
                     <div  id="dimensions-gridEl" class="grid-element">
@@ -156,10 +157,12 @@
                             <input type="radio" id="eightD" name="dimensions" value="eightD" onchange="onDimensionsUpdate()">
                         </div>
                     </div>
-                    <div>
-                        <button id="applyBtn" onclick="applySettings()">Zastosuj</button>
-                        <button id="resetPathfindingBtn" onclick="resetPathfinding()">Usuń ścieżkę</button>
-                        <button id="resetGlobalsBtn" onclick="resetGlobals()">Nowy labirynt</button>
+                    <div id="reset-gridEl" class="grid-element">
+                        <h2>Akcje</h2>
+                        <div class="input-container">
+                            <button id="resetPathfindingBtn" onclick="resetPathfinding()">Usuń ścieżkę</button>
+                            <button id="resetGlobalsBtn" onclick="resetGlobals()">Zastosuj/Nowy labirynt</button>
+                        </div>
                     </div>
                 </div>
             </div>

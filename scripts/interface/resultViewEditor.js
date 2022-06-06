@@ -15,7 +15,7 @@ function saveResult(algorithmName, timeSpent, numberOfIterations, pathLength) {
         case 'dijkstra':
             resultTable[1] = new ResultSet(algorithmName, timeSpent, numberOfIterations, pathLength);
             break;
-        case 'jps':
+        case 'greedy':
             resultTable[2] = new ResultSet(algorithmName, timeSpent, numberOfIterations, pathLength);
             break;
     }
@@ -97,8 +97,8 @@ function getAlgorithmName(name) {
             return 'A*';
         case 'dijkstra':
             return 'Dijkstra';
-        case 'jps':
-            return 'Jump Point Search';
+        case 'greedy':
+            return 'Greedy Best-First Search';
     }
     return name;
 }

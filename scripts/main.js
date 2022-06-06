@@ -51,7 +51,56 @@ function astar() {
     }
     afterPathFinding();
 }
+//Dijkstra
+//ANIMATED
 
+function dijkstraAnimation() {
+    
+    if (dijkstraAlgorithm()) {
+        window.cancelAnimationFrame(0);
+        afterPathFinding();
+        return;
+    } else {
+        setTimeout(function () {
+            numberOfIterations++;
+            window.requestAnimationFrame(dijkstraAnimation)
+        }, mazeGenerateDelay);
+    }
+}
+// NON ANIMATED
+function dijkstra() {
+    let isPathfinding = true;
+    while(isPathfinding){
+        numberOfIterations++;
+        isPathfinding = !dijkstraAlgorithm()
+    }
+    afterPathFinding();
+}
+//Greedy Search
+//ANIMATED
+
+function greedyAnimation() {
+    
+    if (greedyBFSAlgorithm()) {
+        window.cancelAnimationFrame(0);
+        afterPathFinding();
+        return;
+    } else {
+        setTimeout(function () {
+            numberOfIterations++;
+            window.requestAnimationFrame(greedyAnimation)
+        }, mazeGenerateDelay);
+    }
+}
+// NON ANIMATED
+function greedy() {
+    let isPathfinding = true;
+    while(isPathfinding){
+        numberOfIterations++;
+        isPathfinding = !greedyBFSAlgorithm()
+    }
+    afterPathFinding();
+}
 //JPS
 //ANIMATED
 
@@ -79,29 +128,29 @@ function jps() {
     afterPathFinding();
 }
 
-//DIJKSTRA
+//DIJKSTRA OLD
 //ANIMATED
 
-function dijkstraAnimation() {
-    if (dijkstraAlgorithm()) {
+function dijkstraOldAnimation() {
+    if (dijkstraOldAlgorithm()) {
         window.cancelAnimationFrame(0);
         afterPathFinding();
         return;
     } else {
         setTimeout(function () {
             numberOfIterations++;
-            window.requestAnimationFrame(dijkstraAnimation)
+            window.requestAnimationFrame(dijkstraOldAlgorithm)
         }, mazeGenerateDelay);
     }
 }
 
 // NON ANIMATED
 
-function dijkstra() {
+function dijkstraOld() {
     let isPathfinding = true;
     while(isPathfinding){
         numberOfIterations++;
-        isPathfinding = !dijkstraAlgorithm();
+        isPathfinding = !dijkstraOldAlgorithm();
     }
     afterPathFinding();
 }

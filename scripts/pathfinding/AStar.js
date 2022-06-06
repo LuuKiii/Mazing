@@ -137,8 +137,7 @@ function createRatingObject(neighbour, parentObj, iteration) {
     //iteration helps determine if neighbour is diagonally adjacent or directally adjacent
     (is8Dimensions && iteration % 2 !== 0) ? g = 1.4 + parentObj.g : g = 1 + parentObj.g;
 
-    //null heuristic if dijkstra
-    pathAlgorithm === 'astar' ? h = manhattanDistance(neighbour.index, destinationTileIndex) : h = 0;
+    h = is8Dimensions ? diagonalDistance(neighbour.index,destinationTileIndex) : manhattanDistance(neighbour.index,destinationTileIndex);
 
     return new TileRating(neighbour.index, parentObj.index, h, g)
 }
@@ -147,8 +146,13 @@ function manhattanDistance (objAindex, objBindex){
     return Math.abs(grid[objAindex].positionX/tileSide - grid[objBindex].positionX/tileSide) + Math.abs(grid[objAindex].positionY/tileSide - grid[objBindex].positionY/tileSide);
 }
 
-function diagonalDistance(objAindex, objBindex){
-    return Math.sqrt((grid[objAindex].positionX/tileSide - grid[objBindex].positionX/tileSide) ** 2 + (grid[objAindex].positionY/tileSide - grid[objBindex].positionY/tileSide) ** 2);
+function diagonalDistance (objAindex, objBindex){
+    let dx = Math.abs(grid[objAindex].positionX/tileSide - grid[objBindex].positionX/tileSide)
+    let dy = Math.abs(grid[objAindex].positionY/tileSide - grid[objBindex].positionY/tileSide) 
+    let a = 1;
+    let sqrA = a * Math.sqrt(2);
+
+    return a * (dx + dy) + (sqrA - 2 * a) * Math.min(dx, dy)
 }
 
 //Drawing

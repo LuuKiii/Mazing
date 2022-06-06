@@ -98,8 +98,12 @@ function initPathFinding() {
             isAnimated === true ? astarAnimation() : astar();
             break;
         case 'dijkstra':
-            setPathfindingVariables();
-            isAnimated === true ? astarAnimation() : astar();
+            setPathfindingVariablesDijkstra();
+            isAnimated === true ? dijkstraAnimation() : dijkstra();
+            break;
+        case 'greedy':
+            setPathfindingVariablesGreedy();
+            isAnimated === true ? greedyAnimation() : greedy();
             break;
         case 'jps':
             setJPSVariables();
@@ -107,7 +111,7 @@ function initPathFinding() {
             break;
         case 'dijkstra-old':
             createInitalSets();
-            isAnimated === true ? dijkstraAnimation() : dijkstra();
+            isAnimated === true ? dijkstraOldAnimation() : dijkstraOld();
             break;
 
     }
@@ -119,7 +123,10 @@ function afterPathFinding() {
             isFinalPath() ? drawFinalPath(currentPathHead) : '';
             break;
         case 'dijkstra':
-            isFinalPath() ? drawFinalPath(currentPathHead) : '';
+            isFinalPathDijkstra() ? drawFinalPathDijkstra(currentPathHead) : '';
+            break;
+        case 'greedy':
+            isFinalPathGreedy() ? drawFinalPathGreedy(currentPathHead) : '';
             break;
         case 'jps':
             isFinalPathJPS() ? drawFinalPathJPS(currentPathHeadJPS) : '';

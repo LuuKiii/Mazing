@@ -19,7 +19,6 @@ let buttonsObj = {
     endPointBtn: document.getElementById("endPointBtn"),
     drawWallBtn: document.getElementById("drawWallBtn"),
     drawPathBtn: document.getElementById("drawPathBtn"),
-    applyBtn: document.getElementById("applyBtn"),
     resetPathfindingBtn: document.getElementById("resetPathfindingBtn"),
     resetGlobalsBtn: document.getElementById("resetGlobalsBtn"),
     radio: {
@@ -63,6 +62,10 @@ let tileHoleChance;
 let openSet = [];
 let closedSet = [];
 let currentPathHead;
+
+//Greedy BFS
+let queue = [];
+let visited = [];
 
 //Dijkstra pathfinding variables
 let sptSet = []; // shortestpath tree set

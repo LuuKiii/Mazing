@@ -113,16 +113,16 @@ function drawButtonsUpdate(action){
 function buttonState(state) {
     switch (state) {
         case 'inital':
-            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'pathAlgoBtn']);
+            buttonsToBeActive(['startPointBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'pathAlgoBtn']);
             break;
         case 'block-inital':
-            buttonsToBeActive(['startPointBtn', 'applyBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'pathAlgoBtn', 'dimensionsBtn']);
+            buttonsToBeActive(['startPointBtn', 'generateBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'pathAlgoBtn', 'dimensionsBtn']);
             break;
         case 'beforePathfinding':
             buttonsToBeActive(['startPointBtn', 'endPointBtn', 'resetGlobalsBtn', 'pathfindingBtn', 'isAnimatedBtn', 'pathAlgoBtn']);
             break;
         case 'draw':
-            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'drawWallBtn', 'drawPathBtn', 'applyBtn', 'pathfindingBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'isFilledBtn', 'pathAlgoBtn', 'dimensionsBtn']);
+            buttonsToBeActive(['startPointBtn', 'endPointBtn', 'drawWallBtn', 'drawPathBtn', 'pathfindingBtn', 'resetGlobalsBtn', 'mazeTypeBtn', 'isAnimatedBtn', 'createMethodBtn', 'isFilledBtn', 'pathAlgoBtn', 'dimensionsBtn']);
             break;
         case 'end':
             buttonsToBeActive(['resetPathfindingBtn', 'resetGlobalsBtn']);
