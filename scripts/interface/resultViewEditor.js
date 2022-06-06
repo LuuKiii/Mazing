@@ -1,9 +1,106 @@
-function showResult(){
-    document.getElementById("result-time-spent").innerHTML = timeSpent > 0 ? timeSpent : '-';
-    document.getElementById("result-iterations").innerHTML = numberOfIterations > 0 ? numberOfIterations : '-';
-    document.getElementById("result-path-length").innerHTML = pathLength > 0 ? pathLength : 'Nie znaleziono ścieżki.';
+class ResultSet {
+    constructor(algorithmName, timeSpent, numberOfIterations, pathLength) {
+        this.algorithmName = algorithmName;
+        this.timeSpent = timeSpent;
+        this.numberOfIterations = numberOfIterations;
+        this.pathLength = pathLength;
+    }
+}
+
+function saveResult(algorithmName, timeSpent, numberOfIterations, pathLength) {
+    switch (algorithmName) {
+        case 'astar':
+            resultTable[0] = new ResultSet(algorithmName, timeSpent, numberOfIterations, pathLength);
+            break;
+        case 'dijkstra':
+            resultTable[1] = new ResultSet(algorithmName, timeSpent, numberOfIterations, pathLength);
+            break;
+        case 'jps':
+            resultTable[2] = new ResultSet(algorithmName, timeSpent, numberOfIterations, pathLength);
+            break;
+    }
 
     showResultList();
+    updateResultView();
+}
+
+function updateResultView() {
+    removePreviousResult();
+    let height = 4;
+    let iteration = 0;
+    let nubmerOfSearchableTiles = countSearchableTiles();
+
+    resultTable.forEach(item => {
+        if (!item) return;
+        iteration++;
+        height += 8;
+        document.getElementById("info-result").insertAdjacentHTML('beforeend', `
+        <div id="result-`+ iteration + `"class='resultItem' style="margin-bottom: 1rem; height: 7rem">
+            <h2 style="margin: 0">
+                `+ iteration + '. ' + getAlgorithmName(item.algorithmName) + `
+            </h2>
+            <div>
+                <label>Czas generowania ścieżki : </label>
+                <a>` + item.timeSpent.toFixed(2) + `ms</a>
+            </div>
+            <div>
+                <label>Ilość pól możliwych do przeszukania : </label>
+                <a>` + nubmerOfSearchableTiles + `</a>
+            </div>
+            <div>
+                <label>Liczba wykonanych iteracji w celu wyznaczenia ścieżki :
+                </label>
+                <a>` + item.numberOfIterations + `</a>
+            </div>
+            <div>
+                <label> Procent przeszukanych pól :
+                </label>
+                <a>` + ((item.numberOfIterations/nubmerOfSearchableTiles) * 100).toFixed(2) + `%</a>
+            </div>
+            <div>
+                <label>Długość ściezki : </label>
+                <a>` + item.pathLength + `</a>
+            </div>
+        </div>
+        `)
+    })
+
+    document.getElementById('info-container').style.height = height + 'rem';
+}
+
+function nullResult() {
+    removePreviousResult();
+    document.getElementById('info-container').style.height = 0;
+    resultTable = [null, null, null];
+}
+
+function removePreviousResult() {
+    for (i = 0; i < resultTable.length; i++){
+        if(!resultTable[i]) continue;
+        if(!document.getElementById("result-" + (i+1))) continue;
+
+        document.getElementById("result-" + (i+1)).remove();
+    }
+}
+
+function countSearchableTiles() {
+    let counter = 0;
+    for(i = 0; i < grid.length; i++){
+
+        if(grid[i].type !== 'wall')
+            counter++;
+    }
+    return counter;
+}
+
+function getAlgorithmName(name) {
+    switch (name) {
+        case 'astar':
+            return 'A*'
+        case 'dijkstra':
+            return 'Dijkstra'
+    }
+    return name;
 }
 
 function showResultList() {
@@ -14,6 +111,8 @@ function closeResultList() {
     infoContainer.classList.remove("shown");
 }
 
+//ERROR MANAGMENT
+
 function addErrorMsg(errorMsg) {
     errorMessages.push(errorMsg);
     createTimedError();
@@ -22,7 +121,7 @@ function addErrorMsg(errorMsg) {
 function createTimedError() {
     closeErrors();
 
-    errorContainer.insertAdjacentHTML('beforeend',`
+    errorContainer.insertAdjacentHTML('beforeend', `
     <div class='errorMsg'>
     <h2>Błąd</h2>
     <div>
@@ -32,7 +131,7 @@ function createTimedError() {
     errorContainer.classList.add("shown")
 
     clearTimeout(errorTimer);
-    errorTimer = setTimeout( function () {
+    errorTimer = setTimeout(function () {
         closeErrors()
     }, 10000)
 }
@@ -40,7 +139,7 @@ function createTimedError() {
 function closeErrors() {
     errors = document.getElementsByClassName('errorMsg')
 
-    Array.prototype.forEach.call(errors, function(error) {
+    Array.prototype.forEach.call(errors, function (error) {
         error.remove();
     })
 

@@ -85,6 +85,7 @@ let errorMessages = []; //array of error msgs
 let errorTimer;
 let mouseMode;
 let isHeldDown = false;
+let resultTable = [null, null, null];
 
 // HIGHLIGHTING
 let highLightedTileIndex;

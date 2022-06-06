@@ -16,6 +16,7 @@ async function assignValues() {
     createMethod = getRadioValue(buttonsObj.radio.createMethodBtn);
     drawFillType = getRadioValue(buttonsObj.radio.isFilledBtn);
     infoContainer.classList.remove("shown");
+    nullResult();
 
     runAllValidators()
 
@@ -71,17 +72,17 @@ function afterMazeGeneration() {
 
 function initPathFinding() {
     //TODO validator for inital pathfinding. code below is just a bandaid
-    if(pathAlgorithm === 'jps'){
-        if(mazeType !== 'fill'){
+    if (pathAlgorithm === 'jps') {
+        if (mazeType !== 'fill') {
             addErrorMsg('JPS nie działa na mapie typu labirynt')
             return;
         }
-        if(!is8Dimensions){
+        if (!is8Dimensions) {
             set8Dimensions();
             addErrorMsg('JPS działa tylko na 8 kierunkach. Przełączono na 8 kierunków.')
         }
     }
-    
+
     is8Dimensions ? createExtendedNeighbourLists() : createNeighbourLists();
     eventDisabler();
     buttonState('off');
@@ -129,11 +130,8 @@ function afterPathFinding() {
     }
 
     timeSpent = performance.now() - timeSpent;
-    console.log('Czas generowania ścieżki : ' + timeSpent + 'ms')
-    console.log('Liczba wykonanych iteracji w celu wyznaczenia ścieżki : ' + numberOfIterations)
-    console.log('Długość ściezki : ' + pathLength)
-
-    showResult();
+    
+    saveResult(pathAlgorithm, timeSpent, numberOfIterations, pathLength);
     buttonState('end')
     eventEnabler();
 }
