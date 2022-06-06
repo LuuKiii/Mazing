@@ -126,7 +126,7 @@ function afterPathFinding() {
             isFinalPathDijkstra() ? drawFinalPathDijkstra(currentPathHead) : '';
             break;
         case 'greedy':
-            isFinalPathGreedy() ? drawFinalPathGreedy(currentPathHead) : '';
+            isFinalPathGreedy() ? (numberOfIterations++, drawFinalPathGreedy(currentPathHead)) : '';
             break;
         case 'jps':
             isFinalPathJPS() ? drawFinalPathJPS(currentPathHeadJPS) : '';
