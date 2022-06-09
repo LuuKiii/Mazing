@@ -118,6 +118,8 @@ function initPathFinding() {
 }
 
 function afterPathFinding() {
+    timeSpent = performance.now() - timeSpent;
+
     switch (pathAlgorithm) {
         case 'astar':
             isFinalPath() ? drawFinalPath(currentPathHead) : '';
@@ -136,7 +138,6 @@ function afterPathFinding() {
             break;
     }
 
-    timeSpent = performance.now() - timeSpent;
     
     saveResult(pathAlgorithm, timeSpent, numberOfIterations, pathLength);
     buttonState('end')

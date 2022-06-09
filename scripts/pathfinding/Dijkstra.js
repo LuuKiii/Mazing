@@ -132,7 +132,7 @@ function createRatingObjectDijkstra(neighbour, parentObj, iteration) {
     let g;
 
     //iteration helps determine if neighbour is diagonally adjacent or directally adjacent
-    (is8Dimensions && iteration % 2 !== 0) ? g = 1.4 + parentObj.g : g = 1 + parentObj.g;
+    (is8Dimensions && iteration % 2 !== 0) ? g = Math.sqrt(2) + parentObj.g : g = 1 + parentObj.g;
 
     return new TileRatingDijkstra(neighbour.index, parentObj.index, g)
 }

@@ -34,11 +34,14 @@ function updateResultView() {
         if (!item) return;
         iteration++;
         height += 8;
+        returnPath = item.pathLength > 0 ? item.pathLength : 'Nie znaleziono ścieżki';
+
         document.getElementById("info-result").insertAdjacentHTML('beforeend', `
-        <div id="result-`+ iteration + `"class='resultItem' style="margin-bottom: 1rem; height: 7rem">
+        <div id="result-`+ iteration + `"class='resultItem' style="margin-bottom: 1rem; height: 7rem; opacity: 1">
             <h2 style="margin: 0">
                 `+ iteration + '. ' + getAlgorithmName(item.algorithmName) + `
             </h2>
+            <div style="padding-left: 1rem;">
             <div>
                 <label>Czas generowania ścieżki : </label>
                 <a>` + item.timeSpent.toFixed(2) + `ms</a>
@@ -58,8 +61,9 @@ function updateResultView() {
                 <a>` + ((item.numberOfIterations/nubmerOfSearchableTiles) * 100).toFixed(2) + `%</a>
             </div>
             <div>
-                <label>Długość ściezki : </label>
-                <a>` + item.pathLength + `</a>
+                <label>Długość ścieżki : </label>
+                <a>` + returnPath + `</a>
+            </div>
             </div>
         </div>
         `)

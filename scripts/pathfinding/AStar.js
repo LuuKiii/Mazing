@@ -135,7 +135,7 @@ function createRatingObject(neighbour, parentObj, iteration) {
     let g, h;
 
     //iteration helps determine if neighbour is diagonally adjacent or directally adjacent
-    (is8Dimensions && iteration % 2 !== 0) ? g = 1.4 + parentObj.g : g = 1 + parentObj.g;
+    (is8Dimensions && iteration % 2 !== 0) ? g = Math.sqrt(2) + parentObj.g : g = 1 + parentObj.g;
 
     h = is8Dimensions ? diagonalDistance(neighbour.index,destinationTileIndex) : manhattanDistance(neighbour.index,destinationTileIndex);
 
@@ -192,7 +192,8 @@ function aStarAlgorithm() {
         if (isObstacle(neighbour, tileIndex, iteration)) continue;
         if (isInClosedSet(neighbour.index)) continue;
 
-        let newRatingObj = createRatingObject(neighbour, currentPathHead, iteration)
+        let newRatingObj = createRatingObject(neighbour, currentPathHead, iteration);
+        console.log(newRatingObj)
 
         if (isInOpenSet(newRatingObj.index)) {
             let foundIndex = findOpenSetIndex(newRatingObj.index);

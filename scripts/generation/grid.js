@@ -91,6 +91,16 @@ Tile.prototype.createExtendedNeighbourList = function(){
     potentialNeighbours.push(grid[this.edgeCheck(this.index - 1, 2)]); // LEFT
     potentialNeighbours.push(grid[this.edgeCheck(this.index - gridCols - 1, 2)]); //TOP-LEFT
 
+    //check if diagnal tile is actually a neighobur. for example if left and bottom tiles are walls, then bottom-left tile cant be a neighbour regardless of its type.
+    for(i = 0; i < potentialNeighbours.length; i++){
+        if(i % 2 !== 1) continue;
+        if(potentialNeighbours[i] == undefined) continue;
+
+        if(potentialNeighbours[i-1].type !== 'wall') continue;
+        if(potentialNeighbours[(i+1)%8].type !== 'wall') continue;
+        
+        potentialNeighbours[i] = undefined
+    }
 
     for(i = 0; i < potentialNeighbours.length; i++){
         if(potentialNeighbours[i] == undefined){
