@@ -68,9 +68,8 @@ let queue = [];
 let visited = [];
 
 //Dijkstra pathfinding variables
-let sptSet = []; // shortestpath tree set
-let distSet = []; // cost of path for all tiles
-let currentPathDHead;
+let vSet = []; // shortestpath tree set
+let dSet = []; // cost of path for all tiles
 
 //JPS pathfinding variables
 let openSetJPS = [];

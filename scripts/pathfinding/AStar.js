@@ -193,7 +193,6 @@ function aStarAlgorithm() {
         if (isInClosedSet(neighbour.index)) continue;
 
         let newRatingObj = createRatingObject(neighbour, currentPathHead, iteration);
-        console.log(newRatingObj)
 
         if (isInOpenSet(newRatingObj.index)) {
             let foundIndex = findOpenSetIndex(newRatingObj.index);

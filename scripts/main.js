@@ -139,7 +139,7 @@ function dijkstraOldAnimation() {
     } else {
         setTimeout(function () {
             numberOfIterations++;
-            window.requestAnimationFrame(dijkstraOldAlgorithm)
+            window.requestAnimationFrame(dijkstraOldAnimation)
         }, mazeGenerateDelay);
     }
 }

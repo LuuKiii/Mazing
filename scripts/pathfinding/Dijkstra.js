@@ -51,7 +51,7 @@ function openSetOperatorDijkstra(action, object) {
     return undefined;
 }
 
-function sortOpenSetByfValueDijkstra() {
+function sortOpenSetBygValueDijkstra() {
     let n = openSet.length;
     let tempObj;
     do {
@@ -159,7 +159,7 @@ function isFinalPathDijkstra() {
 function dijkstraAlgorithm() {
     if (openSet.length === 0) return true;
 
-    sortOpenSetByfValueDijkstra();
+    sortOpenSetBygValueDijkstra();
     currentPathHead = openSetOperatorDijkstra('pop');
     closedSetOperatorDijkstra('push', currentPathHead);
 
@@ -176,12 +176,8 @@ function dijkstraAlgorithm() {
 
         let newRatingObj = createRatingObjectDijkstra(neighbour, currentPathHead, iteration)
 
-        if (isInOpenSetDijkstra(newRatingObj.index)) {
-            let foundIndex = findOpenSetIndexDijkstra(newRatingObj.index);
-            if (openSet[foundIndex].g > newRatingObj.g)
-                openSet[foundIndex] = newRatingObj;
-            continue;
-        }
+        if (isInOpenSetDijkstra(newRatingObj.index)) continue;
+
         openSetOperatorDijkstra('push', newRatingObj);
     }
 

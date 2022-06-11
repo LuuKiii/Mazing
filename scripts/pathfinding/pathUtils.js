@@ -26,8 +26,8 @@ function nullPathVariables() {
     destinationTileIndex = null;
     openSet = [];
     closedSet = [];
-    openSetJPS = [];
-    closedSetJPS = [];
+    vSet = [];
+    dSet =[];
 
     mouseModeChange('none');
 }

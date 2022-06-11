@@ -110,7 +110,7 @@ function initPathFinding() {
             isAnimated === true ? jpsAnimation() : jps();
             break;
         case 'dijkstra-old':
-            createInitalSets();
+            setPathfindingVariablesDijkstraOld();
             isAnimated === true ? dijkstraOldAnimation() : dijkstraOld();
             break;
 
@@ -134,7 +134,7 @@ function afterPathFinding() {
             isFinalPathJPS() ? drawFinalPathJPS(currentPathHeadJPS) : '';
             break;
         case 'dijkstra-old':
-            isFinalPathD() ? drawFinalPathD(currentPathDHead) : '';
+            isFinalPathDijkstraOld() ? drawFinalPathDijkstraOld(currentPathHead) : '';
             break;
     }
 
