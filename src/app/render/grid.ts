@@ -1,5 +1,6 @@
 import { Canvas } from "./canvas";
 import { Tile } from "./tile";
+import { Position } from "./utils";
 
 export class Grid {
   private static instance: Grid;
@@ -7,10 +8,10 @@ export class Grid {
   private config: GridConfig;
   private canvas = Canvas.getInstance();
 
-  private offSetToCenter: { x: number, y: number }
+  private offSetToCenter: Position;
 
   //offSetToCenter allows to make canvas look like its centered
-  private constructor(config: GridConfig, offsetToCenter: { x: number, y: number }) {
+  private constructor(config: GridConfig, offsetToCenter: Position) {
     this.config = config;
     this.offSetToCenter = { ...offsetToCenter };
     this.createSheet()
@@ -70,7 +71,7 @@ export class GridBuilder {
     this.tileSize = {
       minValue: 10,
       maxValue: 50,
-      defaultValue: 25,
+      defaultValue: 30,
     }
     this.tileRows = {
       minValue: 5,

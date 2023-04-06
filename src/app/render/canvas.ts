@@ -6,8 +6,6 @@ export class Canvas {
   private element: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
 
-  private elementsToDraw: Drawable[] = [];
-
   private dimensions = {
     width: 1024,
     height: 600,

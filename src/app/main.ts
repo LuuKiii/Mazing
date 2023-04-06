@@ -3,10 +3,11 @@ import { Grid, GridBuilder } from './render/grid'
 
 export class App {
   private static instance: App;
-  private canvas = Canvas.getInstance();
+  private canvas: Canvas;
   private grid: Grid;
 
   private constructor() {
+    this.canvas = Canvas.getInstance();
     this.grid = new GridBuilder().build();
     this.grid.createSheet();
   }

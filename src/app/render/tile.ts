@@ -1,13 +1,13 @@
 import { Drawable } from "./canvas";
-import { colorHex } from "./utils"
+import { colorHex, Position } from "./utils"
 
 export class Tile implements Drawable {
   private sheetPos: Position;
   private tileSize: number;
   private canvasPos: Position;
-  private offsetToCenter: {x: number, y: number};
+  private offsetToCenter: Position;
 
-  constructor(x: number, y: number, size: number, offsetToCenter: {x: number, y: number}) {
+  constructor(x: number, y: number, size: number, offsetToCenter: Position) {
     this.tileSize = size;
     this.offsetToCenter = offsetToCenter; 
     this.sheetPos = {
@@ -29,7 +29,3 @@ export class Tile implements Drawable {
   };
 }
 
-export type Position = {
-  x: number,
-  y: number
-}

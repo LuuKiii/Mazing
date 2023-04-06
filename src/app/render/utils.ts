@@ -4,3 +4,8 @@ export const colorHex = {
   tileEmpty: '#b3c2d0',
   canvasBG: '#202231'
 }
+
+export type Position = {
+  x: number,
+  y: number
+}
