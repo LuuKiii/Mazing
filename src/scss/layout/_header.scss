@@ -1,0 +1,23 @@
+.header {
+  padding: 1rem;
+
+  text-align: center;
+  background-color: $dark-gray;
+
+  h1 {
+    font-size: 5rem;
+    color: $primary-color;
+  }
+
+  &__sub-head {
+    padding: 2rem 1rem 1rem 1rem;
+
+    font-size: 2rem;
+    color: $primary-light;
+
+    &__title {
+      font-weight: 500;
+      color: $primary-color;
+    }
+  }
+}

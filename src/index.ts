@@ -11,4 +11,4 @@ function importAssetGroup(r: any) {
 
 const images = importAssetGroup(require.context('./assets', false, /\.(eot|svg|png|jpg|gif|ico)$/i));
 
-const app = new App();
+const app = App.getInstance();
