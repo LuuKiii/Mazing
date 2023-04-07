@@ -5,9 +5,13 @@
   background-color: $dark-gray;
   user-select: none;
 
-  h1 {
-    font-size: 5rem;
-    color: $primary-color;
+  &__title-block {
+    position: relative;
+
+    h1 {
+      font-size: 5rem;
+      color: $primary-color;
+    }
   }
 
   &__sub-head {

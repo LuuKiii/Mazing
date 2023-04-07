@@ -1,13 +1,16 @@
 .menu {
   position: absolute;
-  top: 2rem;
-  right: 2rem;
-  width: 5rem;
-  height: 5rem;
+  top: 0;
+  bottom: 0;
+  right: 3rem;
+  margin: auto 0;
+  height: min-content;
 
   &__icon-hamburger {
     width: 5rem;
     height: 4rem;
+    position: relative;
+    z-index: 100;
 
     > div {
       position: absolute;
@@ -49,14 +52,28 @@
   }
 
   &__container {
+    padding: 2rem 1rem 1rem;
     position: absolute;
-    right: 0;
+    top: -2rem;
+    right: -1rem;
+
     opacity: 0;
-    width: 500px;
-    height: 100px;
+    visibility: hidden;
+    width: 50rem;
+    height: 10rem;
+    box-shadow: 0 0 15px $dark-gray;
     background-color: $mid-gray;
     user-select: none;
-    z-index: -100;
+    transform: scale(0.5);
+    transform-origin: top right;
+    transition-property: transform, opacity, visibility;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+
+    h2 {
+      font-size: 3rem;
+      color: $primary-light;
+    }
   }
 
   &.open {
@@ -88,8 +105,9 @@
     }
 
     .menu__container {
-      opacity: 100;
-      z-index: 0;
+      opacity: 0.95;
+      visibility: visible;
+      transform: scale(1);
     }
   }
 }
