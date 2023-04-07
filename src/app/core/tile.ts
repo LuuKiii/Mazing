@@ -1,5 +1,4 @@
-import { Drawable } from "./canvas";
-import { colorHex, Position } from "./utils"
+import { colorHex, Drawable, Position } from "./utils"
 
 export class Tile implements Drawable {
   private sheetPos: Position;

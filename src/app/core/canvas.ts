@@ -1,4 +1,4 @@
-import { colorHex } from "./utils";
+import { colorHex, Drawable } from "./utils";
 
 export class Canvas {
   private static instance: Canvas;
@@ -42,8 +42,4 @@ export class Canvas {
     }
     return Canvas.instance;
   }
-}
-
-export interface Drawable {
-  draw: (ctx: CanvasRenderingContext2D) => void;
 }
