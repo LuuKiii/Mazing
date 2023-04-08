@@ -2,6 +2,10 @@
 @import "base";
 @import "typography";
 
-@import "layout/header";
+@import "components/screen-size";
+@import "components/settings/settings";
+@import "components/settings/settings-options";
+
 @import "layout/layout";
-@import "components/menu";
+@import "layout/header";
+@import "layout/menu";

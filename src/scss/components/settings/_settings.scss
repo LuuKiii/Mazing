@@ -1,8 +1,8 @@
-.menu {
+.settings {
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 3rem;
+  right: 0;
   margin: auto 0;
   height: min-content;
 
@@ -25,11 +25,11 @@
     }
 
     &__line-2 {
-      top: 1.5rem;
+      top: 1.75rem;
     }
 
     &__line-3 {
-      top: 3rem;
+      top: 3.5rem;
     }
 
     &:hover {
@@ -37,21 +37,23 @@
         background-color: $primary-color;
       }
 
-      .menu__icon-hamburger__line-1 {
+      .settings__icon-hamburger__line-1 {
         transform: scale(1.1);
       }
 
-      .menu__icon-hamburger__line-2 {
+      .settings__icon-hamburger__line-2 {
         transform: scale(0.9);
       }
 
-      .menu__icon-hamburger__line-3 {
+      .settings__icon-hamburger__line-3 {
         transform: scale(1.1);
       }
     }
   }
 
   &__container {
+    border: 1px solid $dark-gray;
+    border-radius: 1rem;
     padding: 2rem 1rem 1rem;
     position: absolute;
     top: -2rem;
@@ -60,7 +62,7 @@
     opacity: 0;
     visibility: hidden;
     width: 50rem;
-    height: 10rem;
+    height: 50rem;
     box-shadow: 0 0 15px $dark-gray;
     background-color: $mid-gray;
     user-select: none;
@@ -77,9 +79,9 @@
   }
 
   &.open {
-    .menu__icon-hamburger {
+    .settings__icon-hamburger {
       &__line-1 {
-        transform: translateX(1rem) rotate(45deg) translateY(2.1rem);
+        transform: translateX(1rem) rotate(45deg) translateY(2.4rem);
       }
 
       &__line-2 {
@@ -88,23 +90,23 @@
       }
 
       &__line-3 {
-        transform: translateX(1rem) rotate(-45deg) translateY(-2.1rem);
+        transform: translateX(1rem) rotate(-45deg) translateY(-2.4rem);
       }
 
       &:hover {
-        .menu__icon-hamburger__line-1 {
-          transform: translateX(1rem) rotate(45deg) translateY(2.1rem)
+        .settings__icon-hamburger__line-1 {
+          transform: translateX(1rem) rotate(45deg) translateY(2.4rem)
             scale(1.2);
         }
 
-        .menu__icon-hamburger__line-3 {
-          transform: translateX(1rem) rotate(-45deg) translateY(-2.1rem)
+        .settings__icon-hamburger__line-3 {
+          transform: translateX(1rem) rotate(-45deg) translateY(-2.4rem)
             scale(1.2);
         }
       }
     }
 
-    .menu__container {
+    .settings__container {
       opacity: 0.95;
       visibility: visible;
       transform: scale(1);

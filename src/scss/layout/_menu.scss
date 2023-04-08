@@ -1,0 +1,13 @@
+.menu {
+  position: absolute;
+  top: 2.5rem;
+  right: 4rem;
+
+  width: 12rem;
+
+  &__container {
+    position: relative;
+    height: 4rem;
+    background-color: $dark-gray;
+  }
+}

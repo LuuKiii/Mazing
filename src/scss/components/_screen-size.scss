@@ -1,0 +1,222 @@
+.screen-size {
+  position: absolute;
+  left: 0;
+
+  &__container {
+    position: relative;
+    width: 5rem;
+    height: 4rem;
+
+    .vertical {
+      width: 0.5rem;
+      height: 1.25rem;
+    }
+
+    .horizontal {
+      width: 1.75rem;
+      height: 0.5rem;
+    }
+
+    > div {
+      position: absolute;
+
+      background-color: $primary-light;
+
+      transition-duration: 0.2s;
+      transition-timing-function: ease-out;
+    }
+
+    &__line-top-left-1 {
+      top: 0;
+      left: 0rem;
+    }
+
+    &__line-top-left-2 {
+      top: 0;
+      left: 0;
+    }
+
+    &__line-top-right-1 {
+      top: 0;
+      right: 0;
+    }
+
+    &__line-top-right-2 {
+      top: 0;
+      right: 0;
+    }
+
+    &__line-bottom-right-1 {
+      bottom: 0;
+      right: 0;
+    }
+
+    &__line-bottom-right-2 {
+      bottom: 0;
+      right: 0;
+    }
+
+    &__line-bottom-left-1 {
+      bottom: 0;
+      left: 0;
+    }
+
+    &__line-bottom-left-2 {
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  &:hover {
+    .screen-size__container {
+      > div {
+        background-color: $primary-color;
+      }
+
+      .vertical {
+        height: 1rem;
+      }
+
+      .horizontal {
+        width: 1.5rem;
+      }
+
+      &__line-top-left-1 {
+        transform: translate(-0.2rem, -0.1rem);
+      }
+
+      &__line-top-left-2 {
+        transform: translate(-0.1rem, -0.2rem);
+      }
+
+      &__line-top-right-1 {
+        transform: translate(0.2rem, -0.1rem);
+      }
+
+      &__line-top-right-2 {
+        transform: translate(0.1rem, -0.2rem);
+      }
+
+      &__line-bottom-right-1 {
+        transform: translate(0.2rem, 0.1rem);
+      }
+
+      &__line-bottom-right-2 {
+        transform: translate(0.1rem, 0.2rem);
+      }
+
+      &__line-bottom-left-1 {
+        transform: translate(-0.2rem, 0.1rem);
+      }
+
+      &__line-bottom-left-2 {
+        transform: translate(-0.1rem, 0.2rem);
+      }
+    }
+  }
+
+  &.fullscreen-icon {
+    .vertical {
+      height: 1.5rem;
+    }
+
+    .horizontal {
+      width: 1.5rem;
+    }
+
+    .screen-size__container {
+      &__line-top-left-1 {
+        transform-origin: bottom right;
+        transform: rotate(90deg);
+      }
+
+      &__line-top-left-2 {
+        transform-origin: top right;
+        transform: rotate(-90deg);
+      }
+
+      &__line-top-right-1 {
+        transform-origin: bottom left;
+        transform: rotate(-90deg);
+      }
+
+      &__line-top-right-2 {
+        transform-origin: top left;
+        transform: rotate(90deg);
+      }
+
+      &__line-bottom-right-1 {
+        transform-origin: top left;
+        transform: rotate(90deg);
+      }
+
+      &__line-bottom-right-2 {
+        transform-origin: bottom left;
+        transform: rotate(-90deg);
+      }
+
+      &__line-bottom-left-1 {
+        transform-origin: top right;
+        transform: rotate(-90deg);
+      }
+
+      &__line-bottom-left-2 {
+        transform-origin: bottom right;
+        transform: rotate(90deg);
+      }
+    }
+
+    &:hover {
+      .screen-size__container {
+        .vertical {
+          height: 1.4rem;
+        }
+
+        .horizontal {
+          width: 1.4rem;
+        }
+
+        > div {
+          background-color: $primary-color;
+        }
+
+        &__line-top-left-1 {
+          transform: translate(-0.2rem, -0.2rem) rotate(90deg);
+        }
+
+        &__line-top-left-2 {
+          transform: translate(-0.2rem, -0.2rem) rotate(-90deg);
+        }
+
+        &__line-top-right-1 {
+          transform: translate(0.2rem, -0.2rem) rotate(-90deg);
+        }
+
+        &__line-top-right-2 {
+          transform-origin: top left;
+          transform: translate(0.2rem, -0.2rem) rotate(90deg);
+        }
+
+        &__line-bottom-right-1 {
+          transform-origin: top left;
+          transform: translate(0.2rem, 0.2rem) rotate(90deg);
+        }
+
+        &__line-bottom-right-2 {
+          transform-origin: bottom left;
+          transform: translate(0.2rem, 0.2rem) rotate(-90deg);
+        }
+
+        &__line-bottom-left-1 {
+          transform-origin: top right;
+          transform: translate(-0.2rem, 0.2rem) rotate(-90deg);
+        }
+
+        &__line-bottom-left-2 {
+          transform-origin: bottom right;
+          transform: translate(-0.2rem, 0.2rem) rotate(90deg);
+        }
+      }
+    }
+  }
+}
