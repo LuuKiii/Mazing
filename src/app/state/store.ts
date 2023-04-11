@@ -1,5 +1,5 @@
 import { reducer } from "./reducer";
-import { Action, ListenerCallback, Reducer, UnsubscribeCallback } from "./redux.interface";
+import { Action, AppStateObserver, Reducer } from "./redux.interface";
 import { AppState, initalState } from "./state";
 
 
@@ -8,7 +8,7 @@ export class Store {
   private static instance: Store;
 
   private _state: AppState;
-  private _listener: ListenerCallback[] = [];
+  private _observers: AppStateObserver[] = [];
 
   private constructor(
     private reducer: Reducer<AppState>,
@@ -23,14 +23,15 @@ export class Store {
 
   dispatch(action: Action): void {
     this._state = this.reducer(this._state, action);
-    this._listener.forEach((listener: ListenerCallback) => listener())
+    this._observers.forEach((o: AppStateObserver) => o.onAppStateChange())
   }
 
-  subscribe(listener: ListenerCallback): UnsubscribeCallback {
-    this._listener.push(listener);
-    return () => {
-      this._listener = this._listener.filter(l => l !== listener);
-    }
+  subscribe(observer: AppStateObserver): void {
+    this._observers.push(observer);
+  }
+
+  unSubscribe(observer: AppStateObserver): void {
+    this._observers = this._observers.filter(o => o !== observer);
   }
 
   static getInstance(): Store {

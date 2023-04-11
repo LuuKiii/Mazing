@@ -10,6 +10,11 @@ export type Position = {
   y: number
 }
 
+export type Dimensions = {
+  width: number,
+  height: number
+}
+
 export interface Drawable {
-  draw: (ctx: CanvasRenderingContext2D) => void;
+  draw: (ctx: CanvasRenderingContext2D, offSet: Position) => void;
 }

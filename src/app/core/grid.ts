@@ -1,28 +1,42 @@
+import { AppStateObserver } from "../state/redux.interface";
+import { AppState } from "../state/state";
+import { Store } from "../state/store";
 import { Canvas } from "./canvas";
 import { Tile } from "./tile";
-import { Position } from "./utils";
+import { Dimensions, Position } from "./utils";
 
-export class Grid {
+export class Grid implements AppStateObserver {
   private static instance: Grid;
   private sheet: Tile[][] = [];
   private config: GridConfig;
-  private canvas = Canvas.getInstance();
+  private canvas;
+  private store;
 
-  private offSetToCenter: Position;
+  private offSetToCenter: Position = { x: 0, y: 0 };
 
   //offSetToCenter allows to make canvas look like its centered
-  private constructor(config: GridConfig, offsetToCenter: Position) {
+  private constructor(config: GridConfig) {
     this.config = config;
-    this.offSetToCenter = { ...offsetToCenter };
+    this.canvas = Canvas.getInstance();
+    this.store = Store.getInstance();
+    this.store.subscribe(this)
+
     this.createSheet()
     this.drawSheet();
   }
 
+  calculateOffsetToCenter(): void {
+    this.offSetToCenter = {
+      x: (this.canvas.getDimensions().width - this.config.gridDimensions.width) / 2,
+      y: (this.canvas.getDimensions().height - this.config.gridDimensions.height) / 2,
+    }
+  }
+
   createSheet(): void {
-    for (let i = 0; i < this.config.tilesColumns; i++) {
+    for (let i = 0; i < this.config.tileColumns; i++) {
       this.sheet[i] = [];
       for (let j = 0; j < this.config.tileRows; j++) {
-        this.sheet[i].push(new Tile(i, j, this.config.tileSize, this.offSetToCenter));
+        this.sheet[i].push(new Tile(i, j, this.config.tileSize));
       }
     }
   }
@@ -30,17 +44,22 @@ export class Grid {
   drawSheet(): void {
     this.canvas.drawBackground();
 
-    for (let i = 0; i < this.config.tilesColumns; i++) {
+    for (let i = 0; i < this.config.tileColumns; i++) {
       for (let j = 0; j < this.config.tileRows; j++) {
-        this.canvas.draw(this.sheet[i][j]);
+        this.canvas.draw(this.sheet[i][j], this.offSetToCenter);
       }
     }
   }
 
-  static getInstance(config?: GridConfig, offSetToCenter = { x: 0, y: 0 }): Grid {
+  onAppStateChange(): void {
+    this.calculateOffsetToCenter();
+    this.drawSheet();
+  }
+
+  static getInstance(config?: GridConfig): Grid {
     if (!Grid.instance) {
       if (!config) throw new Error('Cannot create grid instance')
-      Grid.instance = new Grid(config, offSetToCenter);
+      Grid.instance = new Grid(config);
     }
     return Grid.instance;
   }
@@ -49,7 +68,8 @@ export class Grid {
 type GridConfig = {
   tileSize: number;
   tileRows: number;
-  tilesColumns: number;
+  tileColumns: number;
+  gridDimensions: Dimensions;
 }
 
 type GridBuilderRange = {
@@ -120,17 +140,15 @@ export class GridBuilder {
       this.tileSize.value = this.validateInRange(Math.floor(this.canvasDimensions.width / this.tilesColumns.value), this.tileSize)
     }
 
-    const offSetToCenter = {
-      x: (this.canvasDimensions.width % this.tileSize.value) / 2,
-      y: (this.canvasDimensions.height % this.tileSize.value) / 2,
-    }
-
     return Grid.getInstance({
       tileSize: this.tileSize.value,
       tileRows: this.tileRows.value,
-      tilesColumns: this.tilesColumns.value
-    },
-      offSetToCenter);
+      tileColumns: this.tilesColumns.value,
+      gridDimensions: {
+        width: this.tilesColumns.value * this.tileSize.value,
+        height: this.tileRows.value * this.tileSize.value,
+      }
+    });
   }
 
   private validateInRange(value: number, range: GridBuilderRange): number {

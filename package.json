@@ -17,8 +17,8 @@
     "workbox-webpack-plugin": "^6.5.4"
   },
   "version": "1.0.0",
-  "description": "My webpack project",
-  "name": "my-webpack-project",
+  "description": "Mazing is an app that lets you create your own maze and explore its intricacies. You can design your own maze and then watch a selected pathfinding algorithm as it navigates its way through the maze.",
+  "name": "Mazing",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
