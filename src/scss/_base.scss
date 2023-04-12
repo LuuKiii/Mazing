@@ -9,6 +9,15 @@ html {
 }
 
 body {
-  background-color: $mid-gray;
   height: 100%;
+  background-color: $mid-gray;
+
+  transition-property: background-color;
+  transition-duration: $screen-size-animation-duration;
+  transition-timing-function: ease-out;
+
+  &.fullscreen-mode {
+    overflow: hidden;
+    background-color: $canvas-background-color;
+  }
 }

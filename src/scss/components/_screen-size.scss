@@ -82,7 +82,7 @@
       }
 
       &__line-top-left-1 {
-        transform: translate(-0.2rem, -0.1rem);
+        transform: translate(-0.2rem, -0.15rem);
       }
 
       &__line-top-left-2 {
@@ -90,7 +90,7 @@
       }
 
       &__line-top-right-1 {
-        transform: translate(0.2rem, -0.1rem);
+        transform: translate(0.2rem, -0.15rem);
       }
 
       &__line-top-right-2 {
@@ -98,7 +98,7 @@
       }
 
       &__line-bottom-right-1 {
-        transform: translate(0.2rem, 0.1rem);
+        transform: translate(0.2rem, 0.15rem);
       }
 
       &__line-bottom-right-2 {
@@ -106,7 +106,7 @@
       }
 
       &__line-bottom-left-1 {
-        transform: translate(-0.2rem, 0.1rem);
+        transform: translate(-0.2rem, 0.15rem);
       }
 
       &__line-bottom-left-2 {
@@ -181,40 +181,40 @@
         }
 
         &__line-top-left-1 {
-          transform: translate(-0.2rem, -0.2rem) rotate(90deg);
+          transform: translate(0.2rem, 0.2rem) rotate(90deg);
         }
 
         &__line-top-left-2 {
-          transform: translate(-0.2rem, -0.2rem) rotate(-90deg);
+          transform: translate(0.2rem, 0.2rem) rotate(-90deg);
         }
 
         &__line-top-right-1 {
-          transform: translate(0.2rem, -0.2rem) rotate(-90deg);
+          transform: translate(-0.2rem, 0.2rem) rotate(-90deg);
         }
 
         &__line-top-right-2 {
           transform-origin: top left;
-          transform: translate(0.2rem, -0.2rem) rotate(90deg);
+          transform: translate(-0.2rem, 0.2rem) rotate(90deg);
         }
 
         &__line-bottom-right-1 {
           transform-origin: top left;
-          transform: translate(0.2rem, 0.2rem) rotate(90deg);
+          transform: translate(-0.2rem, -0.25rem) rotate(90deg);
         }
 
         &__line-bottom-right-2 {
           transform-origin: bottom left;
-          transform: translate(0.2rem, 0.2rem) rotate(-90deg);
+          transform: translate(-0.2rem, -0.2rem) rotate(-90deg);
         }
 
         &__line-bottom-left-1 {
           transform-origin: top right;
-          transform: translate(-0.2rem, 0.2rem) rotate(-90deg);
+          transform: translate(0.2rem, -0.25rem) rotate(-90deg);
         }
 
         &__line-bottom-left-2 {
           transform-origin: bottom right;
-          transform: translate(-0.2rem, 0.2rem) rotate(90deg);
+          transform: translate(0.2rem, -0.2rem) rotate(90deg);
         }
       }
     }

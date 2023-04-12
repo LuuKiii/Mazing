@@ -1,13 +1,18 @@
 .menu {
+  border-radius: 1rem;
+  padding: 1rem;
+
   position: absolute;
   top: 2.5rem;
   right: 4rem;
 
-  width: 12rem;
+  z-index: 1000;
+  height: 6rem;
+  width: 15rem;
+  background-color: $dark-gray;
 
   &__container {
     position: relative;
     height: 4rem;
-    background-color: $dark-gray;
   }
 }

@@ -1,9 +1,17 @@
 .header {
   padding: 1rem;
 
+  position: block;
+
+  opacity: 1;
   text-align: center;
   background-color: $dark-gray;
   user-select: none;
+
+  transition-property: transform opacity;
+  transition-duration: $screen-size-animation-duration;
+  transition-delay: 0;
+  transition-timing-function: ease-out;
 
   &__title-block {
     h1 {
@@ -22,5 +30,11 @@
       font-weight: 500;
       color: $primary-color;
     }
+  }
+
+  &.fullscreen-mode {
+    position: absolute;
+    opacity: 0;
+    transform: translateY(-10rem);
   }
 }
