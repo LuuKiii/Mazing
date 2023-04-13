@@ -13,12 +13,11 @@ export class Grid implements AppStateObserver, MouseObserver {
   private canvas;
   private store;
 
-  private currentHighlight: Tile | null = null;
+  private currentTile: Tile | null = null;
 
   private startPosition: Position = { x: 0, y: 0 };
   private endPosition: Position = { x: 0, y: 0 }
 
-  //offSetToCenter allows to make canvas look like its centered
   private constructor(config: GridConfig) {
     this.config = config;
     this.canvas = Canvas.getInstance();
@@ -75,32 +74,32 @@ export class Grid implements AppStateObserver, MouseObserver {
     switch (eventType) {
       case 'mousemove':
         const tile = this.getTileFromPosition(mousePosition);
-        this.updateHighlight(tile)
+        this.updateCurrentTile(tile)
         break;
       case 'mouseleave':
-        this.dehighlightTile();
+        this.removeCurrentTile();
         break;
     }
-
   }
 
-  updateHighlight(tile: Tile | null) {
-    if (tile === this.currentHighlight) return;
-    this.dehighlightTile();
+  updateCurrentTile(tile: Tile | null) {
+    if (tile === this.currentTile) return;
+    this.removeCurrentTile();
     if (!tile) return;
-    this.highlightTile(tile)
+    this.setCurrentTile(tile)
   }
 
-  highlightTile(tile: Tile): void {
-    this.currentHighlight = tile;
-    this.currentHighlight.setFlag('isHighlight', true);
-    this.canvas.draw(this.currentHighlight, this.startPosition);
+  setCurrentTile(tile: Tile): void {
+    this.currentTile = tile;
+    this.currentTile.setFlag('isHighlight', true);
+    this.canvas.draw(this.currentTile, this.startPosition);
   }
 
-  dehighlightTile(): void {
-    if (this.currentHighlight) {
-      this.currentHighlight.setFlag('isHighlight', false);
-      this.canvas.draw(this.currentHighlight, this.startPosition);
+  removeCurrentTile(): void {
+    if (this.currentTile) {
+      this.currentTile.setFlag('isHighlight', false);
+      this.canvas.draw(this.currentTile, this.startPosition);
+      this.currentTile = null;
     }
   }
 
@@ -114,8 +113,8 @@ export class Grid implements AppStateObserver, MouseObserver {
   getTileFromPosition(pos: Position): Tile | null {
     if (!this.isWithinGrid(pos)) return null;
 
-    const x = Math.floor(pos.x / this.config.tileSize);
-    const y = Math.floor(pos.y / this.config.tileSize);
+    const x = Math.floor((pos.x - this.startPosition.x) / this.config.tileSize);
+    const y = Math.floor((pos.y - this.startPosition.y) / this.config.tileSize);
 
     return this.getTile(x, y);
   }
