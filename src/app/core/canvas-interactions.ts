@@ -19,7 +19,11 @@ export class CanvasInteractions {
       this.mousePos.x = ev.clientX - rect.left;
       this.mousePos.y = ev.clientY - rect.top;
 
-      this.updateMouseObservers();
+      this.updateMouseObservers('mousemove');
+    })
+
+    this.element.addEventListener('mouseleave', (ev: MouseEvent) => {
+      this.updateMouseObservers('mouseleave')
     })
   }
 
@@ -35,8 +39,8 @@ export class CanvasInteractions {
     this.mouseObservers = this.mouseObservers.filter(ob => ob !== observer)
   }
 
-  updateMouseObservers(): void {
-    this.mouseObservers.forEach(ob => ob.updateFromMouse(this.getMousePos()))
+  updateMouseObservers(evType: MouseEventsType): void {
+    this.mouseObservers.forEach(ob => ob.updateFromMouse(this.getMousePos(), evType))
   }
 
   static getInstance(): CanvasInteractions {
@@ -48,5 +52,7 @@ export class CanvasInteractions {
 }
 
 export interface MouseObserver {
-  updateFromMouse(mousePosition: Position): void;
+  updateFromMouse(mousePosition: Position, eventType: MouseEventsType): void;
 }
+
+export type MouseEventsType = 'mousemove' | 'mouseleave';

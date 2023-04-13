@@ -2,7 +2,7 @@ import { AppStateObserver } from "../state/redux.interface";
 import { AppState } from "../state/state";
 import { Store } from "../state/store";
 import { Canvas } from "./canvas";
-import { MouseObserver } from "./canvas-interactions";
+import { MouseEventsType, MouseObserver } from "./canvas-interactions";
 import { Tile } from "./tile";
 import { Dimensions, Position } from "./utils";
 
@@ -42,8 +42,6 @@ export class Grid implements AppStateObserver, MouseObserver {
     }
   }
 
-
-
   createSheet(): void {
     for (let i = 0; i < this.config.tileColumns; i++) {
       this.sheet[i] = [];
@@ -72,24 +70,38 @@ export class Grid implements AppStateObserver, MouseObserver {
     this.drawSheet();
   }
 
-  updateFromMouse(mousePosition: Position): void {
-    const tile = this.getTileFromPosition(mousePosition);
-    if (!tile) return;
+  updateFromMouse(mousePosition: Position, eventType: MouseEventsType): void {
 
-    this.updateHighlight(tile)
+    switch (eventType) {
+      case 'mousemove':
+        const tile = this.getTileFromPosition(mousePosition);
+        this.updateHighlight(tile)
+        break;
+      case 'mouseleave':
+        this.dehighlightTile();
+        break;
+    }
+
   }
 
-  updateHighlight(tile: Tile) {
+  updateHighlight(tile: Tile | null) {
     if (tile === this.currentHighlight) return;
+    this.dehighlightTile();
+    if (!tile) return;
+    this.highlightTile(tile)
+  }
 
+  highlightTile(tile: Tile): void {
+    this.currentHighlight = tile;
+    this.currentHighlight.setFlag('isHighlight', true);
+    this.canvas.draw(this.currentHighlight, this.startPosition);
+  }
 
+  dehighlightTile(): void {
     if (this.currentHighlight) {
       this.currentHighlight.setFlag('isHighlight', false);
       this.canvas.draw(this.currentHighlight, this.startPosition);
     }
-    this.currentHighlight = tile;
-    this.currentHighlight.setFlag('isHighlight', true);
-    this.canvas.draw(this.currentHighlight, this.startPosition);
   }
 
   isWithinGrid(pos: Position): boolean {
