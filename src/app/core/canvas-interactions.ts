@@ -4,6 +4,11 @@ export class CanvasInteractions {
   private static instance: CanvasInteractions;
   private element: HTMLCanvasElement;
   private mousePos: Position = { x: -1, y: -1 };
+  private currentPressedButtons: PressedMouseButtonType = {
+    lmb: false,
+    rmb: false,
+    mmb: false
+  }
 
   private mouseObservers: MouseObserver[] = [];
 
@@ -25,6 +30,20 @@ export class CanvasInteractions {
     this.element.addEventListener('mouseleave', (ev: MouseEvent) => {
       this.updateMouseObservers('mouseleave')
     })
+
+    this.element.addEventListener('mousedown', (ev: MouseEvent) => {
+      this.currentPressedButtons[mouseButtons[ev.button] as keyof typeof mouseButtons] = true;
+      this.updateMouseObservers('mousedown')
+    })
+
+    this.element.addEventListener('mouseup', (ev: MouseEvent) => {
+      this.currentPressedButtons[mouseButtons[ev.button] as keyof typeof mouseButtons] = false;
+      this.updateMouseObservers('mouseup')
+    })
+
+    this.element.addEventListener('contextmenu', (ev: MouseEvent) => {
+      ev.preventDefault()
+    })
   }
 
   getMousePos(): Position {
@@ -40,7 +59,7 @@ export class CanvasInteractions {
   }
 
   updateMouseObservers(evType: MouseEventsType): void {
-    this.mouseObservers.forEach(ob => ob.updateFromMouse(this.getMousePos(), evType))
+    this.mouseObservers.forEach(ob => ob.updateFromMouse(this.getMousePos(), evType, this.currentPressedButtons))
   }
 
   static getInstance(): CanvasInteractions {
@@ -52,7 +71,15 @@ export class CanvasInteractions {
 }
 
 export interface MouseObserver {
-  updateFromMouse(mousePosition: Position, eventType: MouseEventsType): void;
+  updateFromMouse(mousePosition: Position, eventType: MouseEventsType, buttonClicked?: PressedMouseButtonType): void;
 }
 
-export type MouseEventsType = 'mousemove' | 'mouseleave';
+export type MouseEventsType = 'mousemove' | 'mouseleave' | 'mouseup' | 'mousedown';
+
+export type PressedMouseButtonType = Record<keyof typeof mouseButtons, boolean>
+
+export enum mouseButtons {
+  'lmb',
+  'mmb',
+  'rmb'
+} 

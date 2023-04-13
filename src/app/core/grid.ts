@@ -1,8 +1,9 @@
 import { AppStateObserver } from "../state/redux.interface";
 import { AppState } from "../state/state";
 import { Store } from "../state/store";
+import { TileType } from "../utils/colors";
 import { Canvas } from "./canvas";
-import { MouseEventsType, MouseObserver } from "./canvas-interactions";
+import { MouseEventsType, MouseObserver, PressedMouseButtonType, mouseButtons } from "./canvas-interactions";
 import { Tile } from "./tile";
 import { Dimensions, Position } from "./utils";
 
@@ -13,7 +14,11 @@ export class Grid implements AppStateObserver, MouseObserver {
   private canvas;
   private store;
 
-  private currentTile: Tile | null = null;
+  private currentHoveredTile: Tile | null = null;
+  private actionsToPerformOnHoveredTile: Record<ActionsOnHoveredTileType, boolean> = {
+    changeTypeToEmpty: false,
+    changeTypeToWall: false
+  };
 
   private startPosition: Position = { x: 0, y: 0 };
   private endPosition: Position = { x: 0, y: 0 }
@@ -55,7 +60,7 @@ export class Grid implements AppStateObserver, MouseObserver {
 
     for (let i = 0; i < this.config.tileColumns; i++) {
       for (let j = 0; j < this.config.tileRows; j++) {
-        this.canvas.draw(this.sheet[i][j], this.startPosition);
+        this.drawTile(this.sheet[i][j]);
       }
     }
   }
@@ -64,42 +69,92 @@ export class Grid implements AppStateObserver, MouseObserver {
     this.canvas.draw(tile, this.startPosition)
   }
 
+  setTileType(tile: Tile, type: TileType): void {
+    tile.setType(type)
+    this.drawTile(tile);
+  }
+
+  setTileAsWall(tile: Tile): void {
+    this.setTileType(tile, 'WALL')
+  }
+
+  setTileAsEmpty(tile: Tile): void {
+    this.setTileType(tile, 'EMPTY')
+  }
+
   onAppStateChange(): void {
     this.calculateOffsetToCenter();
     this.drawSheet();
   }
 
-  updateFromMouse(mousePosition: Position, eventType: MouseEventsType): void {
-
+  updateFromMouse(mousePosition: Position, eventType: MouseEventsType, pressedMouseButtons: PressedMouseButtonType): void {
     switch (eventType) {
       case 'mousemove':
         const tile = this.getTileFromPosition(mousePosition);
-        this.updateCurrentTile(tile)
+        this.changeCurrentHoveredTile(tile)
+        this.updateCurrentHoveredTileFromActions();
         break;
       case 'mouseleave':
-        this.removeCurrentTile();
+        this.removeCurrentHoveredTile();
+        break;
+      case 'mouseup':
+        this.handleMouseButtonReleased(pressedMouseButtons);
+        break;
+      case 'mousedown':
+        this.handleMouseButtonPressed(pressedMouseButtons);
         break;
     }
   }
 
-  updateCurrentTile(tile: Tile | null) {
-    if (tile === this.currentTile) return;
-    this.removeCurrentTile();
+  updateCurrentHoveredTileFromActions(): void {
+    if (!this.currentHoveredTile) return;
+
+    switch (true) {
+      case this.actionsToPerformOnHoveredTile.changeTypeToEmpty:
+        this.setTileAsEmpty(this.currentHoveredTile);
+        break;
+      case this.actionsToPerformOnHoveredTile.changeTypeToWall:
+        this.setTileAsWall(this.currentHoveredTile)
+        break;
+    }
+  }
+
+  handleMouseButtonPressed(clickedButton: PressedMouseButtonType): void {
+    if (clickedButton.lmb) {
+      this.actionsToPerformOnHoveredTile.changeTypeToWall = true;
+    }
+    if (clickedButton.rmb) {
+      this.actionsToPerformOnHoveredTile.changeTypeToEmpty = true;
+    }
+  }
+
+  handleMouseButtonReleased(clickedButton: PressedMouseButtonType): void {
+    if (!(clickedButton.lmb)) {
+      this.actionsToPerformOnHoveredTile.changeTypeToWall = false;
+    }
+    if (!(clickedButton.rmb)) {
+      this.actionsToPerformOnHoveredTile.changeTypeToEmpty = false;
+    }
+  }
+
+  changeCurrentHoveredTile(tile: Tile | null): void {
+    if (tile === this.currentHoveredTile) return;
+    this.removeCurrentHoveredTile();
     if (!tile) return;
-    this.setCurrentTile(tile)
+    this.setCurrentHoveredTile(tile)
   }
 
-  setCurrentTile(tile: Tile): void {
-    this.currentTile = tile;
-    this.currentTile.setFlag('isHighlight', true);
-    this.canvas.draw(this.currentTile, this.startPosition);
+  setCurrentHoveredTile(tile: Tile): void {
+    this.currentHoveredTile = tile;
+    this.currentHoveredTile.setFlag('isHighlight', true);
+    this.canvas.draw(this.currentHoveredTile, this.startPosition);
   }
 
-  removeCurrentTile(): void {
-    if (this.currentTile) {
-      this.currentTile.setFlag('isHighlight', false);
-      this.canvas.draw(this.currentTile, this.startPosition);
-      this.currentTile = null;
+  removeCurrentHoveredTile(): void {
+    if (this.currentHoveredTile) {
+      this.currentHoveredTile.setFlag('isHighlight', false);
+      this.canvas.draw(this.currentHoveredTile, this.startPosition);
+      this.currentHoveredTile = null;
     }
   }
 
@@ -123,7 +178,6 @@ export class Grid implements AppStateObserver, MouseObserver {
     return this.sheet[row] ? this.sheet[row][column] : null;
   }
 
-
   static getInstance(config?: GridConfig): Grid {
     if (!Grid.instance) {
       if (!config) throw new Error('Cannot create grid instance')
@@ -132,6 +186,8 @@ export class Grid implements AppStateObserver, MouseObserver {
     return Grid.instance;
   }
 }
+
+type ActionsOnHoveredTileType = 'changeTypeToWall' | 'changeTypeToEmpty';
 
 type GridConfig = {
   tileSize: number;
