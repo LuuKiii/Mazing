@@ -1,12 +1,15 @@
-import { colorHex, Dimensions, Drawable, Position } from "./utils";
+import { Dimensions, Drawable, Position } from "./utils";
 import { Store } from '../state/store'
 import { AppStateObserver } from "../state/redux.interface";
 import { ScreenModes } from "../state/state";
+import { CanvasInteractions } from './canvas-interactions'
+import { ColorObject } from '../utils/colors'
 
 export class Canvas implements AppStateObserver {
   private static instance: Canvas;
 
   private element: HTMLCanvasElement;
+  private interactions: CanvasInteractions;
   private ctx: CanvasRenderingContext2D;
   private currentScreenMode: ScreenModes | null = null;
   private store: Store;
@@ -18,6 +21,7 @@ export class Canvas implements AppStateObserver {
 
   private constructor() {
     this.element = document.getElementById('canvas') as HTMLCanvasElement;
+    this.interactions = CanvasInteractions.getInstance();
     this.ctx = this.element.getContext('2d')!
 
     this.store = Store.getInstance();
@@ -59,7 +63,7 @@ export class Canvas implements AppStateObserver {
   }
 
   drawBackground(): void {
-    this.ctx.fillStyle = colorHex.canvasBG;
+    this.ctx.fillStyle = ColorObject.canvas.background
     this.ctx.fillRect(0, 0, this.dimensions.width, this.dimensions.height)
   }
 
@@ -69,6 +73,10 @@ export class Canvas implements AppStateObserver {
 
   getDimensions() {
     return { ...this.dimensions };
+  }
+
+  get interaction() {
+    return this.interactions
   }
 
   static getInstance(): Canvas {

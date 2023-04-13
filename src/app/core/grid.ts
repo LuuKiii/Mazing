@@ -2,35 +2,47 @@ import { AppStateObserver } from "../state/redux.interface";
 import { AppState } from "../state/state";
 import { Store } from "../state/store";
 import { Canvas } from "./canvas";
+import { MouseObserver } from "./canvas-interactions";
 import { Tile } from "./tile";
 import { Dimensions, Position } from "./utils";
 
-export class Grid implements AppStateObserver {
+export class Grid implements AppStateObserver, MouseObserver {
   private static instance: Grid;
   private sheet: Tile[][] = [];
   private config: GridConfig;
   private canvas;
   private store;
 
-  private offSetToCenter: Position = { x: 0, y: 0 };
+  private currentHighlight: Tile | null = null;
+
+  private startPosition: Position = { x: 0, y: 0 };
+  private endPosition: Position = { x: 0, y: 0 }
 
   //offSetToCenter allows to make canvas look like its centered
   private constructor(config: GridConfig) {
     this.config = config;
     this.canvas = Canvas.getInstance();
+    this.canvas.interaction.subscribeToMouseUpdates(this);
     this.store = Store.getInstance();
     this.store.subscribe(this)
 
+    this.calculateOffsetToCenter()
     this.createSheet()
     this.drawSheet();
   }
 
   calculateOffsetToCenter(): void {
-    this.offSetToCenter = {
-      x: (this.canvas.getDimensions().width - this.config.gridDimensions.width) / 2,
-      y: (this.canvas.getDimensions().height - this.config.gridDimensions.height) / 2,
+    this.startPosition = {
+      x: ((this.canvas.getDimensions().width - this.config.gridDimensions.width) / 2),
+      y: ((this.canvas.getDimensions().height - this.config.gridDimensions.height) / 2),
+    }
+    this.endPosition = {
+      x: this.startPosition.x + this.config.tileColumns * this.config.tileSize,
+      y: this.startPosition.y + this.config.tileRows * this.config.tileSize,
     }
   }
+
+
 
   createSheet(): void {
     for (let i = 0; i < this.config.tileColumns; i++) {
@@ -46,15 +58,60 @@ export class Grid implements AppStateObserver {
 
     for (let i = 0; i < this.config.tileColumns; i++) {
       for (let j = 0; j < this.config.tileRows; j++) {
-        this.canvas.draw(this.sheet[i][j], this.offSetToCenter);
+        this.canvas.draw(this.sheet[i][j], this.startPosition);
       }
     }
+  }
+
+  drawTile(tile: Tile): void {
+    this.canvas.draw(tile, this.startPosition)
   }
 
   onAppStateChange(): void {
     this.calculateOffsetToCenter();
     this.drawSheet();
   }
+
+  updateFromMouse(mousePosition: Position): void {
+    const tile = this.getTileFromPosition(mousePosition);
+    if (!tile) return;
+
+    this.updateHighlight(tile)
+  }
+
+  updateHighlight(tile: Tile) {
+    if (tile === this.currentHighlight) return;
+
+
+    if (this.currentHighlight) {
+      this.currentHighlight.setFlag('isHighlight', false);
+      this.canvas.draw(this.currentHighlight, this.startPosition);
+    }
+    this.currentHighlight = tile;
+    this.currentHighlight.setFlag('isHighlight', true);
+    this.canvas.draw(this.currentHighlight, this.startPosition);
+  }
+
+  isWithinGrid(pos: Position): boolean {
+    if (pos.x < this.startPosition.x || pos.x > this.endPosition.x) return false;
+    if (pos.y < this.startPosition.y || pos.y > this.endPosition.y) return false;
+
+    return true;
+  }
+
+  getTileFromPosition(pos: Position): Tile | null {
+    if (!this.isWithinGrid(pos)) return null;
+
+    const x = Math.floor(pos.x / this.config.tileSize);
+    const y = Math.floor(pos.y / this.config.tileSize);
+
+    return this.getTile(x, y);
+  }
+
+  getTile(row: number, column: number): Tile | null {
+    return this.sheet[row] ? this.sheet[row][column] : null;
+  }
+
 
   static getInstance(config?: GridConfig): Grid {
     if (!Grid.instance) {
@@ -70,94 +127,5 @@ type GridConfig = {
   tileRows: number;
   tileColumns: number;
   gridDimensions: Dimensions;
-}
-
-type GridBuilderRange = {
-  value?: number;
-  maxValue: number;
-  minValue: number;
-  defaultValue: number;
-}
-
-export class GridBuilder {
-  tileSize: GridBuilderRange;
-  tileRows: GridBuilderRange;
-  tilesColumns: GridBuilderRange;
-
-  private canvasDimensions = Canvas.getInstance().getDimensions();
-
-  constructor() {
-    //these values need adjusting. also consider what happens for diffrent canvas sizes.
-    this.tileSize = {
-      minValue: 10,
-      maxValue: 50,
-      defaultValue: 30,
-    }
-    this.tileRows = {
-      minValue: 5,
-      maxValue: 50,
-      defaultValue: Math.floor(this.canvasDimensions.height / this.tileSize.defaultValue),
-    }
-    this.tilesColumns = {
-      minValue: 5,
-      maxValue: 50,
-      defaultValue: Math.floor(this.canvasDimensions.width / this.tileSize.defaultValue),
-    }
-  }
-
-  withTileSize(size: number | undefined): GridBuilder {
-    if (size === undefined) return this;
-
-    this.tileSize.value = this.validateInRange(size, this.tileSize);
-
-    return this;
-  }
-
-  withTileRows(rows: number | undefined): GridBuilder {
-    if (rows === undefined) return this;
-
-    this.tileRows.value = this.validateInRange(rows, this.tileRows)
-
-    return this;
-  }
-
-  withTileColumns(columns: number | undefined): GridBuilder {
-    if (columns === undefined) return this;
-
-    this.tilesColumns.value = this.validateInRange(columns, this.tilesColumns)
-    return this;
-  }
-
-  //this build method needs testing and adjusting, for now this simplified logic will do
-  build(): Grid {
-    if (!this.tilesColumns.value) {
-      this.tilesColumns.value = this.tileSize.value ? this.validateInRange(Math.floor(this.canvasDimensions.width / this.tileSize.value), this.tilesColumns) : this.tilesColumns.defaultValue;
-    }
-    if (!this.tileRows.value) {
-      this.tileRows.value = this.tileSize.value ? this.validateInRange(Math.floor(this.canvasDimensions.height / this.tileSize.value), this.tileRows) : this.tileRows.defaultValue;
-    }
-    if (!this.tileSize.value) {
-      this.tileSize.value = this.validateInRange(Math.floor(this.canvasDimensions.width / this.tilesColumns.value), this.tileSize)
-    }
-
-    return Grid.getInstance({
-      tileSize: this.tileSize.value,
-      tileRows: this.tileRows.value,
-      tileColumns: this.tilesColumns.value,
-      gridDimensions: {
-        width: this.tilesColumns.value * this.tileSize.value,
-        height: this.tileRows.value * this.tileSize.value,
-      }
-    });
-  }
-
-  private validateInRange(value: number, range: GridBuilderRange): number {
-    if (range.maxValue < range.minValue) throw new Error('Range does not exist')
-    if (value > range.maxValue || value < range.minValue) {
-      return range.defaultValue;
-    } else {
-      return Math.floor(value);
-    }
-  }
 }
 

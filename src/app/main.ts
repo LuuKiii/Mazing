@@ -1,5 +1,6 @@
 import { Canvas } from './core/canvas'
-import { Grid, GridBuilder } from './core/grid'
+import { Grid } from './core/grid'
+import { GridBuilder } from './core/grid-builder'
 import { WindowManager } from './menu/window-manager'
 
 export class App {
