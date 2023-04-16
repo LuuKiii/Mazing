@@ -1,5 +1,5 @@
 import { reducer } from "./reducer";
-import { Action, AppStateObserver, Reducer } from "./redux.interface";
+import { Action, AppStateObserver, Reducer } from "./state.interface";
 import { AppState, initalState } from "./state";
 
 

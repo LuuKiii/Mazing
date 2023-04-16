@@ -1,6 +1,6 @@
 import { Dimensions, Drawable, Position } from "./utils";
 import { Store } from '../state/store'
-import { AppStateObserver } from "../state/redux.interface";
+import { AppStateObserver } from "../state/state.interface";
 import { ScreenModes } from "../state/state";
 import { CanvasInteractions } from './canvas-interactions'
 import { ColorObject } from '../utils/colors'

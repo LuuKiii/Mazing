@@ -1,4 +1,4 @@
-import { Action, ChangeAlgorithmAction, ChangeScreenMode, Reducer } from "./redux.interface";
+import { Action, ChangeAlgorithmAction, ChangeScreenModeAction, GridFillAction, Reducer } from "./state.interface";
 import { AppState } from "./state";
 
 export const reducer: Reducer<AppState> = (state: AppState, action: Action): AppState => {
@@ -11,7 +11,15 @@ export const reducer: Reducer<AppState> = (state: AppState, action: Action): App
     case 'CHANGE_SCREEN_MODE':
       return {
         ...state,
-        screenMode: (action as ChangeScreenMode).payload.changeTo
+        screenMode: (action as ChangeScreenModeAction).payload.changeTo
+      }
+    case 'GRID_FILL': 
+      return {
+        ...state,
+        gridActions: {
+          ...state.gridActions,
+          ...(action as GridFillAction).payload
+        }
       }
     default:
       return state;

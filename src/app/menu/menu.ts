@@ -5,12 +5,17 @@ export class Menu {
   private static instance: Menu;
   private settingsEl: HTMLElement;
   private fullScrnEl: HTMLElement;
+  private settingsBtns: ButtonsType;
   private store: Store;
 
   private constructor() {
     this.settingsEl = document.getElementById('settings')!;
     this.fullScrnEl = document.getElementById('screen-size')!;
     this.store = Store.getInstance()
+
+    this.settingsBtns = {
+      clear: this.settingsEl.querySelector('#clear-btn')!
+    }
 
     this.init();
   }
@@ -29,6 +34,10 @@ export class Menu {
         this.store.dispatch(Actions.changeCanvasSize('Fullscreen'))
       }
     });
+
+    this.settingsBtns.clear.addEventListener('click', (ev: MouseEvent) => {
+      this.store.dispatch(Actions.fillGridWith('EMPTY', true));
+    })
   }
 
   static getInstance(): Menu {
@@ -37,4 +46,8 @@ export class Menu {
     }
     return Menu.instance;
   }
+}
+
+type ButtonsType = {
+  clear: HTMLButtonElement
 }

@@ -1,4 +1,4 @@
-import { AppStateObserver } from "../state/redux.interface";
+import { AppStateObserver } from "../state/state.interface";
 import { AppState } from "../state/state";
 import { Store } from "../state/store";
 import { TileType } from "../utils/colors";
@@ -6,6 +6,7 @@ import { Canvas } from "./canvas";
 import { MouseEventsType, MouseObserver, PressedMouseButtonType, mouseButtons } from "./canvas-interactions";
 import { Tile } from "./tile";
 import { Dimensions, Position } from "./utils";
+import { Actions } from "../state/actions";
 
 export class Grid implements AppStateObserver, MouseObserver {
   private static instance: Grid;
@@ -88,6 +89,15 @@ export class Grid implements AppStateObserver, MouseObserver {
   }
 
   onAppStateChange(): void {
+    const state = this.store.getState()
+
+    if (state.gridActions.isToCreateNew) {
+      //this function will be called again due to new dispatch, therefor it returns here to not draw sheet two times
+      this.createSheet();
+      this.store.dispatch(Actions.fillGridWith(state.gridActions.fillWith, false))
+      return;
+    }
+
     this.calculateOffsetToCenter();
     this.drawSheet();
   }

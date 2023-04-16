@@ -1,6 +1,6 @@
-import { AvailableAlgorithms, ScreenModes } from "./state";
+import { AvailableAlgorithms, FillGridWith, ScreenModes } from "./state";
 
-type ActionTypes = 'CHANGE_SELECTED_ALGORITHM' | 'CHANGE_SCREEN_MODE';
+type ActionTypes = 'CHANGE_SELECTED_ALGORITHM' | 'CHANGE_SCREEN_MODE' | 'GRID_FILL';
 
 export interface Action {
   type: ActionTypes;
@@ -13,9 +13,16 @@ export interface ChangeAlgorithmAction extends Action {
   }
 }
 
-export interface ChangeScreenMode extends Action {
+export interface ChangeScreenModeAction extends Action {
   payload: {
     changeTo: ScreenModes
+  }
+}
+
+export interface GridFillAction extends Action {
+  payload: {
+    fillWith: FillGridWith
+    isToCreateNew: boolean
   }
 }
 

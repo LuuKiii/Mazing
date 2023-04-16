@@ -1,4 +1,4 @@
-import { AppStateObserver } from '../state/redux.interface'
+import { AppStateObserver } from '../state/state.interface'
 import { ScreenModes } from '../state/state';
 import { Store } from '../state/store'
 import { Menu } from './menu';

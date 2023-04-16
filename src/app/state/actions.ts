@@ -1,5 +1,5 @@
-import { Action, ChangeAlgorithmAction, ChangeScreenMode } from "./redux.interface";
-import { AvailableAlgorithms, ScreenModes } from "./state";
+import { Action, ChangeAlgorithmAction, ChangeScreenModeAction, GridFillAction } from "./state.interface";
+import { AvailableAlgorithms, FillGridWith, ScreenModes } from "./state";
 
 export class Actions {
   static changeSelectedAlgorithm(changeTo: AvailableAlgorithms): ChangeAlgorithmAction {
@@ -11,11 +11,21 @@ export class Actions {
     }
   }
 
-  static changeCanvasSize(changeTo: ScreenModes): ChangeScreenMode {
+  static changeCanvasSize(changeTo: ScreenModes): ChangeScreenModeAction {
     return {
       type: 'CHANGE_SCREEN_MODE',
       payload: {
         changeTo: changeTo
+      }
+    }
+  }
+
+  static fillGridWith(fillGridWith: FillGridWith, isToCreateNew = false): GridFillAction {
+    return {
+      type: 'GRID_FILL',
+      payload: {
+        fillWith: fillGridWith,
+        isToCreateNew: isToCreateNew
       }
     }
   }

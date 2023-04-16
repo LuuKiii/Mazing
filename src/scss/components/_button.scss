@@ -1,0 +1,18 @@
+.button {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 1rem 3rem;
+
+  font-family: "Roboto Mono";
+  background-color: $light-gray;
+  color: $dark-gray;
+
+  transition-property: background-color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $primary-light;
+  }
+}
