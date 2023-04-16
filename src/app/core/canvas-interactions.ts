@@ -27,8 +27,24 @@ export class CanvasInteractions {
       this.updateMouseObservers('mousemove');
     })
 
+    //mouseleave needs to set all possibly clicked buttons to false, because when button was released outside of canvas element, this is not updated here.
+    //mouseenter resets clickedbuttons
     this.element.addEventListener('mouseleave', (ev: MouseEvent) => {
+      for (const keyName in this.currentPressedButtons) {
+        this.currentPressedButtons[keyName as keyof PressedMouseButtonType] = false;
+      }
       this.updateMouseObservers('mouseleave')
+    })
+
+    this.element.addEventListener('mouseenter', (ev: MouseEvent) => {
+      //for some reason event.button is not correctly reported in this event, which lead to creating this monstrosity 
+      if (ev.buttons === 1) this.currentPressedButtons.lmb = true;
+      if (ev.buttons === 2) this.currentPressedButtons.rmb = true;
+      if (ev.buttons === 3) {
+        this.currentPressedButtons.lmb = true;
+        this.currentPressedButtons.rmb = true;
+      }
+      this.updateMouseObservers('mouseenter')
     })
 
     this.element.addEventListener('mousedown', (ev: MouseEvent) => {
@@ -74,7 +90,7 @@ export interface MouseObserver {
   updateFromMouse(mousePosition: Position, eventType: MouseEventsType, buttonClicked?: PressedMouseButtonType): void;
 }
 
-export type MouseEventsType = 'mousemove' | 'mouseleave' | 'mouseup' | 'mousedown';
+export type MouseEventsType = 'mousemove' | 'mouseleave' | 'mouseenter' | 'mouseup' | 'mousedown';
 
 export type PressedMouseButtonType = Record<keyof typeof mouseButtons, boolean>
 

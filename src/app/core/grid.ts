@@ -15,7 +15,7 @@ export class Grid implements AppStateObserver, MouseObserver {
   private store;
 
   private currentHoveredTile: Tile | null = null;
-  private actionsToPerformOnHoveredTile: Record<ActionsOnHoveredTileType, boolean> = {
+  private actionsToPerformOnHoveredTile: ActionFlagsOnHoveredTileType = {
     changeTypeToEmpty: false,
     changeTypeToWall: false
   };
@@ -99,15 +99,20 @@ export class Grid implements AppStateObserver, MouseObserver {
         this.changeCurrentHoveredTile(tile)
         this.updateCurrentHoveredTileFromActions();
         break;
-      case 'mouseleave':
-        this.removeCurrentHoveredTile();
-        break;
       case 'mouseup':
         this.handleMouseButtonReleased(pressedMouseButtons);
         break;
       case 'mousedown':
         this.handleMouseButtonPressed(pressedMouseButtons);
         this.updateCurrentHoveredTileFromActions();
+        break;
+      case 'mouseenter':
+        this.handleMouseButtonPressed(pressedMouseButtons);
+        this.updateCurrentHoveredTileFromActions();
+        break;
+      case 'mouseleave':
+        this.removeCurrentHoveredTile();
+        this.disableAllAcions();
         break;
     }
   }
@@ -140,6 +145,12 @@ export class Grid implements AppStateObserver, MouseObserver {
     }
     if (!(clickedButton.rmb)) {
       this.actionsToPerformOnHoveredTile.changeTypeToEmpty = false;
+    }
+  }
+
+  private disableAllAcions(): void {
+    for (const actionName in this.actionsToPerformOnHoveredTile) {
+      this.actionsToPerformOnHoveredTile[actionName as keyof ActionFlagsOnHoveredTileType] = false;
     }
   }
 
@@ -192,6 +203,8 @@ export class Grid implements AppStateObserver, MouseObserver {
     return Grid.instance;
   }
 }
+
+type ActionFlagsOnHoveredTileType = Record<ActionsOnHoveredTileType, boolean>
 
 type ActionsOnHoveredTileType = 'changeTypeToWall' | 'changeTypeToEmpty';
 
