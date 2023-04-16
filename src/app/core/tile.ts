@@ -1,5 +1,6 @@
 import { Drawable, Position, TileFlags } from "./utils"
 import { ColorObject, TIleColoredElements, TileType } from '../utils/colors'
+import { Grid } from "./grid";
 
 export class Tile implements Drawable {
   private sheetPos: Position;
@@ -9,8 +10,9 @@ export class Tile implements Drawable {
   private flags: TileFlags = {
     isHighlight: false,
   }
+  private redrawMethod: (t: Tile) => void;
 
-  constructor(x: number, y: number, size: number) {
+  constructor(x: number, y: number, size: number, redrawMethod: ((tile: Tile) => void)) {
     this.tileSize = size;
     this.sheetPos = {
       x: x,
@@ -21,6 +23,7 @@ export class Tile implements Drawable {
       y: y * this.tileSize,
     }
     this.type = 'EMPTY';
+    this.redrawMethod = redrawMethod
   }
 
   setType(type: TileType): void {
@@ -38,6 +41,10 @@ export class Tile implements Drawable {
       default:
         return ColorObject.tile.normal[this.type][colorType];
     }
+  }
+
+  requestRedraw(): void {
+    this.redrawMethod(this);
   }
 
   draw(ctx: CanvasRenderingContext2D, offSet: Position): void {

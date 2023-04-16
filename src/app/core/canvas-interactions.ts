@@ -18,7 +18,7 @@ export class CanvasInteractions {
     this.setListeners()
   }
 
-  setListeners(): void {
+  private setListeners(): void {
     this.element.addEventListener('mousemove', (ev: MouseEvent) => {
       const rect = this.element.getBoundingClientRect();
       this.mousePos.x = ev.clientX - rect.left;

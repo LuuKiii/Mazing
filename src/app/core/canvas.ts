@@ -29,7 +29,7 @@ export class Canvas implements AppStateObserver {
     this.store.subscribe(this);
   }
 
-  changeCanvasDimensions(changeSizeTo: ScreenModes): void {
+  private changeCanvasDimensions(changeSizeTo: ScreenModes): void {
     if (changeSizeTo === this.currentScreenMode) return;
 
     this.currentScreenMode = changeSizeTo;
@@ -52,7 +52,7 @@ export class Canvas implements AppStateObserver {
     this.applyCanvasDimensions();
   }
 
-  applyCanvasDimensions(): void {
+  private applyCanvasDimensions(): void {
     this.element.width = this.dimensions.width;
     this.element.height = this.dimensions.height;
   }
