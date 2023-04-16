@@ -107,6 +107,7 @@ export class Grid implements AppStateObserver, MouseObserver {
         break;
       case 'mousedown':
         this.handleMouseButtonPressed(pressedMouseButtons);
+        this.updateCurrentHoveredTileFromActions();
         break;
     }
   }
