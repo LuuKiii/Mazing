@@ -1,6 +1,7 @@
+import { Dimensions } from "../core/utils";
 import { AvailableAlgorithms, FillGridWith, ScreenModes } from "./state";
 
-type ActionTypes = 'CHANGE_SELECTED_ALGORITHM' | 'CHANGE_SCREEN_MODE' | 'GRID_FILL';
+type ActionTypes = 'CHANGE_SELECTED_ALGORITHM' | 'CHANGE_SCREEN_MODE' | 'GRID_FILL' | 'CHANGE_SCREEN_SIZE';
 
 export interface Action {
   type: ActionTypes;
@@ -23,6 +24,12 @@ export interface GridFillAction extends Action {
   payload: {
     fillWith: FillGridWith
     isToCreateNew: boolean
+  }
+}
+
+export interface ChangeScreenSizeWindowAction extends Action {
+  payload: {
+    windowSize: Dimensions
   }
 }
 

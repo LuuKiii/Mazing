@@ -1,7 +1,10 @@
+import { Dimensions } from "../core/utils";
+
 export interface AppState {
   selectedAlgorithm: AvailableAlgorithms;
   screenMode: ScreenModes;
-  gridActions: GridState
+  windowSize: Dimensions;
+  gridActions: GridState;
 }
 
 export type GridState = {
@@ -16,6 +19,10 @@ export type FillGridWith = 'EMPTY' | 'WALL'
 export const initalState: AppState = {
   selectedAlgorithm: 'Dijkstra',
   screenMode: 'Desktop-wrapped',
+  windowSize: {
+    height: window.innerHeight,
+    width: window.innerWidth,
+  },
   gridActions: {
     fillWith: 'EMPTY',
     isToCreateNew: false,

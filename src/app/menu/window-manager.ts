@@ -2,6 +2,8 @@ import { AppStateObserver } from '../state/state.interface'
 import { ScreenModes } from '../state/state';
 import { Store } from '../state/store'
 import { Menu } from './menu';
+import { Dimensions } from '../core/utils';
+import { Actions } from '../state/actions';
 
 export class WindowManager implements AppStateObserver {
   private static instance: WindowManager;
@@ -19,6 +21,18 @@ export class WindowManager implements AppStateObserver {
     this.store = Store.getInstance();
     this.store.subscribe(this);
     this.onAppStateChange()
+
+    this.setupListeners()
+  }
+
+  setupListeners(): void {
+    window.addEventListener('resize', (ev: UIEvent) => {
+      const windowSize: Dimensions = {
+        width: window.innerWidth,
+        height: window.innerHeight
+      }
+      this.store.dispatch(Actions.changeWindowSize(windowSize))
+    })
   }
 
   onAppStateChange(): void {
