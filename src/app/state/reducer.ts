@@ -1,4 +1,4 @@
-import { Action, ChangeAlgorithmAction, ChangeScreenModeAction, ChangeScreenSizeWindowAction, GridFillAction, Reducer } from "./state.interface";
+import { Action, ChangeAlgorithmAction, ChangeScreenModeAction, ChangeScreenSizeWindowAction, GridFillAction, Reducer, SetNextTileAsAction } from "./state.interface";
 import { AppState } from "./state";
 
 export const reducer: Reducer<AppState> = (state: AppState, action: Action): AppState => {
@@ -28,6 +28,11 @@ export const reducer: Reducer<AppState> = (state: AppState, action: Action): App
           ...state.windowSize,
           ...(action as ChangeScreenSizeWindowAction).payload.windowSize
         }
+      }
+    case 'SET_NEXT_TILE_AS':
+      return {
+        ...state,
+        setNextTileAs: (action as SetNextTileAsAction).payload.setNextTileAs
       }
     default:
       return state;

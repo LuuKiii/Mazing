@@ -1,4 +1,4 @@
-import { Action, ChangeAlgorithmAction, ChangeScreenModeAction, ChangeScreenSizeWindowAction, GridFillAction } from "./state.interface";
+import { Action, ChangeAlgorithmAction, ChangeScreenModeAction, ChangeScreenSizeWindowAction, GridFillAction, SetNextTileAsAction } from "./state.interface";
 import { AvailableAlgorithms, FillGridWith, ScreenModes } from "./state";
 import { Dimensions } from "../core/utils";
 
@@ -39,6 +39,15 @@ export class Actions {
           width: windowSize.width,
           height: windowSize.height
         }
+      }
+    }
+  }
+
+  static setNextTileAs(setAs: 'start' | 'end' | null): SetNextTileAsAction {
+    return {
+      type: 'SET_NEXT_TILE_AS',
+      payload: {
+        setNextTileAs: setAs
       }
     }
   }

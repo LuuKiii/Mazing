@@ -15,10 +15,21 @@ export class Grid implements AppStateObserver, MouseObserver {
   private canvas;
   private store;
 
-  private currentHoveredTile: Tile | null = null;
+  private currentTile: {
+    hover: Tile | null,
+    start: Tile | null,
+    end: Tile | null,
+  } = {
+      hover: null,
+      start: null,
+      end: null,
+    }
+
   private actionsToPerformOnHoveredTile: ActionFlagsOnHoveredTileType = {
     changeTypeToEmpty: false,
-    changeTypeToWall: false
+    changeTypeToWall: false,
+    setFlagToStart: false,
+    setFlagToEnd: false,
   };
 
   private startPosition: Position = { x: 0, y: 0 };
@@ -48,6 +59,7 @@ export class Grid implements AppStateObserver, MouseObserver {
   }
 
   createSheet(): void {
+    this.nullCurrentTiles();
     this.sheet = [];
     for (let i = 0; i < this.config.tileColumns; i++) {
       this.sheet[i] = [];
@@ -98,6 +110,19 @@ export class Grid implements AppStateObserver, MouseObserver {
       return;
     }
 
+    console.log(state)
+    switch (state.setNextTileAs) {
+      case 'start':
+        this.actionsToPerformOnHoveredTile.setFlagToStart = true;
+        break;
+      case 'end':
+        this.actionsToPerformOnHoveredTile.setFlagToEnd = true;
+        break;
+      default:
+        this.actionsToPerformOnHoveredTile.setFlagToEnd = false;
+        this.actionsToPerformOnHoveredTile.setFlagToStart = false;
+    }
+
     this.calculateOffsetToCenter();
     this.drawSheet();
   }
@@ -128,14 +153,28 @@ export class Grid implements AppStateObserver, MouseObserver {
   }
 
   private updateCurrentHoveredTileFromActions(): void {
-    if (!this.currentHoveredTile) return;
+    if (!this.currentTile.hover) return;
 
     switch (true) {
       case this.actionsToPerformOnHoveredTile.changeTypeToEmpty:
-        this.setTileAsEmpty(this.currentHoveredTile);
+        //this code will be changed, for now i just want this to work
+        if (this.actionsToPerformOnHoveredTile.setFlagToStart) {
+          this.currentTile.hover.setFlag("isStartPoint", true)
+          //need to assing this through one dedicated method to avoid trouble down the road.
+          this.currentTile.start = this.currentTile.hover;
+          this.store.dispatch(Actions.setNextTileAs(null))
+          return;
+        }
+        if (this.actionsToPerformOnHoveredTile.setFlagToEnd) {
+          this.currentTile.hover.setFlag("isEndPoint", true)
+          this.currentTile.end = this.currentTile.hover;
+          this.store.dispatch(Actions.setNextTileAs(null))
+          return;
+        }
+        this.setTileAsEmpty(this.currentTile.hover);
         break;
       case this.actionsToPerformOnHoveredTile.changeTypeToWall:
-        this.setTileAsWall(this.currentHoveredTile)
+        this.setTileAsWall(this.currentTile.hover)
         break;
     }
   }
@@ -165,23 +204,30 @@ export class Grid implements AppStateObserver, MouseObserver {
   }
 
   private changeCurrentHoveredTile(tile: Tile | null): void {
-    if (tile === this.currentHoveredTile) return;
+    if (tile === this.currentTile.hover) return;
     this.removeCurrentHoveredTile();
     if (!tile) return;
     this.setCurrentHoveredTile(tile)
   }
 
   private setCurrentHoveredTile(tile: Tile): void {
-    this.currentHoveredTile = tile;
-    this.currentHoveredTile.setFlag('isHighlight', true);
-    this.canvas.draw(this.currentHoveredTile, this.startPosition);
+    this.currentTile.hover = tile;
+    this.currentTile.hover.setFlag('isHighlight', true);
+    this.canvas.draw(this.currentTile.hover, this.startPosition);
   }
 
   private removeCurrentHoveredTile(): void {
-    if (this.currentHoveredTile) {
-      this.currentHoveredTile.setFlag('isHighlight', false);
-      this.canvas.draw(this.currentHoveredTile, this.startPosition);
-      this.currentHoveredTile = null;
+    if (this.currentTile.hover) {
+      this.currentTile.hover.setFlag('isHighlight', false);
+      this.canvas.draw(this.currentTile.hover, this.startPosition);
+      this.currentTile.hover = null;
+    }
+  }
+
+  private nullCurrentTiles(except?: keyof typeof this.currentTile): void {
+    for (const tileName in this.currentTile) {
+      if (tileName === except) continue;
+      this.currentTile[tileName as keyof typeof this.currentTile] = null
     }
   }
 
@@ -216,7 +262,7 @@ export class Grid implements AppStateObserver, MouseObserver {
 
 type ActionFlagsOnHoveredTileType = Record<ActionsOnHoveredTileType, boolean>
 
-type ActionsOnHoveredTileType = 'changeTypeToWall' | 'changeTypeToEmpty';
+type ActionsOnHoveredTileType = 'changeTypeToWall' | 'changeTypeToEmpty' | 'setFlagToStart' | 'setFlagToEnd';
 
 type GridConfig = {
   tileSize: number;

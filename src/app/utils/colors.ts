@@ -1,34 +1,58 @@
 export const ColorObject: ColorObjectType = {
   tile: {
-    normal: {
-      EMPTY: {
-        outline: '#4d596f',
-        fill: '#b3c2d0',
+    EMPTY: {
+      none: {
+        outline: {
+          normal: '#4d596f',
+          highlight: '#717a8c',
+        },
+        fill: {
+          normal: '#b3c2d0',
+          highlight: '#c2ced9'
+        },
       },
-      WALL: {
-        outline: '#4d596f',
-        fill: '#202231'
+      start: {
+        outline: {
+          normal: '#4d596f',
+          highlight: '#717a8c',
+        },
+        fill: {
+          normal: '#08a14c',
+          highlight: '#29cc72'
+        },
+      },
+      end: {
+        outline: {
+          normal: '#4d596f',
+          highlight: '#717a8c',
+        },
+        fill: {
+          normal: '#942637',
+          highlight: '#b03e4f'
+        },
       }
     },
-    highlight: {
-      EMPTY: {
-        outline: '#717a8c',
-        fill: '#c2ced9'
+    WALL: {
+      outline: {
+        normal: '#4d596f',
+        highlight: '#4d4e5a',
       },
-      WALL: {
-        outline: '#4d4e5a',
-        fill: '#717a8c'
+      fill: {
+        normal: '#202231',
+        highlight: '#717a8c',
       }
     }
   },
   canvas: {
-    background: '#202231'
+    background: "#202231"
   }
 }
 
 export type TIleColoredElements = 'fill' | 'outline'
 
 export type TileType = 'WALL' | 'EMPTY';
+
+export type TileFlag = 'none' | 'start' | 'end';
 
 export const enum ColorVariants {
   normal = 'normal',
@@ -37,13 +61,22 @@ export const enum ColorVariants {
 
 export type ColorObjectType = {
   tile: {
-    [key in ColorVariants]: {
-      [key in TileType]: {
-        [key in TIleColoredElements]: string
+    EMPTY: {
+      [key in TileFlag]: {
+        [key in TIleColoredElements]: {
+          [key in ColorVariants]: string
+        }
       }
-    }
+    },
+    WALL: {
+      [key in TIleColoredElements]: {
+        [key in ColorVariants]: string
+      }
+    },
   },
   canvas: {
     background: string
   }
 }
+
+

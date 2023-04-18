@@ -29,14 +29,14 @@ export class Canvas implements AppStateObserver {
     this.store.subscribe(this);
   }
 
-  private changeCanvasDimensions(changeSizeTo: ScreenModes, dimensions: Dimensions): void {
+  private changeCanvasDimensions(changeSizeTo: ScreenModes, windowSize: Dimensions): void {
     this.currentScreenMode = changeSizeTo;
 
     switch (this.currentScreenMode) {
       case 'Fullscreen':
         this.dimensions = {
-          width: dimensions.width,
-          height: dimensions.height,
+          width: windowSize.width,
+          height: windowSize.height,
         }
         break;
       case "Desktop-wrapped":

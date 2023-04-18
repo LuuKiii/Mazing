@@ -14,13 +14,15 @@ export class Menu {
     this.store = Store.getInstance()
 
     this.settingsBtns = {
-      clear: this.settingsEl.querySelector('#clear-btn')!
+      clear: this.settingsEl.querySelector('#clear-btn')!,
+      setStart: this.settingsEl.querySelector('#set-start-btn')!,
+      setEnd: this.settingsEl.querySelector('#set-end-btn')!,
     }
 
     this.init();
   }
 
-  init(): void {
+  private init(): void {
     (this.settingsEl.querySelector('#settings-icon') as HTMLElement).addEventListener('click', (ev: MouseEvent) => {
       this.settingsEl.classList.toggle('open');
     });
@@ -38,6 +40,24 @@ export class Menu {
     this.settingsBtns.clear.addEventListener('click', (ev: MouseEvent) => {
       this.store.dispatch(Actions.fillGridWith('EMPTY', true));
     })
+
+    this.settingsBtns.setStart.addEventListener('click', (ev: MouseEvent) => {
+      this.closeMenu()
+      this.store.dispatch(Actions.setNextTileAs('start'))
+    })
+
+    this.settingsBtns.setEnd.addEventListener('click', (ev: MouseEvent) => {
+      this.closeMenu()
+      this.store.dispatch(Actions.setNextTileAs('end'))
+    })
+  }
+
+  closeMenu(): void {
+    this.settingsEl.classList.remove('open')
+  }
+
+  openMenu(): void {
+    this.settingsEl.classList.add('open')
   }
 
   static getInstance(): Menu {
@@ -49,5 +69,7 @@ export class Menu {
 }
 
 type ButtonsType = {
-  clear: HTMLButtonElement
+  clear: HTMLButtonElement,
+  setStart: HTMLButtonElement,
+  setEnd: HTMLButtonElement,
 }

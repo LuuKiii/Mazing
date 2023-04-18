@@ -1,5 +1,5 @@
 import { Drawable, Position, TileFlags } from "./utils"
-import { ColorObject, TIleColoredElements, TileType } from '../utils/colors'
+import { ColorObject, TIleColoredElements, TileFlag, TileType } from '../utils/colors'
 import { Grid } from "./grid";
 
 export class Tile implements Drawable {
@@ -9,6 +9,8 @@ export class Tile implements Drawable {
   private type: TileType;
   private flags: TileFlags = {
     isHighlight: false,
+    isStartPoint: false,
+    isEndPoint: false,
   }
   private redrawMethod: (t: Tile) => void;
 
@@ -35,11 +37,21 @@ export class Tile implements Drawable {
   }
 
   getColor(colorType: TIleColoredElements): string {
+    if (this.type === 'WALL') {
+      return ColorObject.tile[this.type][colorType][this.flags.isHighlight ? 'highlight' : 'normal'];
+    } else {
+      return ColorObject.tile[this.type][this.getOneFlagByPriorityAsString()][colorType][this.flags.isHighlight ? 'highlight' : 'normal']
+    }
+  }
+
+  getOneFlagByPriorityAsString(): TileFlag {
     switch (true) {
-      case this.flags.isHighlight:
-        return ColorObject.tile.highlight[this.type][colorType];
+      case this.flags.isStartPoint:
+        return 'start'
+      case this.flags.isEndPoint:
+        return 'end'
       default:
-        return ColorObject.tile.normal[this.type][colorType];
+        return 'none'
     }
   }
 

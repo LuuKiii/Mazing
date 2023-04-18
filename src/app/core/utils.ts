@@ -10,6 +10,8 @@ export type Dimensions = {
 
 export type TileFlags = {
   isHighlight: boolean,
+  isStartPoint: boolean,
+  isEndPoint: boolean,
 }
 
 export interface Drawable {

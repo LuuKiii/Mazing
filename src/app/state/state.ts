@@ -5,6 +5,7 @@ export interface AppState {
   screenMode: ScreenModes;
   windowSize: Dimensions;
   gridActions: GridState;
+  setNextTileAs: 'start' | 'end' | null
 }
 
 export type GridState = {
@@ -26,5 +27,6 @@ export const initalState: AppState = {
   gridActions: {
     fillWith: 'EMPTY',
     isToCreateNew: false,
-  }
+  },
+  setNextTileAs: null
 }
