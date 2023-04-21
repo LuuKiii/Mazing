@@ -1,6 +1,5 @@
-import { Drawable, Position, TileFlags } from "./utils"
-import { ColorObject, TIleColoredElements, TileFlag, TileType } from '../utils/colors'
-import { Grid } from "./grid";
+import { Drawable, Position } from "./utils"
+import { ColorObject } from '../utils/colors'
 
 export class Tile implements Drawable {
   private sheetPos: Position;
@@ -44,7 +43,7 @@ export class Tile implements Drawable {
     }
   }
 
-  getOneFlagByPriorityAsString(): TileFlag {
+  getOneFlagByPriorityAsString(): TilePoint {
     switch (true) {
       case this.flags.isStartPoint:
         return 'start'
@@ -66,4 +65,13 @@ export class Tile implements Drawable {
     ctx.lineWidth = 2;
     ctx.strokeRect(this.canvasPos.x + offSet.x, this.canvasPos.y + offSet.y, this.tileSize, this.tileSize)
   };
+}
+
+export type TIleColoredElements = 'fill' | 'outline'
+export type TileType = 'WALL' | 'EMPTY';
+export type TilePoint = 'none' | 'start' | 'end';
+export type TileFlags = {
+  isHighlight: boolean,
+  isStartPoint: boolean,
+  isEndPoint: boolean,
 }

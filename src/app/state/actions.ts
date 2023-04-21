@@ -1,6 +1,7 @@
-import { Action, ChangeAlgorithmAction, ChangeScreenModeAction, ChangeScreenSizeWindowAction, GridFillAction, SetNextTileAsAction } from "./state.interface";
-import { AvailableAlgorithms, FillGridWith, ScreenModes } from "./state";
+import { ChangeAlgorithmAction, ChangeScreenModeAction, ChangeScreenSizeWindowAction, GridClearAction, GridNoneAction, GridSetNextClickedTileAction } from "./state.interface";
+import { AvailableAlgorithms, ScreenModes } from "./state";
 import { Dimensions } from "../core/utils";
+import { TilePoint } from "../core/tile";
 
 export class Actions {
   static changeSelectedAlgorithm(changeTo: AvailableAlgorithms): ChangeAlgorithmAction {
@@ -21,16 +22,6 @@ export class Actions {
     }
   }
 
-  static fillGridWith(fillGridWith: FillGridWith, isToCreateNew = false): GridFillAction {
-    return {
-      type: 'GRID_FILL',
-      payload: {
-        fillWith: fillGridWith,
-        isToCreateNew: isToCreateNew
-      }
-    }
-  }
-
   static changeWindowSize(windowSize: Dimensions): ChangeScreenSizeWindowAction {
     return {
       type: 'CHANGE_SCREEN_SIZE',
@@ -43,11 +34,35 @@ export class Actions {
     }
   }
 
-  static setNextTileAs(setAs: 'start' | 'end' | null): SetNextTileAsAction {
+  //probably should seperate this to other reducer, but for now this will do
+  static gridClearAction(): GridClearAction {
     return {
-      type: 'SET_NEXT_TILE_AS',
+      type: 'GRID_ACTION',
       payload: {
-        setNextTileAs: setAs
+        type: 'CLEAR',
+        data: undefined
+      }
+    }
+  }
+
+  static gridSetNextClickedButtonAsAction(setTo: TilePoint): GridSetNextClickedTileAction {
+    return {
+      type: 'GRID_ACTION',
+      payload: {
+        type: 'SET_NEXT_TILE_AS',
+        data: {
+          setTo: setTo
+        }
+      }
+    }
+  }
+
+  static gridNoneAction(): GridNoneAction {
+    return {
+      type: 'GRID_ACTION',
+      payload: {
+        type: 'NONE',
+        data: undefined
       }
     }
   }

@@ -1,7 +1,9 @@
+import { GridActionsType } from "../core/grid-handler";
+import { TilePoint } from "../core/tile";
 import { Dimensions } from "../core/utils";
-import { AvailableAlgorithms, FillGridWith, ScreenModes } from "./state";
+import { AvailableAlgorithms, ScreenModes } from "./state";
 
-type ActionTypes = 'CHANGE_SELECTED_ALGORITHM' | 'CHANGE_SCREEN_MODE' | 'CHANGE_SCREEN_SIZE' | 'GRID_FILL' | 'SET_NEXT_TILE_AS';
+type ActionTypes = 'CHANGE_SELECTED_ALGORITHM' | 'CHANGE_SCREEN_MODE' | 'CHANGE_SCREEN_SIZE' | 'GRID_ACTION';
 
 export interface Action {
   type: ActionTypes;
@@ -20,22 +22,45 @@ export interface ChangeScreenModeAction extends Action {
   }
 }
 
-export interface GridFillAction extends Action {
-  payload: {
-    fillWith: FillGridWith
-    isToCreateNew: boolean
-  }
-}
-
 export interface ChangeScreenSizeWindowAction extends Action {
   payload: {
     windowSize: Dimensions
   }
 }
 
-export interface SetNextTileAsAction extends Action {
+//
+//
+// GRID ACTIONS
+
+export interface GridAction extends Action {
   payload: {
-    setNextTileAs: 'start' | 'end' | null
+    type: GridActionsType,
+    data?: {
+      [key: string]: any
+    }
+  }
+}
+
+export interface GridClearAction extends GridAction {
+  payload: {
+    type: 'CLEAR',
+    data: undefined
+  }
+}
+
+export interface GridSetNextClickedTileAction extends GridAction {
+  payload: {
+    type: 'SET_NEXT_TILE_AS',
+    data: {
+      setTo: TilePoint
+    }
+  }
+}
+
+export interface GridNoneAction extends GridAction {
+  payload: {
+    type: 'NONE'
+    data: undefined
   }
 }
 

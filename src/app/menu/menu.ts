@@ -38,17 +38,17 @@ export class Menu {
     });
 
     this.settingsBtns.clear.addEventListener('click', (ev: MouseEvent) => {
-      this.store.dispatch(Actions.fillGridWith('EMPTY', true));
+      this.store.dispatch(Actions.gridClearAction())
     })
 
     this.settingsBtns.setStart.addEventListener('click', (ev: MouseEvent) => {
       this.closeMenu()
-      this.store.dispatch(Actions.setNextTileAs('start'))
+      this.store.dispatch(Actions.gridSetNextClickedButtonAsAction('start'))
     })
 
     this.settingsBtns.setEnd.addEventListener('click', (ev: MouseEvent) => {
       this.closeMenu()
-      this.store.dispatch(Actions.setNextTileAs('end'))
+      this.store.dispatch(Actions.gridSetNextClickedButtonAsAction('end'))
     })
   }
 

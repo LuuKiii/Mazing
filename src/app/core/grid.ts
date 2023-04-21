@@ -1,19 +1,13 @@
-import { AppStateObserver } from "../state/state.interface";
-import { AppState } from "../state/state";
-import { Store } from "../state/store";
-import { TileType } from "../utils/colors";
 import { Canvas } from "./canvas";
-import { MouseEventsType, MouseObserver, PressedMouseButtonType, mouseButtons } from "./canvas-interactions";
-import { Tile } from "./tile";
-import { Dimensions, Position } from "./utils";
-import { Actions } from "../state/actions";
+import { MouseEventsType, MouseObserver, PressedMouseButtonType } from "./canvas-interactions";
+import { Tile, TilePoint, TileType } from "./tile";
+import { Dimensions, Position, StringLiteralUnionWithout } from "./utils";
 
-export class Grid implements AppStateObserver, MouseObserver {
+export class Grid implements MouseObserver {
   private static instance: Grid;
   private sheet: Tile[][] = [];
   private config: GridConfig;
   private canvas;
-  private store;
 
   private currentTile: {
     hover: Tile | null,
@@ -32,6 +26,8 @@ export class Grid implements AppStateObserver, MouseObserver {
     setFlagToEnd: false,
   };
 
+  private nextTileFlag: TilePoint = 'none';
+
   private startPosition: Position = { x: 0, y: 0 };
   private endPosition: Position = { x: 0, y: 0 }
 
@@ -39,8 +35,6 @@ export class Grid implements AppStateObserver, MouseObserver {
     this.config = config;
     this.canvas = Canvas.getInstance();
     this.canvas.interaction.subscribeToMouseUpdates(this);
-    this.store = Store.getInstance();
-    this.store.subscribe(this)
 
     this.calculateOffsetToCenter()
     this.createSheet()
@@ -58,7 +52,7 @@ export class Grid implements AppStateObserver, MouseObserver {
     }
   }
 
-  createSheet(): void {
+  private createSheet(): void {
     this.nullCurrentTiles();
     this.sheet = [];
     for (let i = 0; i < this.config.tileColumns; i++) {
@@ -100,31 +94,39 @@ export class Grid implements AppStateObserver, MouseObserver {
     this.setTileType(tile, 'EMPTY')
   }
 
-  onAppStateChange(): void {
-    const state = this.store.getState()
+  private setTileAsPoint(tile: Tile, tilePoint: StringLiteralUnionWithout<TilePoint, 'none'>): void {
+    this.setTileAsEmpty(tile);
+    this.setNextTilePointFlag('none');
 
-    if (state.gridActions.isToCreateNew) {
-      //this function will be called again due to new dispatch, therefor it returns here to not draw sheet two times
-      this.createSheet();
-      this.store.dispatch(Actions.fillGridWith(state.gridActions.fillWith, false))
-      return;
-    }
+    if (tilePoint === 'start') this.setTileAsPointStart(tile)
+    if (tilePoint === 'end') this.setTileAsPointEnd(tile)
 
-    console.log(state)
-    switch (state.setNextTileAs) {
-      case 'start':
-        this.actionsToPerformOnHoveredTile.setFlagToStart = true;
-        break;
-      case 'end':
-        this.actionsToPerformOnHoveredTile.setFlagToEnd = true;
-        break;
-      default:
-        this.actionsToPerformOnHoveredTile.setFlagToEnd = false;
-        this.actionsToPerformOnHoveredTile.setFlagToStart = false;
-    }
+    this.actionsToPerformOnHoveredTile.setFlagToStart = false;
+    this.actionsToPerformOnHoveredTile.setFlagToEnd = false;
+  }
 
-    this.calculateOffsetToCenter();
-    this.drawSheet();
+  private setTileAsPointStart(tile: Tile): void {
+    if (this.currentTile.end === tile) return;
+    if (this.currentTile.start) this.unsetTileAsPoint('start');
+    this.currentTile.start = tile;
+    tile.setFlag('isStartPoint', true);
+    this.drawTile(tile);
+  }
+
+  private setTileAsPointEnd(tile: Tile): void {
+    if (this.currentTile.start === tile) return;
+    if (this.currentTile.end) this.unsetTileAsPoint('end');
+    this.currentTile.end = tile;
+    tile.setFlag('isEndPoint', true);
+    this.drawTile(tile);
+  }
+
+  private unsetTileAsPoint(tilePoint: StringLiteralUnionWithout<TilePoint, 'none'>): void {
+    if (!this.currentTile[tilePoint]) return;
+    this.currentTile[tilePoint]?.setFlag('isStartPoint', false);
+    this.currentTile[tilePoint]?.setFlag('isEndPoint', false);
+    this.drawTile(this.currentTile[tilePoint]!)
+    this.currentTile[tilePoint] === null;
   }
 
   updateFromMouse(mousePosition: Position, eventType: MouseEventsType, pressedMouseButtons: PressedMouseButtonType): void {
@@ -156,21 +158,13 @@ export class Grid implements AppStateObserver, MouseObserver {
     if (!this.currentTile.hover) return;
 
     switch (true) {
+      case this.actionsToPerformOnHoveredTile.setFlagToStart:
+        this.setTileAsPoint(this.currentTile.hover, 'start')
+        break;
+      case this.actionsToPerformOnHoveredTile.setFlagToEnd:
+        this.setTileAsPoint(this.currentTile.hover, 'end')
+        break;
       case this.actionsToPerformOnHoveredTile.changeTypeToEmpty:
-        //this code will be changed, for now i just want this to work
-        if (this.actionsToPerformOnHoveredTile.setFlagToStart) {
-          this.currentTile.hover.setFlag("isStartPoint", true)
-          //need to assing this through one dedicated method to avoid trouble down the road.
-          this.currentTile.start = this.currentTile.hover;
-          this.store.dispatch(Actions.setNextTileAs(null))
-          return;
-        }
-        if (this.actionsToPerformOnHoveredTile.setFlagToEnd) {
-          this.currentTile.hover.setFlag("isEndPoint", true)
-          this.currentTile.end = this.currentTile.hover;
-          this.store.dispatch(Actions.setNextTileAs(null))
-          return;
-        }
         this.setTileAsEmpty(this.currentTile.hover);
         break;
       case this.actionsToPerformOnHoveredTile.changeTypeToWall:
@@ -178,13 +172,19 @@ export class Grid implements AppStateObserver, MouseObserver {
         break;
     }
   }
-
+  //these functions will just assing true to stuff that should be done on click, but what will be done in case if there will be multiple things set to true will be decided in updateCurrentHoveredTileFromActions
   private handleMouseButtonPressed(clickedButton: PressedMouseButtonType): void {
     if (clickedButton.lmb) {
       this.actionsToPerformOnHoveredTile.changeTypeToWall = true;
     }
     if (clickedButton.rmb) {
       this.actionsToPerformOnHoveredTile.changeTypeToEmpty = true;
+    }
+    if ((clickedButton.lmb || clickedButton.rmb) && this.nextTileFlag === 'start') {
+      this.actionsToPerformOnHoveredTile.setFlagToStart = true;
+    }
+    if ((clickedButton.lmb || clickedButton.rmb) && this.nextTileFlag === 'end') {
+      this.actionsToPerformOnHoveredTile.setFlagToEnd = true;
     }
   }
 
@@ -231,14 +231,18 @@ export class Grid implements AppStateObserver, MouseObserver {
     }
   }
 
-  isWithinGrid(pos: Position): boolean {
+  private setNextTilePointFlag(setAs: TilePoint): void {
+    this.nextTileFlag = setAs
+  }
+
+  private isWithinGrid(pos: Position): boolean {
     if (pos.x < this.startPosition.x || pos.x > this.endPosition.x) return false;
     if (pos.y < this.startPosition.y || pos.y > this.endPosition.y) return false;
 
     return true;
   }
 
-  getTileFromPosition(pos: Position): Tile | null {
+  private getTileFromPosition(pos: Position): Tile | null {
     if (!this.isWithinGrid(pos)) return null;
 
     const x = Math.floor((pos.x - this.startPosition.x) / this.config.tileSize);
@@ -247,8 +251,23 @@ export class Grid implements AppStateObserver, MouseObserver {
     return this.getTile(x, y);
   }
 
-  getTile(row: number, column: number): Tile | null {
+  private getTile(row: number, column: number): Tile | null {
     return this.sheet[row] ? this.sheet[row][column] : null;
+  }
+
+  //OutsideActions
+
+  createSheetAction(): void {
+    this.createSheet();
+  }
+
+  setNextTilePointFlagAction(setAs: TilePoint): void {
+    this.setNextTilePointFlag(setAs)
+  }
+
+  redrawAction(): void {
+    this.calculateOffsetToCenter();
+    this.drawSheet();
   }
 
   static getInstance(config?: GridConfig): Grid {
@@ -270,4 +289,3 @@ type GridConfig = {
   tileColumns: number;
   gridDimensions: Dimensions;
 }
-

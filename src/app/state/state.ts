@@ -1,11 +1,12 @@
+import { GridActionsType } from "../core/grid-handler";
 import { Dimensions } from "../core/utils";
+import { GridAction } from './state.interface';
 
 export interface AppState {
   selectedAlgorithm: AvailableAlgorithms;
   screenMode: ScreenModes;
   windowSize: Dimensions;
-  gridActions: GridState;
-  setNextTileAs: 'start' | 'end' | null
+  gridAction: GridActionObj
 }
 
 export type GridState = {
@@ -16,6 +17,12 @@ export type GridState = {
 export type AvailableAlgorithms = 'Dijkstra' | 'AStar';
 export type ScreenModes = 'Fullscreen' | 'Desktop-wrapped';
 export type FillGridWith = 'EMPTY' | 'WALL'
+export type GridActionObj = {
+  type: GridActionsType,
+  data?: {
+    [key: string]: any
+  }
+}
 
 export const initalState: AppState = {
   selectedAlgorithm: 'Dijkstra',
@@ -24,9 +31,8 @@ export const initalState: AppState = {
     height: window.innerHeight,
     width: window.innerWidth,
   },
-  gridActions: {
-    fillWith: 'EMPTY',
-    isToCreateNew: false,
-  },
-  setNextTileAs: null
+  gridAction: {
+    type: 'NONE',
+    data: undefined
+  }
 }

@@ -8,12 +8,8 @@ export type Dimensions = {
   height: number
 }
 
-export type TileFlags = {
-  isHighlight: boolean,
-  isStartPoint: boolean,
-  isEndPoint: boolean,
-}
-
 export interface Drawable {
   draw: (ctx: CanvasRenderingContext2D, offSet: Position) => void;
 }
+
+export type StringLiteralUnionWithout<T, K extends T> = T extends K ? never : T

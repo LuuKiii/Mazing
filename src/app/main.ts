@@ -1,19 +1,17 @@
 import { Canvas } from './core/canvas'
-import { Grid } from './core/grid'
-import { GridBuilder } from './core/grid-builder'
 import { WindowManager } from './menu/window-manager'
+import { GridHandler } from './core/grid-handler';
 
 export class App {
   private static instance: App;
   private canvas: Canvas;
-  private grid: Grid;
   private windowMngr: WindowManager;
+  private gridHanlder: GridHandler;
 
   private constructor() {
     this.windowMngr = WindowManager.getInstance();
     this.canvas = Canvas.getInstance();
-    this.grid = new GridBuilder().build();
-    this.grid.createSheet();
+    this.gridHanlder = GridHandler.getInstance();
   }
 
   static getInstance(): App {

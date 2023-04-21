@@ -1,3 +1,5 @@
+import { TIleColoredElements, TilePoint } from "../core/tile"
+
 export const ColorObject: ColorObjectType = {
   tile: {
     EMPTY: {
@@ -48,12 +50,6 @@ export const ColorObject: ColorObjectType = {
   }
 }
 
-export type TIleColoredElements = 'fill' | 'outline'
-
-export type TileType = 'WALL' | 'EMPTY';
-
-export type TileFlag = 'none' | 'start' | 'end';
-
 export const enum ColorVariants {
   normal = 'normal',
   highlight = 'highlight',
@@ -62,7 +58,7 @@ export const enum ColorVariants {
 export type ColorObjectType = {
   tile: {
     EMPTY: {
-      [key in TileFlag]: {
+      [key in TilePoint]: {
         [key in TIleColoredElements]: {
           [key in ColorVariants]: string
         }
