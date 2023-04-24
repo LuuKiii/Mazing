@@ -6,11 +6,8 @@ export class Tile implements Drawable {
   private tileSize: number;
   private canvasPos: Position;
   private type: TileType;
-  private flags: TileFlags = {
-    isHighlight: false,
-    isStartPoint: false,
-    isEndPoint: false,
-  }
+  private pointType: TilePointAllTypes;
+  private isHighlighted: boolean = false;
   private redrawMethod: (t: Tile) => void;
 
   constructor(x: number, y: number, size: number, redrawMethod: ((tile: Tile) => void)) {
@@ -24,33 +21,31 @@ export class Tile implements Drawable {
       y: y * this.tileSize,
     }
     this.type = 'EMPTY';
-    this.redrawMethod = redrawMethod
+    this.pointType = 'none';
+    this.redrawMethod = redrawMethod;
   }
 
   setType(type: TileType): void {
     this.type = type;
   }
 
-  setFlag(flag: keyof TileFlags, value: boolean): void {
-    this.flags[flag] = value;
+  setPointType(pointName: TilePointAllTypes): void {
+    this.pointType = pointName;
+  }
+
+  getPointType(): TilePointAllTypes {
+    return this.pointType;
+  }
+
+  setHightlighted(value: boolean): void {
+    this.isHighlighted = value;
   }
 
   getColor(colorType: TIleColoredElements): string {
     if (this.type === 'WALL') {
-      return ColorObject.tile[this.type][colorType][this.flags.isHighlight ? 'highlight' : 'normal'];
+      return ColorObject.tile[this.type][colorType][this.isHighlighted ? 'highlight' : 'normal'];
     } else {
-      return ColorObject.tile[this.type][this.getOneFlagByPriorityAsString()][colorType][this.flags.isHighlight ? 'highlight' : 'normal']
-    }
-  }
-
-  getOneFlagByPriorityAsString(): TilePointAllTypes {
-    switch (true) {
-      case this.flags.isStartPoint:
-        return 'start'
-      case this.flags.isEndPoint:
-        return 'end'
-      default:
-        return 'none'
+      return ColorObject.tile[this.type][this.pointType][colorType][this.isHighlighted ? 'highlight' : 'normal']
     }
   }
 
@@ -67,7 +62,7 @@ export class Tile implements Drawable {
   };
 }
 
-export type TIleColoredElements = 'fill' | 'outline'
+export type TIleColoredElements = 'fill' | 'outline';
 export type TileType = 'WALL' | 'EMPTY';
 export type TilePointAllTypes = 'none' | 'start' | 'end';
 export type TilePoint = StringLiteralUnionWithout<TilePointAllTypes, 'none'>
