@@ -1,4 +1,4 @@
-import { Drawable, Position } from "./utils"
+import { Drawable, Position, StringLiteralUnionWithout } from "./utils"
 import { ColorObject } from '../utils/colors'
 
 export class Tile implements Drawable {
@@ -43,7 +43,7 @@ export class Tile implements Drawable {
     }
   }
 
-  getOneFlagByPriorityAsString(): TilePoint {
+  getOneFlagByPriorityAsString(): TilePointAllTypes {
     switch (true) {
       case this.flags.isStartPoint:
         return 'start'
@@ -69,7 +69,8 @@ export class Tile implements Drawable {
 
 export type TIleColoredElements = 'fill' | 'outline'
 export type TileType = 'WALL' | 'EMPTY';
-export type TilePoint = 'none' | 'start' | 'end';
+export type TilePointAllTypes = 'none' | 'start' | 'end';
+export type TilePoint = StringLiteralUnionWithout<TilePointAllTypes, 'none'>
 export type TileFlags = {
   isHighlight: boolean,
   isStartPoint: boolean,

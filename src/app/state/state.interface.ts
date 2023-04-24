@@ -1,5 +1,5 @@
 import { GridActionsType } from "../core/grid-handler";
-import { TilePoint } from "../core/tile";
+import { TilePointAllTypes } from "../core/tile";
 import { Dimensions } from "../core/utils";
 import { AvailableAlgorithms, ScreenModes } from "./state";
 
@@ -52,7 +52,7 @@ export interface GridSetNextClickedTileAction extends GridAction {
   payload: {
     type: 'SET_NEXT_TILE_AS',
     data: {
-      setTo: TilePoint
+      setTo: TilePointAllTypes
     }
   }
 }

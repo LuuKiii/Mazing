@@ -1,7 +1,7 @@
 import { ChangeAlgorithmAction, ChangeScreenModeAction, ChangeScreenSizeWindowAction, GridClearAction, GridNoneAction, GridSetNextClickedTileAction } from "./state.interface";
 import { AvailableAlgorithms, ScreenModes } from "./state";
 import { Dimensions } from "../core/utils";
-import { TilePoint } from "../core/tile";
+import { TilePointAllTypes } from "../core/tile";
 
 export class Actions {
   static changeSelectedAlgorithm(changeTo: AvailableAlgorithms): ChangeAlgorithmAction {
@@ -45,7 +45,7 @@ export class Actions {
     }
   }
 
-  static gridSetNextClickedButtonAsAction(setTo: TilePoint): GridSetNextClickedTileAction {
+  static gridSetNextClickedButtonAsAction(setTo: TilePointAllTypes): GridSetNextClickedTileAction {
     return {
       type: 'GRID_ACTION',
       payload: {

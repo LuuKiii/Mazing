@@ -1,6 +1,6 @@
 import { Canvas } from "./canvas";
 import { MouseEventsType, MouseObserver, PressedMouseButtonType } from "./canvas-interactions";
-import { Tile, TilePoint, TileType } from "./tile";
+import { Tile, TilePoint, TilePointAllTypes, TileType } from './tile';
 import { Dimensions, Position, StringLiteralUnionWithout } from "./utils";
 
 export class Grid implements MouseObserver {
@@ -9,12 +9,10 @@ export class Grid implements MouseObserver {
   private config: GridConfig;
   private canvas;
 
-  private currentTile: {
-    hover: Tile | null,
-    start: Tile | null,
-    end: Tile | null,
+  private currentHoveredTile: Tile | null = null;
+  private currentPointTiles: {
+    [key in TilePoint]: Tile | null
   } = {
-      hover: null,
       start: null,
       end: null,
     }
@@ -26,7 +24,7 @@ export class Grid implements MouseObserver {
     setFlagToEnd: false,
   };
 
-  private nextTileFlag: TilePoint = 'none';
+  private nextTileFlag: TilePointAllTypes = 'none';
 
   private startPosition: Position = { x: 0, y: 0 };
   private endPosition: Position = { x: 0, y: 0 }
@@ -88,13 +86,23 @@ export class Grid implements MouseObserver {
 
   private setTileAsWall(tile: Tile): void {
     this.setTileType(tile, 'WALL')
+
+    const currentTilePoint = this.getCurrentTileAsPointName(tile)
+    if (currentTilePoint !== 'none') {
+      this.unsetTileAsPoint(currentTilePoint);
+    }
   }
 
   private setTileAsEmpty(tile: Tile): void {
     this.setTileType(tile, 'EMPTY')
+
+    const currentTilePoint = this.getCurrentTileAsPointName(tile)
+    if (currentTilePoint !== 'none') {
+      this.unsetTileAsPoint(currentTilePoint);
+    }
   }
 
-  private setTileAsPoint(tile: Tile, tilePoint: StringLiteralUnionWithout<TilePoint, 'none'>): void {
+  private setTileAsPoint(tile: Tile, tilePoint: TilePoint): void {
     this.setTileAsEmpty(tile);
     this.setNextTilePointFlag('none');
 
@@ -106,27 +114,46 @@ export class Grid implements MouseObserver {
   }
 
   private setTileAsPointStart(tile: Tile): void {
-    if (this.currentTile.end === tile) return;
-    if (this.currentTile.start) this.unsetTileAsPoint('start');
-    this.currentTile.start = tile;
+    if (this.currentPointTiles.end === tile) return;
+    if (this.currentPointTiles.start) this.unsetTileAsPoint('start');
+    this.currentPointTiles.start = tile;
     tile.setFlag('isStartPoint', true);
     this.drawTile(tile);
   }
 
   private setTileAsPointEnd(tile: Tile): void {
-    if (this.currentTile.start === tile) return;
-    if (this.currentTile.end) this.unsetTileAsPoint('end');
-    this.currentTile.end = tile;
+    if (this.currentPointTiles.start === tile) return;
+    if (this.currentPointTiles.end) this.unsetTileAsPoint('end');
+    this.currentPointTiles.end = tile;
     tile.setFlag('isEndPoint', true);
     this.drawTile(tile);
   }
 
-  private unsetTileAsPoint(tilePoint: StringLiteralUnionWithout<TilePoint, 'none'>): void {
-    if (!this.currentTile[tilePoint]) return;
-    this.currentTile[tilePoint]?.setFlag('isStartPoint', false);
-    this.currentTile[tilePoint]?.setFlag('isEndPoint', false);
-    this.drawTile(this.currentTile[tilePoint]!)
-    this.currentTile[tilePoint] === null;
+  private getCurrentPointTile(tile: Tile): keyof typeof this.currentPointTiles | null {
+    for (const keyName in this.currentPointTiles) {
+      if (this.currentPointTiles[keyName as keyof typeof this.currentPointTiles] === tile) return keyName as keyof typeof this.currentPointTiles;
+    }
+    return null;
+  }
+
+  private getCurrentTileAsPointName(tile: Tile): TilePointAllTypes {
+    const currentTile = this.getCurrentPointTile(tile);
+    switch (currentTile) {
+      case 'start':
+        return 'start';
+      case 'end':
+        return 'end';
+      default:
+        return 'none';
+    }
+  }
+
+  private unsetTileAsPoint(tilePoint: TilePoint): void {
+    if (!this.currentPointTiles[tilePoint]) return;
+    this.currentPointTiles[tilePoint]?.setFlag('isStartPoint', false);
+    this.currentPointTiles[tilePoint]?.setFlag('isEndPoint', false);
+    this.drawTile(this.currentPointTiles[tilePoint]!)
+    this.currentPointTiles[tilePoint] === null;
   }
 
   updateFromMouse(mousePosition: Position, eventType: MouseEventsType, pressedMouseButtons: PressedMouseButtonType): void {
@@ -155,20 +182,20 @@ export class Grid implements MouseObserver {
   }
 
   private updateCurrentHoveredTileFromActions(): void {
-    if (!this.currentTile.hover) return;
+    if (!this.currentHoveredTile) return;
 
     switch (true) {
       case this.actionsToPerformOnHoveredTile.setFlagToStart:
-        this.setTileAsPoint(this.currentTile.hover, 'start')
+        this.setTileAsPoint(this.currentHoveredTile, 'start')
         break;
       case this.actionsToPerformOnHoveredTile.setFlagToEnd:
-        this.setTileAsPoint(this.currentTile.hover, 'end')
+        this.setTileAsPoint(this.currentHoveredTile, 'end')
         break;
       case this.actionsToPerformOnHoveredTile.changeTypeToEmpty:
-        this.setTileAsEmpty(this.currentTile.hover);
+        this.setTileAsEmpty(this.currentHoveredTile);
         break;
       case this.actionsToPerformOnHoveredTile.changeTypeToWall:
-        this.setTileAsWall(this.currentTile.hover)
+        this.setTileAsWall(this.currentHoveredTile)
         break;
     }
   }
@@ -204,34 +231,33 @@ export class Grid implements MouseObserver {
   }
 
   private changeCurrentHoveredTile(tile: Tile | null): void {
-    if (tile === this.currentTile.hover) return;
+    if (tile === this.currentHoveredTile) return;
     this.removeCurrentHoveredTile();
     if (!tile) return;
     this.setCurrentHoveredTile(tile)
   }
 
   private setCurrentHoveredTile(tile: Tile): void {
-    this.currentTile.hover = tile;
-    this.currentTile.hover.setFlag('isHighlight', true);
-    this.canvas.draw(this.currentTile.hover, this.startPosition);
+    this.currentHoveredTile = tile;
+    this.currentHoveredTile.setFlag('isHighlight', true);
+    this.canvas.draw(this.currentHoveredTile, this.startPosition);
   }
 
   private removeCurrentHoveredTile(): void {
-    if (this.currentTile.hover) {
-      this.currentTile.hover.setFlag('isHighlight', false);
-      this.canvas.draw(this.currentTile.hover, this.startPosition);
-      this.currentTile.hover = null;
+    if (this.currentHoveredTile) {
+      this.currentHoveredTile.setFlag('isHighlight', false);
+      this.canvas.draw(this.currentHoveredTile, this.startPosition);
+      this.currentHoveredTile = null;
     }
   }
 
-  private nullCurrentTiles(except?: keyof typeof this.currentTile): void {
-    for (const tileName in this.currentTile) {
-      if (tileName === except) continue;
-      this.currentTile[tileName as keyof typeof this.currentTile] = null
+  private nullCurrentTiles(): void {
+    for (const tileName in this.currentPointTiles) {
+      this.currentPointTiles[tileName as keyof typeof this.currentPointTiles] = null
     }
   }
 
-  private setNextTilePointFlag(setAs: TilePoint): void {
+  private setNextTilePointFlag(setAs: TilePointAllTypes): void {
     this.nextTileFlag = setAs
   }
 
@@ -261,7 +287,7 @@ export class Grid implements MouseObserver {
     this.createSheet();
   }
 
-  setNextTilePointFlagAction(setAs: TilePoint): void {
+  setNextTilePointFlagAction(setAs: TilePointAllTypes): void {
     this.setNextTilePointFlag(setAs)
   }
 
