@@ -1,5 +1,5 @@
-import { GridActionsType } from "../core/grid-handler";
-import { TilePointAllTypes } from "../core/tile";
+import { GridActionsType } from "../core/grid/grid-handler";
+import { TilePointAllTypes } from "../core/grid/tile";
 import { Dimensions } from "../core/utils";
 import { AvailableAlgorithms, ScreenModes } from "./state";
 

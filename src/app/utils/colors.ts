@@ -1,4 +1,4 @@
-import { TIleColoredElements, TilePointAllTypes } from "../core/tile"
+import { TilePointAllTypes, TIleColoredElements } from "../core/grid/tile"
 
 export const ColorObject: ColorObjectType = {
   tile: {

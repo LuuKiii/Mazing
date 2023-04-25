@@ -1,8 +1,9 @@
-import { Actions } from '../state/actions';
-import { AppStateObserver, GridAction, GridSetNextClickedTileAction } from '../state/state.interface';
-import { Store } from '../state/store';
+import { Actions } from "../../state/actions";
+import { AppStateObserver } from "../../state/state.interface";
+import { Store } from "../../state/store";
 import { Grid } from './grid';
 import { GridBuilder } from './grid-builder';
+
 
 export class GridHandler implements AppStateObserver {
   private static instance: GridHandler;

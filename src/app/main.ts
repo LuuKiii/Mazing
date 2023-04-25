@@ -1,6 +1,6 @@
-import { Canvas } from './core/canvas'
-import { WindowManager } from './menu/window-manager'
-import { GridHandler } from './core/grid-handler';
+import { WindowManager } from './menu/window-manager';
+import { Canvas } from './core/canvas/canvas';
+import { GridHandler } from './core/grid/grid-handler';
 
 export class App {
   private static instance: App;

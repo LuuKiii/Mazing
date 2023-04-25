@@ -1,9 +1,10 @@
-import { Dimensions, Drawable, Position } from "./utils";
-import { Store } from '../state/store'
-import { AppStateObserver } from "../state/state.interface";
-import { ScreenModes } from "../state/state";
-import { CanvasInteractions } from './canvas-interactions'
-import { ColorObject } from '../utils/colors'
+import { ScreenModes } from "../../state/state";
+import { AppStateObserver } from "../../state/state.interface";
+import { Store } from "../../state/store";
+import { ColorObject } from "../../utils/colors";
+import { Dimensions, Drawable, Position } from "../utils";
+import { CanvasInteractions } from "./canvas-interactions";
+
 
 export class Canvas implements AppStateObserver {
   private static instance: Canvas;

@@ -1,5 +1,5 @@
-import { Canvas } from "./canvas";
 import { Grid } from "./grid";
+import { Canvas } from '../canvas/canvas';
 
 type GridBuilderRange = {
   value?: number;

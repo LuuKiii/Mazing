@@ -1,5 +1,6 @@
-import { Drawable, Position, StringLiteralUnionWithout } from "./utils"
-import { ColorObject } from '../utils/colors'
+import { Drawable, Position, StringLiteralUnionWithout } from "../utils";
+import { ColorObject } from '../../utils/colors';
+
 
 export class Tile implements Drawable {
   private sheetPos: Position;

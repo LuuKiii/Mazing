@@ -1,4 +1,4 @@
-import { GridActionsType } from "../core/grid-handler";
+import { GridActionsType } from "../core/grid/grid-handler";
 import { Dimensions } from "../core/utils";
 import { GridAction } from './state.interface';
 

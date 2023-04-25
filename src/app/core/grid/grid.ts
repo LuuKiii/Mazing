@@ -1,7 +1,8 @@
-import { Canvas } from "./canvas";
-import { MouseEventsType, MouseObserver, PressedMouseButtonType } from "./canvas-interactions";
+import { Canvas } from "../canvas/canvas";
+import { MouseObserver, MouseEventsType, PressedMouseButtonType } from "../canvas/canvas-interactions";
+import { Position, Dimensions } from "../utils";
 import { Tile, TilePoint, TilePointAllTypes, TileType } from './tile';
-import { Dimensions, Position } from "./utils";
+
 
 export class Grid implements MouseObserver {
   private static instance: Grid;
