@@ -1,4 +1,4 @@
-import { Actions } from "../../state/actions";
+import { GridActionObjType, GridActionsType } from "../../state/grid-actions.interface";
 import { AppStateObserver } from "../../state/state.interface";
 import { Store } from "../../state/store";
 import { Grid } from './grid';
@@ -9,6 +9,7 @@ export class GridHandler implements AppStateObserver {
   private static instance: GridHandler;
   private grid: Grid
   private store: Store;
+  private prevGridActionId: string = '';
 
   private constructor() {
     this.grid = new GridBuilder().build();
@@ -18,12 +19,14 @@ export class GridHandler implements AppStateObserver {
 
   onAppStateChange(): void {
     const state = this.store.getState();
-    const gridAction: GridActionsType = state.gridAction.type;
+    const gridAction: GridActionObjType = state.gridAction;
 
-    switch (gridAction) {
+    if (state.gridAction.id === this.prevGridActionId) return;
+    this.prevGridActionId = state.gridAction.id;
+
+    switch (gridAction.type) {
       case 'CLEAR':
         this.createNewGrid();
-        this.completeGridAction();
         break;
       case 'SET_NEXT_TILE_AS':
         //thats a temporary ugly workaround. gotta fix typing in those actions later
@@ -49,10 +52,6 @@ export class GridHandler implements AppStateObserver {
     this.grid.setNextTilePointFlagAction('end')
   }
 
-  completeGridAction(): void {
-    this.store.dispatch(Actions.gridNoneAction())
-  }
-
   redrawGrid(): void {
     this.grid.redrawAction();
   }
@@ -64,5 +63,3 @@ export class GridHandler implements AppStateObserver {
     return GridHandler.instance;
   }
 }
-
-export type GridActionsType = 'CLEAR' | 'SET_NEXT_TILE_AS' | 'NONE'; 

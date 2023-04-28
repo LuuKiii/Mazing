@@ -1,7 +1,9 @@
-import { ChangeAlgorithmAction, ChangeScreenModeAction, ChangeScreenSizeWindowAction, GridClearAction, GridNoneAction, GridSetNextClickedTileAction } from "./state.interface";
+import { ChangeAlgorithmAction, ChangeScreenModeAction, ChangeScreenSizeWindowAction } from "./state.interface";
 import { AvailableAlgorithms, ScreenModes } from "./state";
 import { Dimensions } from "../core/utils";
 import { TilePointAllTypes } from "../core/grid/tile";
+import { generateRandomID } from '../utils/functions';
+import { GridSetNextClickedTileAction, GridClearAction } from './grid-actions.interface';
 
 export class Actions {
   static changeSelectedAlgorithm(changeTo: AvailableAlgorithms): ChangeAlgorithmAction {
@@ -40,6 +42,7 @@ export class Actions {
       type: 'GRID_ACTION',
       payload: {
         type: 'CLEAR',
+        id: generateRandomID(),
         data: undefined
       }
     }
@@ -50,19 +53,10 @@ export class Actions {
       type: 'GRID_ACTION',
       payload: {
         type: 'SET_NEXT_TILE_AS',
+        id: generateRandomID(),
         data: {
           setTo: setTo
         }
-      }
-    }
-  }
-
-  static gridNoneAction(): GridNoneAction {
-    return {
-      type: 'GRID_ACTION',
-      payload: {
-        type: 'NONE',
-        data: undefined
       }
     }
   }

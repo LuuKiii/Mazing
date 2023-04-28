@@ -1,5 +1,3 @@
-import { GridActionsType } from "../core/grid/grid-handler";
-import { TilePointAllTypes } from "../core/grid/tile";
 import { Dimensions } from "../core/utils";
 import { AvailableAlgorithms, ScreenModes } from "./state";
 
@@ -27,46 +25,6 @@ export interface ChangeScreenSizeWindowAction extends Action {
     windowSize: Dimensions
   }
 }
-
-//
-//
-// GRID ACTIONS
-
-export interface GridAction extends Action {
-  payload: {
-    type: GridActionsType,
-    data?: {
-      [key: string]: any
-    }
-  }
-}
-
-export interface GridClearAction extends GridAction {
-  payload: {
-    type: 'CLEAR',
-    data: undefined
-  }
-}
-
-export interface GridSetNextClickedTileAction extends GridAction {
-  payload: {
-    type: 'SET_NEXT_TILE_AS',
-    data: {
-      setTo: TilePointAllTypes
-    }
-  }
-}
-
-export interface GridNoneAction extends GridAction {
-  payload: {
-    type: 'NONE'
-    data: undefined
-  }
-}
-
-//
-//
-//
 
 export interface Reducer<T> {
   (state: T, action: Action): T;

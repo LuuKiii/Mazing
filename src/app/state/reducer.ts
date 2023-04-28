@@ -1,5 +1,6 @@
-import { Action, ChangeAlgorithmAction, ChangeScreenModeAction, ChangeScreenSizeWindowAction, GridAction, Reducer } from "./state.interface";
+import { Action, ChangeAlgorithmAction, ChangeScreenModeAction, ChangeScreenSizeWindowAction, Reducer } from "./state.interface";
 import { AppState } from "./state";
+import { GridAction } from "./grid-actions.interface";
 
 export const reducer: Reducer<AppState> = (state: AppState, action: Action): AppState => {
   switch (action.type) {
@@ -28,6 +29,7 @@ export const reducer: Reducer<AppState> = (state: AppState, action: Action): App
       return {
         ...state,
         gridAction: {
+          id: (action as GridAction).payload.id,
           type: (action as GridAction).payload.type,
           data: (action as GridAction).payload.data,
         }
