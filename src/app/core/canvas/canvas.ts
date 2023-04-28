@@ -20,6 +20,8 @@ export class Canvas implements AppStateObserver {
     height: 0,
   };
 
+  private canvasObservers: CanvasObserver[] = [];
+
   private constructor() {
     this.element = document.getElementById('canvas') as HTMLCanvasElement;
     this.interactions = CanvasInteractions.getInstance();
@@ -31,6 +33,7 @@ export class Canvas implements AppStateObserver {
   }
 
   private changeCanvasDimensions(changeSizeTo: ScreenModes, windowSize: Dimensions): void {
+    if (changeSizeTo === this.currentScreenMode) return;
     this.currentScreenMode = changeSizeTo;
 
     switch (this.currentScreenMode) {
@@ -49,6 +52,7 @@ export class Canvas implements AppStateObserver {
     }
 
     this.applyCanvasDimensions();
+    this.updateCanvasObservers();
   }
 
   private applyCanvasDimensions(): void {
@@ -75,6 +79,16 @@ export class Canvas implements AppStateObserver {
     return { ...this.dimensions };
   }
 
+  subscribeToCanvas(ob: CanvasObserver): void {
+    this.canvasObservers.push(ob);
+  }
+
+  updateCanvasObservers(): void {
+    this.canvasObservers.forEach(ob => {
+      ob.updateFromCanvas();
+    });
+  }
+
   get interaction() {
     return this.interactions
   }
@@ -85,4 +99,8 @@ export class Canvas implements AppStateObserver {
     }
     return Canvas.instance;
   }
+}
+
+export interface CanvasObserver {
+  updateFromCanvas(): void
 }

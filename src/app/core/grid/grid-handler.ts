@@ -1,11 +1,12 @@
 import { GridActionObjType, GridActionsType } from "../../state/grid-actions.interface";
 import { AppStateObserver } from "../../state/state.interface";
 import { Store } from "../../state/store";
+import { Canvas, CanvasObserver } from "../canvas/canvas";
 import { Grid } from './grid';
 import { GridBuilder } from './grid-builder';
 
 
-export class GridHandler implements AppStateObserver {
+export class GridHandler implements AppStateObserver, CanvasObserver {
   private static instance: GridHandler;
   private grid: Grid
   private store: Store;
@@ -15,6 +16,7 @@ export class GridHandler implements AppStateObserver {
     this.grid = new GridBuilder().build();
     this.store = Store.getInstance();
     this.store.subscribe(this);
+    Canvas.getInstance().subscribeToCanvas(this);
   }
 
   onAppStateChange(): void {
@@ -35,8 +37,13 @@ export class GridHandler implements AppStateObserver {
           if (setGridPoint === 'start') this.setNextTileAsStartPoint();
           if (setGridPoint === 'end') this.setNextTileAsEndPoint();
         }
+        break;
     }
 
+    this.redrawGrid();
+  }
+
+  updateFromCanvas(): void {
     this.redrawGrid();
   }
 
