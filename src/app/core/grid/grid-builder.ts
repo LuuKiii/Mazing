@@ -9,9 +9,9 @@ type GridBuilderRange = {
 }
 
 export class GridBuilder {
-  tileSize: GridBuilderRange;
-  tileRows: GridBuilderRange;
-  tilesColumns: GridBuilderRange;
+  private tileSize: GridBuilderRange;
+  private tileRows: GridBuilderRange;
+  private tilesColumns: GridBuilderRange;
 
   private canvasDimensions = Canvas.getInstance().getDimensions();
 
@@ -69,7 +69,7 @@ export class GridBuilder {
       this.tileSize.value = this.validateInRange(Math.floor(this.canvasDimensions.width / this.tilesColumns.value), this.tileSize)
     }
 
-    return Grid.getInstance({
+    return Grid.getNewInstance({
       tileSize: this.tileSize.value,
       tileRows: this.tileRows.value,
       tileColumns: this.tilesColumns.value,

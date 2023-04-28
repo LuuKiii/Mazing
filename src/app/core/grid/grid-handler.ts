@@ -1,8 +1,8 @@
-import { GridActionObjType, GridActionsType } from "../../state/grid-actions.interface";
+import { GridActionObjType } from "../../state/grid-actions.interface";
 import { AppStateObserver } from "../../state/state.interface";
 import { Store } from "../../state/store";
 import { Canvas, CanvasObserver } from "../canvas/canvas";
-import { Grid } from './grid';
+import { Grid, GridConfigSettable } from './grid';
 import { GridBuilder } from './grid-builder';
 
 
@@ -32,11 +32,14 @@ export class GridHandler implements AppStateObserver, CanvasObserver {
         break;
       case 'SET_NEXT_TILE_AS':
         //thats a temporary ugly workaround. gotta fix typing in those actions later
-        if (state.gridAction.data && state.gridAction.data.setTo) {
-          const setGridPoint = state.gridAction.data.setTo
-          if (setGridPoint === 'start') this.setNextTileAsStartPoint();
-          if (setGridPoint === 'end') this.setNextTileAsEndPoint();
-        }
+        if (!state.gridAction.data) break;
+        const setGridPoint = state.gridAction.data.setTo
+        if (setGridPoint === 'start') this.setNextTileAsStartPoint();
+        if (setGridPoint === 'end') this.setNextTileAsEndPoint();
+        break;
+      case 'SET_SIZE':
+        if (!state.gridAction.data) break;
+        this.resizeGrid(state.gridAction.data.config);
         break;
     }
 
@@ -61,6 +64,15 @@ export class GridHandler implements AppStateObserver, CanvasObserver {
 
   redrawGrid(): void {
     this.grid.redrawAction();
+  }
+
+  resizeGrid(gridConfig: GridConfigSettable): void {
+    const newGrid = new GridBuilder()
+      .withTileSize(gridConfig.tileSize)
+      .withTileColumns(gridConfig.tileColumns)
+      .withTileRows(gridConfig.tileRows)
+      .build()
+    this.grid = newGrid;
   }
 
   static getInstance(): GridHandler {

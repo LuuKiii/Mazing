@@ -3,7 +3,8 @@ import { AvailableAlgorithms, ScreenModes } from "./state";
 import { Dimensions } from "../core/utils";
 import { TilePointAllTypes } from "../core/grid/tile";
 import { generateRandomID } from '../utils/functions';
-import { GridSetNextClickedTileAction, GridClearAction } from './grid-actions.interface';
+import { GridSetNextClickedTileAction, GridClearAction, GridResizeAction } from './grid-actions.interface';
+import { GridConfigSettable } from "../core/grid/grid";
 
 export class Actions {
   static changeSelectedAlgorithm(changeTo: AvailableAlgorithms): ChangeAlgorithmAction {
@@ -56,6 +57,19 @@ export class Actions {
         id: generateRandomID(),
         data: {
           setTo: setTo
+        }
+      }
+    }
+  }
+
+  static gridResize(resizeConfig: GridConfigSettable): GridResizeAction {
+    return {
+      type: 'GRID_ACTION',
+      payload: {
+        type: 'SET_SIZE',
+        id: generateRandomID(),
+        data: {
+          config: resizeConfig
         }
       }
     }
