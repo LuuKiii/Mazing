@@ -33,7 +33,6 @@ export class Canvas implements AppStateObserver {
   }
 
   private changeCanvasDimensions(changeSizeTo: ScreenModes, windowSize: Dimensions): void {
-    if (changeSizeTo === this.currentScreenMode) return;
     this.currentScreenMode = changeSizeTo;
 
     switch (this.currentScreenMode) {

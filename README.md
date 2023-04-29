@@ -14,8 +14,6 @@ This section serves development purposes. I'm using it to track what needs to be
 
 #### TODOS
 
-- fix fullscreen resizing. again.
-
 #### NOTES
 
 - Settings menu will have to be changed.
