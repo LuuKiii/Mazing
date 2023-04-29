@@ -1,3 +1,4 @@
+import { GridConfigSettable } from '../core/grid/grid';
 import { TilePointAllTypes } from '../core/grid/tile';
 import { Action } from './state.interface';
 
@@ -28,19 +29,18 @@ export interface GridSetNextClickedTileAction extends GridAction {
   payload: {
     id: string,
     type: 'SET_NEXT_TILE_AS',
-    data?: {
-      setTo?: TilePointAllTypes
+    data: {
+      setTo: TilePointAllTypes
     }
   }
 }
 
-const obj: GridSetNextClickedTileAction = {
-  type: 'GRID_ACTION',
+export interface GridResizeAction extends GridAction {
   payload: {
-    id: '',
-    type: 'SET_NEXT_TILE_AS',
+    id: string,
+    type: 'SET_SIZE',
     data: {
-      setTo: 'start'
+      config: GridConfigSettable
     }
   }
 }

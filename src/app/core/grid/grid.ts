@@ -301,11 +301,14 @@ export class Grid implements MouseObserver {
     this.drawSheet();
   }
 
-  static getInstance(config?: GridConfig): Grid {
-    if (!Grid.instance) {
-      if (!config) throw new Error('Cannot create grid instance')
-      Grid.instance = new Grid(config);
-    }
+  static getNewInstance(config: GridConfig): Grid {
+    if(Grid.instance) Grid.instance.canvas.interaction.unSubscribeToMouseUpdates(Grid.instance);
+    Grid.instance = new Grid(config);
+    return Grid.instance;
+  }
+
+  static getInstance(): Grid {
+    if (!Grid.instance) throw new Error('Cannot create grid instance')
     return Grid.instance;
   }
 }
@@ -314,9 +317,11 @@ type ActionFlagsOnHoveredTileType = Record<ActionsOnHoveredTileType, boolean>
 
 type ActionsOnHoveredTileType = 'changeTypeToWall' | 'changeTypeToEmpty' | 'setFlagToStart' | 'setFlagToEnd';
 
-type GridConfig = {
+export type GridConfig = {
   tileSize: number;
   tileRows: number;
   tileColumns: number;
   gridDimensions: Dimensions;
 }
+
+export type GridConfigSettable = Partial<Omit<GridConfig , 'gridDimensions'>>

@@ -111,6 +111,11 @@
       opacity: 0.95;
       visibility: visible;
       transform: scale(1);
+
+      :focus {
+        outline: 0.2rem solid $primary-color;
+        transform: scale(1.01);
+      }
     }
   }
 }

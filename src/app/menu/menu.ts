@@ -1,11 +1,13 @@
 import { Store } from "../state/store";
 import { Actions } from "../state/actions";
+import { GridConfigSettable } from "../core/grid/grid";
 
 export class Menu {
   private static instance: Menu;
   private settingsEl: HTMLElement;
   private fullScrnEl: HTMLElement;
   private settingsBtns: ButtonsType;
+  private settingsInputs: InputsType;
   private store: Store;
 
   private constructor() {
@@ -17,6 +19,13 @@ export class Menu {
       clear: this.settingsEl.querySelector('#clear-btn')!,
       setStart: this.settingsEl.querySelector('#set-start-btn')!,
       setEnd: this.settingsEl.querySelector('#set-end-btn')!,
+      resize: this.settingsEl.querySelector('#resize-btn')!,
+    }
+
+    this.settingsInputs = {
+      tileSize: this.settingsEl.querySelector('#tile-size')!,
+      tileColumns: this.settingsEl.querySelector('#tile-cols')!,
+      tileRows: this.settingsEl.querySelector('#tile-rows')!,
     }
 
     this.init();
@@ -50,6 +59,16 @@ export class Menu {
       this.closeMenu()
       this.store.dispatch(Actions.gridSetNextClickedButtonAsAction('end'))
     })
+
+    this.settingsBtns.resize.addEventListener('click', (ev: MouseEvent) => {
+      this.closeMenu();
+      const gridConfig: GridConfigSettable = {
+        tileSize: typeof +this.settingsInputs.tileSize.value === 'string' ? undefined : +this.settingsInputs.tileSize.value,
+        tileRows: typeof +this.settingsInputs.tileRows.value === 'string' ? undefined : +this.settingsInputs.tileRows.value,
+        tileColumns: typeof +this.settingsInputs.tileColumns.value === 'string' ? undefined : +this.settingsInputs.tileColumns.value,
+      }
+      this.store.dispatch(Actions.gridResize(gridConfig))
+    })
   }
 
   closeMenu(): void {
@@ -72,4 +91,11 @@ type ButtonsType = {
   clear: HTMLButtonElement,
   setStart: HTMLButtonElement,
   setEnd: HTMLButtonElement,
+  resize: HTMLButtonElement,
+}
+
+type InputsType = {
+  tileSize: HTMLInputElement,
+  tileRows: HTMLInputElement,
+  tileColumns: HTMLInputElement,
 }

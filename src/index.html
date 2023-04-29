@@ -37,12 +37,49 @@
                     <div class="settings__container">
                         <h2>Settings</h2>
                         <div class="options">
-                            <div class="button-group">
-                                <button type="button" class="button" id="clear-btn">Clear</button>
+                            <div class="input-group">
+                                <h3>General</h3>
+                                <div class="input-group__container">
+                                    <button type="button" class="button" id="clear-btn">Clear</button>
+                                </div>
                             </div>
-                            <div class="button-group">
-                                <button type="button" class="button" id="set-start-btn">Set start point</button>
-                                <button type="button" class="button" id="set-end-btn">Set end point</button>
+                            <div class="input-group">
+                                <h3>Set points</h3>
+                                <div class="input-group__container">
+                                    <button type="button" class="button" id="set-start-btn">Set start point</button>
+                                    <button type="button" class="button" id="set-end-btn">Set end point</button>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <h3>Grid size</h3>
+                                <div class="input-group__container">
+                                    <div class="set-tile-container">
+                                        <div class="set-tile-container__inputs">
+                                            <div class="set-tile-container__inputs__group">
+                                                <label for="set-tile-container__inputs-size"
+                                                    class="set-tile-container__inputs__group__input-label">Tile
+                                                    size</label>
+                                                <input type="number" id="tile-size"
+                                                    class="set-tile-container__inputs__group__input-numeric">
+                                            </div>
+                                            <div class="set-tile-container__inputs__group">
+                                                <label for="set-col-size"
+                                                    class="set-tile-container__inputs__group__input-label">Number of
+                                                    columns</label>
+                                                <input type="number" id="tile-cols"
+                                                    class="set-tile-container__inputs__group__input-numeric">
+                                            </div>
+                                            <div class="set-tile-container__inputs__group">
+                                                <label for="set-row-size"
+                                                    class="set-tile-container__inputs__group__input-label">Number of
+                                                    rows</label>
+                                                <input type="number" id="tile-rows"
+                                                    class="set-tile-container__inputs__group__input-numeric">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="button" id="resize-btn">Resize</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
