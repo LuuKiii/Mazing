@@ -10,7 +10,7 @@ export type GridActionObjType = {
   }
 }
 
-export type GridActionsType = 'CLEAR' | 'SET_NEXT_TILE_AS' | 'SET_SIZE';
+export type GridActionsType = 'CLEAR' | 'SET_NEXT_TILE_AS' | 'SET_SIZE' | 'GENERATE';
 
 export interface GridAction extends Action {
   type: 'GRID_ACTION',
@@ -42,5 +42,12 @@ export interface GridResizeAction extends GridAction {
     data: {
       config: GridConfigSettable
     }
+  }
+}
+
+export interface GridGenerateAction extends GridAction {
+  payload: {
+    id: string,
+    type: 'GENERATE',
   }
 }

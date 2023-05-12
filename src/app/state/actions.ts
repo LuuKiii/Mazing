@@ -3,7 +3,7 @@ import { AvailableAlgorithms, ScreenModes } from "./state";
 import { Dimensions } from "../core/utils";
 import { TilePointAllTypes } from "../core/grid/tile";
 import { generateRandomID } from '../utils/functions';
-import { GridSetNextClickedTileAction, GridClearAction, GridResizeAction } from './grid-actions.interface';
+import { GridSetNextClickedTileAction, GridClearAction, GridResizeAction, GridGenerateAction } from './grid-actions.interface';
 import { GridConfigSettable } from "../core/grid/grid";
 
 export class Actions {
@@ -71,6 +71,16 @@ export class Actions {
         data: {
           config: resizeConfig
         }
+      }
+    }
+  }
+
+  static gridGenerate(): GridGenerateAction {
+    return {
+      type: 'GRID_ACTION',
+      payload: {
+        type: 'GENERATE',
+        id: generateRandomID(),
       }
     }
   }

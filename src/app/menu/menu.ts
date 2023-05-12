@@ -20,6 +20,7 @@ export class Menu {
       setStart: this.settingsEl.querySelector('#set-start-btn')!,
       setEnd: this.settingsEl.querySelector('#set-end-btn')!,
       resize: this.settingsEl.querySelector('#resize-btn')!,
+      generate: this.settingsEl.querySelector('#generate-btn')!,
     }
 
     this.settingsInputs = {
@@ -69,6 +70,11 @@ export class Menu {
       }
       this.store.dispatch(Actions.gridResize(gridConfig))
     })
+
+    this.settingsBtns.generate.addEventListener('click', (ev: MouseEvent) => {
+      this.closeMenu();
+      this.store.dispatch(Actions.gridGenerate())
+    })
   }
 
   closeMenu(): void {
@@ -92,6 +98,7 @@ type ButtonsType = {
   setStart: HTMLButtonElement,
   setEnd: HTMLButtonElement,
   resize: HTMLButtonElement,
+  generate: HTMLButtonElement,
 }
 
 type InputsType = {

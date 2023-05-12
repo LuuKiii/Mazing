@@ -41,6 +41,9 @@ export class GridHandler implements AppStateObserver, CanvasObserver {
         if (!state.gridAction.data) break;
         this.resizeGrid(state.gridAction.data.config);
         break;
+      case 'GENERATE':
+        this.generateMaze();
+        break;
     }
 
     this.redrawGrid();
@@ -64,6 +67,10 @@ export class GridHandler implements AppStateObserver, CanvasObserver {
 
   redrawGrid(): void {
     this.grid.redrawAction();
+  }
+
+  generateMaze(): void {
+    this.grid.generateMazeAction()
   }
 
   resizeGrid(gridConfig: GridConfigSettable): void {

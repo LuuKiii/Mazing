@@ -2,6 +2,7 @@ import { Canvas } from "../canvas/canvas";
 import { MouseObserver, MouseEventsType, PressedMouseButtonType } from "../canvas/canvas-interactions";
 import { Position, Dimensions } from "../utils";
 import { Tile, TilePoint, TilePointAllTypes, TileType } from './tile';
+import { GridAlgorithms } from './grid-algorithms';
 
 
 export class Grid implements MouseObserver {
@@ -52,7 +53,7 @@ export class Grid implements MouseObserver {
   }
 
   private createSheet(): void {
-    this.nullCurrentTiles();
+    this.unsetAllTilePoints();
     this.sheet = [];
     for (let i = 0; i < this.config.tileColumns; i++) {
       this.sheet[i] = [];
@@ -80,6 +81,21 @@ export class Grid implements MouseObserver {
     this.drawTile(tile);
   }
 
+  private setAllTilesType(type: TileType = 'EMPTY'): void {
+    this.unsetAllTilePoints();
+
+    for (let i = 0; i < this.config.tileColumns; i++) {
+      for (let j = 0; j < this.config.tileRows; j++) {
+        this.setTileType(this.sheet[i][j], type);
+      }
+    }
+  }
+
+  /**
+   * This method should only be used if after or before its execution tile points associated with given tile are unset
+   * @param tile {Tile}
+   * @param type {TileType}
+   */
   private setTileType(tile: Tile, type: TileType): void {
     tile.setType(type)
     this.drawTile(tile);
@@ -150,6 +166,13 @@ export class Grid implements MouseObserver {
     this.currentPointTiles[tilePoint]?.setPointType('none')
     this.drawTile(this.currentPointTiles[tilePoint]!)
     this.currentPointTiles[tilePoint] === null;
+  }
+
+  private unsetAllTilePoints(): void {
+    for (const tileName in this.currentPointTiles) {
+      this.currentPointTiles[tileName as keyof typeof this.currentPointTiles]?.setPointType('none');
+      this.currentPointTiles[tileName as keyof typeof this.currentPointTiles] = null;
+    }
   }
 
   setNumberOfActionsToPerfomOnHoveredTiles(setActions: Partial<ActionFlagsOnHoveredTileType>): void {
@@ -256,12 +279,6 @@ export class Grid implements MouseObserver {
     }
   }
 
-  private nullCurrentTiles(): void {
-    for (const tileName in this.currentPointTiles) {
-      this.currentPointTiles[tileName as keyof typeof this.currentPointTiles] = null
-    }
-  }
-
   private setNextTilePointFlag(setAs: TilePointAllTypes): void {
     this.nextTileFlag = setAs
   }
@@ -301,8 +318,14 @@ export class Grid implements MouseObserver {
     this.drawSheet();
   }
 
+  generateMazeAction(): void {
+    this.setAllTilesType('WALL');
+    GridAlgorithms.execute('DFS', this.sheet);
+    this.drawSheet();
+  }
+  //
   static getNewInstance(config: GridConfig): Grid {
-    if(Grid.instance) Grid.instance.canvas.interaction.unSubscribeToMouseUpdates(Grid.instance);
+    if (Grid.instance) Grid.instance.canvas.interaction.unSubscribeToMouseUpdates(Grid.instance);
     Grid.instance = new Grid(config);
     return Grid.instance;
   }
@@ -324,4 +347,4 @@ export type GridConfig = {
   gridDimensions: Dimensions;
 }
 
-export type GridConfigSettable = Partial<Omit<GridConfig , 'gridDimensions'>>
+export type GridConfigSettable = Partial<Omit<GridConfig, 'gridDimensions'>>

@@ -14,6 +14,9 @@ This section serves development purposes. I'm using it to track what needs to be
 
 #### TODOS
 
+1. Setting point tile now can be immediately overwritten be regular tile if mouse is moving. fix.
+2. Setting custom grid properties needs to be adjusted. Now grid easly overflows canvas. Either make it so user just can select from a number of possible values or implement some strict validation on those values.
+
 #### NOTES
 
 - Settings menu will have to be changed.

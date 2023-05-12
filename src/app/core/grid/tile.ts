@@ -38,6 +38,10 @@ export class Tile implements Drawable {
     return this.pointType;
   }
 
+  getType(): TileType {
+    return this.type;
+  }
+
   setHightlighted(value: boolean): void {
     this.isHighlighted = value;
   }
