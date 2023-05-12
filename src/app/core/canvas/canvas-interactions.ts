@@ -1,9 +1,9 @@
-import { Position } from "../utils";
+import { Point } from "../utils";
 
 export class CanvasInteractions {
   private static instance: CanvasInteractions;
   private element: HTMLCanvasElement;
-  private mousePos: Position = { x: -1, y: -1 };
+  private mousePos: Point = { x: -1, y: -1 };
   private currentPressedButtons: PressedMouseButtonType = {
     lmb: false,
     rmb: false,
@@ -62,7 +62,7 @@ export class CanvasInteractions {
     })
   }
 
-  getMousePos(): Position {
+  getMousePos(): Point {
     return this.mousePos;
   }
 
@@ -87,7 +87,7 @@ export class CanvasInteractions {
 }
 
 export interface MouseObserver {
-  updateFromMouse(mousePosition: Position, eventType: MouseEventsType, buttonClicked?: PressedMouseButtonType): void;
+  updateFromMouse(mousePosition: Point, eventType: MouseEventsType, buttonClicked?: PressedMouseButtonType): void;
 }
 
 export type MouseEventsType = 'mousemove' | 'mouseleave' | 'mouseenter' | 'mouseup' | 'mousedown';

@@ -1,17 +1,17 @@
 import { Tile } from '../../grid/tile';
 import { MazeGenerationFn } from './generation-factory';
-import { Position } from '../../utils';
+import { Point } from '../../utils';
 import { shuffle } from '../../../utils/functions';
 
 export const generateMazeDFS: MazeGenerationFn = (matrix: Tile[][]): void => {
   const frameWidth = 1;
-  const startPoint: Position = { x: frameWidth, y: frameWidth };
+  const startPoint: Point = { x: frameWidth, y: frameWidth };
   const endX = matrix.length - 1 - frameWidth;
   const endY = matrix[0].length - 1 - frameWidth;
 
   dfs(startPoint, matrix);
 
-  function dfs(currentPoint: Position, matrix: Tile[][]) {
+  function dfs(currentPoint: Point, matrix: Tile[][]) {
     matrix[currentPoint.x][currentPoint.y].setType('EMPTY');
 
     const directions = [

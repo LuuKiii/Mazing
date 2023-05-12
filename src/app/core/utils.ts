@@ -1,4 +1,4 @@
-export type Position = {
+export type Point = {
   x: number,
   y: number
 }
@@ -9,7 +9,7 @@ export type Dimensions = {
 }
 
 export interface Drawable {
-  draw: (ctx: CanvasRenderingContext2D, offSet: Position) => void;
+  draw: (ctx: CanvasRenderingContext2D, offSet: Point) => void;
 }
 
 export type StringLiteralUnionWithout<T, K extends T> = T extends K ? never : T

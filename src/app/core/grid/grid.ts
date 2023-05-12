@@ -1,6 +1,6 @@
 import { Canvas } from "../canvas/canvas";
 import { MouseObserver, MouseEventsType, PressedMouseButtonType } from "../canvas/canvas-interactions";
-import { Position, Dimensions } from "../utils";
+import { Point, Dimensions } from "../utils";
 import { Tile, TilePoint, TilePointAllTypes, TileType } from './tile';
 import { GridAlgorithms } from './grid-algorithms';
 
@@ -28,8 +28,8 @@ export class Grid implements MouseObserver {
 
   private nextTileFlag: TilePointAllTypes = 'none';
 
-  private startPosition: Position = { x: 0, y: 0 };
-  private endPosition: Position = { x: 0, y: 0 }
+  private startPosition: Point = { x: 0, y: 0 };
+  private endPosition: Point = { x: 0, y: 0 }
 
   private constructor(config: GridConfig) {
     this.config = config;
@@ -202,7 +202,7 @@ export class Grid implements MouseObserver {
     }
   }
 
-  updateFromMouse(mousePosition: Position, eventType: MouseEventsType, pressedMouseButtons: PressedMouseButtonType): void {
+  updateFromMouse(mousePosition: Point, eventType: MouseEventsType, pressedMouseButtons: PressedMouseButtonType): void {
     switch (eventType) {
       case 'mousemove':
         const tile = this.getTileFromPosition(mousePosition);
@@ -283,14 +283,14 @@ export class Grid implements MouseObserver {
     this.nextTileFlag = setAs
   }
 
-  private isWithinGrid(pos: Position): boolean {
+  private isWithinGrid(pos: Point): boolean {
     if (pos.x < this.startPosition.x || pos.x > this.endPosition.x) return false;
     if (pos.y < this.startPosition.y || pos.y > this.endPosition.y) return false;
 
     return true;
   }
 
-  private getTileFromPosition(pos: Position): Tile | null {
+  private getTileFromPosition(pos: Point): Tile | null {
     if (!this.isWithinGrid(pos)) return null;
 
     const x = Math.floor((pos.x - this.startPosition.x) / this.config.tileSize);

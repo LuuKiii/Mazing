@@ -2,7 +2,7 @@ import { ScreenModes } from "../../state/state";
 import { AppStateObserver } from "../../state/state.interface";
 import { Store } from "../../state/store";
 import { ColorObject } from "../../utils/colors";
-import { Dimensions, Drawable, Position } from "../utils";
+import { Dimensions, Drawable, Point } from "../utils";
 import { CanvasInteractions } from "./canvas-interactions";
 
 
@@ -70,7 +70,7 @@ export class Canvas implements AppStateObserver {
     this.ctx.fillRect(0, 0, this.dimensions.width, this.dimensions.height)
   }
 
-  draw(el: Drawable, offSet?: Position): void {
+  draw(el: Drawable, offSet?: Point): void {
     el.draw(this.ctx, offSet ? offSet : { x: 0, y: 0 });
   }
 
