@@ -3,6 +3,11 @@ export type Point = {
   y: number
 }
 
+export type PointRange = {
+  start: Point,
+  end: Point
+}
+
 export type Dimensions = {
   width: number,
   height: number
