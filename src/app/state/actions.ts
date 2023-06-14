@@ -37,7 +37,7 @@ export class Actions {
     }
   }
 
-  //probably should seperate this to other reducer, but for now this will do
+  //probably should separate this to other reducer, but for now this will do
   static gridClearAction(): GridClearAction {
     return {
       type: 'GRID_ACTION',

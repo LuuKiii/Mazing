@@ -42,7 +42,7 @@ export class Tile implements Drawable {
     return this.type;
   }
 
-  setHightlighted(value: boolean): void {
+  setHighlighted(value: boolean): void {
     this.isHighlighted = value;
   }
 

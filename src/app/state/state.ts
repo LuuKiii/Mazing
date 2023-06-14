@@ -17,7 +17,7 @@ export type AvailableAlgorithms = 'Dijkstra' | 'AStar';
 export type ScreenModes = 'Fullscreen' | 'Desktop-wrapped';
 export type FillGridWith = 'EMPTY' | 'WALL'
 
-export const initalState: AppState = {
+export const initialState: AppState = {
   selectedAlgorithm: 'Dijkstra',
   screenMode: 'Desktop-wrapped',
   windowSize: {

@@ -5,13 +5,13 @@ import { GridHandler } from './core/grid/grid-handler';
 export class App {
   private static instance: App;
   private canvas: Canvas;
-  private windowMngr: WindowManager;
-  private gridHanlder: GridHandler;
+  private windowMgr: WindowManager;
+  private gridHandler: GridHandler;
 
   private constructor() {
-    this.windowMngr = WindowManager.getInstance();
+    this.windowMgr = WindowManager.getInstance();
     this.canvas = Canvas.getInstance();
-    this.gridHanlder = GridHandler.getInstance();
+    this.gridHandler = GridHandler.getInstance();
   }
 
   static getInstance(): App {

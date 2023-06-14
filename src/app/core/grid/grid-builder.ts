@@ -16,7 +16,7 @@ export class GridBuilder {
   private canvasDimensions = Canvas.getInstance().getDimensions();
 
   constructor() {
-    //these values need adjusting. also consider what happens for diffrent canvas sizes.
+    //these values need adjusting. also consider what happens for different canvas sizes.
     this.tileSize = {
       minValue: 10,
       maxValue: 50,

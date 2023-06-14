@@ -74,10 +74,12 @@ export class Grid implements MouseObserver {
   }
 
   private drawTile(tile: Tile): void {
+    console.log('drawing')
     this.canvas.draw(tile, this.startPosition)
   }
 
   requestRedraw(tile: Tile): void {
+    console.log(tile)
     this.drawTile(tile);
   }
 
@@ -126,7 +128,7 @@ export class Grid implements MouseObserver {
     if (tilePoint === 'start') this.setTileAsPointStart(tile);
     if (tilePoint === 'end') this.setTileAsPointEnd(tile);
 
-    this.setNumberOfActionsToPerfomOnHoveredTiles({ setFlagToStart: false, setFlagToEnd: false })
+    this.setNumberOfActionsToPerformOnHoveredTiles({ setFlagToStart: false, setFlagToEnd: false })
   }
 
   private setTileAsPointFnFactory(pointToSet: TilePoint): (tile: Tile) => void {
@@ -175,7 +177,7 @@ export class Grid implements MouseObserver {
     }
   }
 
-  setNumberOfActionsToPerfomOnHoveredTiles(setActions: Partial<ActionFlagsOnHoveredTileType>): void {
+  setNumberOfActionsToPerformOnHoveredTiles(setActions: Partial<ActionFlagsOnHoveredTileType>): void {
     this.actionsToPerformOnHoveredTile = {
       ...this.actionsToPerformOnHoveredTile,
       ...setActions
@@ -222,12 +224,12 @@ export class Grid implements MouseObserver {
         break;
       case 'mouseleave':
         this.removeCurrentHoveredTile();
-        this.disableAllAcions();
+        this.disableAllActions();
         break;
     }
   }
 
-  //these functions will just assing true to stuff that should be done on click, but what will be done in case if there will be multiple things set to true will be decided in updateCurrentHoveredTileFromActions
+  //these functions will just assign true to stuff that should be done on click, but what will be done in case if there will be multiple things set to true will be decided in updateCurrentHoveredTileFromActions
   private handleMouseButtonPressed(clickedButton: PressedMouseButtonType): void {
     if (clickedButton.lmb) {
       this.actionsToPerformOnHoveredTile.changeTypeToWall = true;
@@ -252,7 +254,7 @@ export class Grid implements MouseObserver {
     }
   }
 
-  private disableAllAcions(): void {
+  private disableAllActions(): void {
     for (const actionName in this.actionsToPerformOnHoveredTile) {
       this.actionsToPerformOnHoveredTile[actionName as keyof ActionFlagsOnHoveredTileType] = false;
     }
@@ -267,13 +269,13 @@ export class Grid implements MouseObserver {
 
   private setCurrentHoveredTile(tile: Tile): void {
     this.currentHoveredTile = tile;
-    this.currentHoveredTile.setHightlighted(true)
+    this.currentHoveredTile.setHighlighted(true)
     this.canvas.draw(this.currentHoveredTile, this.startPosition);
   }
 
   private removeCurrentHoveredTile(): void {
     if (this.currentHoveredTile) {
-      this.currentHoveredTile.setHightlighted(false)
+      this.currentHoveredTile.setHighlighted(false)
       this.canvas.draw(this.currentHoveredTile, this.startPosition);
       this.currentHoveredTile = null;
     }
@@ -320,7 +322,7 @@ export class Grid implements MouseObserver {
 
   generateMazeAction(): void {
     this.setAllTilesType('WALL');
-    GridAlgorithms.execute('DFS', this.sheet);
+    GridAlgorithms.executeInSteps('DFS', this.sheet, this.requestRedraw.bind(this));
     this.drawSheet();
   }
   //

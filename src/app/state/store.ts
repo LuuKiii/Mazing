@@ -1,6 +1,6 @@
 import { reducer } from "./reducer";
 import { Action, AppStateObserver, Reducer } from "./state.interface";
-import { AppState, initalState } from "./state";
+import { AppState, initialState } from "./state";
 
 
 //this app should have one store that servers one state object
@@ -12,9 +12,9 @@ export class Store {
 
   private constructor(
     private reducer: Reducer<AppState>,
-    private initalState: AppState
+    private initialState: AppState
   ) {
-    this._state = initalState;
+    this._state = initialState;
   }
 
   getState(): AppState {
@@ -36,7 +36,7 @@ export class Store {
 
   static getInstance(): Store {
     if (!Store.instance) {
-      Store.instance = new Store(reducer, initalState);
+      Store.instance = new Store(reducer, initialState);
     }
     return Store.instance;
   }
